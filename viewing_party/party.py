@@ -1,3 +1,5 @@
+from statistics import mode
+
 #wave 1
 def create_movie(title, genre, rating): 
     movie = {}
@@ -29,3 +31,35 @@ def watch_movie(user_data, title):
             add_to_watched(user_data, movie)
     
     return user_data
+
+#wave 2
+def get_watched_avg_rating(user_data):
+    movies_watched = user_data["watched"]
+    num_of_movies_watched = len(movies_watched)
+
+    sum_of_ratings = 0
+
+    for movie in movies_watched:
+        sum_of_ratings += movie["rating"]
+
+    if movies_watched:
+        avg_rating = sum_of_ratings / num_of_movies_watched
+    else:
+        avg_rating = 0.0
+    
+    return avg_rating
+
+def get_most_watched_genre(user_data):
+    movies_watched = user_data["watched"]
+    genres = []
+
+    if movies_watched:
+        for movie in movies_watched:
+            genres.append(movie["genre"])
+
+        most_watched_genre = mode(genres)
+        return most_watched_genre
+
+    else:
+        return None
+
