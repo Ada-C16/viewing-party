@@ -32,4 +32,17 @@ def get_most_watched_genre(user_data):
     genres = [m["genre"] for m in user_data["watched"]]
     return max(set(genres), key=genres.count) if genres else None
 
+def get_unique_watched(user_data):
+    friends_watched = set()
+    for friend in user_data["friends"]:
+        friends_watched.update([m["title"] for m in friend["watched"]])
+    return list(filter(lambda m: m["title"] not in friends_watched, user_data["watched"]))
+
+def get_friends_unique_watched(user_data):
+    friends_watched = dict()
+    for friend in user_data["friends"]:
+        friends_watched.update({m["title"]:m for m in friend["watched"]})
+    user_watched_titles = [m["title"] for m in user_data["watched"]]
+    return list(filter(lambda m: m["title"] not in user_watched_titles, friends_watched.values()))
+
 
