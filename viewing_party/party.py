@@ -28,9 +28,28 @@ def create_movie(title, genre, rating):
     return movie
 
 def add_to_watched(user_data, movie):
-    userdata = user_data
+    """
+    takes two parameters user_data expected to be a dictionary with watched
+    as key and list value, dictionary populates list values and adds 
+    movie to list, funct. returns dict of userdata with updated 
+    watched movies.
+    """
+    watched = user_data
 
-    for data in userdata:
-        userdata[data].append(movie)
+    for data in watched:
+        watched[data].append(movie)
 
-    return userdata
+    return watched
+
+def add_to_watchlist(user_data, movie):
+    """
+    takes two params userdata and movie, user_data a dict and movie expected
+    returns dictionary with list of watchlist as values
+    """
+
+    watchlist = user_data
+
+    for data in watchlist:
+        watchlist[data].append(movie)
+
+    return watchlist
