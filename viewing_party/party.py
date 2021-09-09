@@ -32,6 +32,8 @@ def get_most_watched_genre(user_data):
     genres = [m["genre"] for m in user_data["watched"]]
     return max(set(genres), key=genres.count) if genres else None
 
+# wave 3
+
 def get_unique_watched(user_data):
     friends_watched = set()
     for friend in user_data["friends"]:
@@ -45,9 +47,13 @@ def get_friends_unique_watched(user_data):
     user_watched_titles = [m["title"] for m in user_data["watched"]]
     return list(filter(lambda m: m["title"] not in user_watched_titles, friends_watched.values()))
 
+# wave 4
+
 def get_available_recs(user_data):
     all_recs = get_friends_unique_watched(user_data)
     return list(filter(lambda m: m["host"] in user_data["subscriptions"], all_recs))
+
+# wave 5
 
 def get_new_rec_by_genre(user_data):
     favg = get_most_watched_genre(user_data)
