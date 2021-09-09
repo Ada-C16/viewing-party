@@ -22,9 +22,24 @@ def create_movie(title, genre, rating):
 def add_to_watched(user_data, movie):
     '''
     Adds a movie that a user has viewed to the user's data profile.
+    Returns updated user_data dictionary.
     '''
-    # Append watched-movie data to user_data's watched list
+    # Append watched-movie data to user's watched list
     user_data['watched'].append(movie)
     
-    # Return user profile
+    # Return user data
     return user_data
+
+def add_to_watchlist(user_data, movie):
+    '''
+    Adds a new movie to user's watchlist.
+    Returns updated user_data dictionary.
+    '''
+    # Append movie to user's watchlist
+    user_data['watchlist'].append(movie)
+
+    # Return user data
+    return user_data
+
+def watch_movie():
+    pass
