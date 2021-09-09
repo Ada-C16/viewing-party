@@ -15,6 +15,8 @@ def create_movie(title, genre, rating):
     expected to be strings, rating expected to be real number
     returns a dictionary movie with values as arguments passed in params
     if any param is missing function returns none
+
+    function tests first 4 tests
     """
     movie = None
     if title and genre and rating:
@@ -25,3 +27,10 @@ def create_movie(title, genre, rating):
 
     return movie
 
+def add_to_watched(user_data, movie):
+    userdata = user_data
+
+    for data in userdata:
+        userdata[data].append(movie)
+
+    return userdata
