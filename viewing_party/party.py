@@ -1,4 +1,7 @@
 def valid_str(inp):
+    ''' 
+    check for valid string imput
+    '''
     # is it a string
     str_stat = isinstance(inp, str)
     # is it nonempty
@@ -6,6 +9,9 @@ def valid_str(inp):
     return str_stat and str_exists
 
 def valid_rating(rating):
+    '''
+    check for valid numeric input (notably for rating)
+    '''
     # is it a number
     rating_stat = isinstance(rating, (int, float))
     if rating_stat:
@@ -19,6 +25,10 @@ def valid_rating(rating):
     return False # not a number
 
 def create_movie(title, genre, rating):
+    '''
+    if valid inputs for title, genre, & rating, return movie dict
+    else: return None
+    '''
     if valid_str(title) and valid_str(genre) and valid_rating(rating):
         # build dict
         movie = {
@@ -56,9 +66,11 @@ def watch_movie(user_data, title):
     '''
     user_data: dictionary with a "watchlist" and a "watched"
     title: string that represents the title of the movie 
-    the user has watched
+        the user has watched
+    if movie in watchlist, remove from watchlist, add to watched
+    returns user_data
     '''
-    for movie in user_data["watchlist"]:
+    for movie in user_data["watchlist"]: 
         if title == movie["title"]:
             user_data["watchlist"].remove(movie)
             user_data["watched"].append(movie)
@@ -77,24 +89,38 @@ def get_watched_avg_rating(user_data):
 
 
 def get_most_watched_genre(user_data): 
+    '''
+    determines which genre is most frequently occurring
+    return most frequently watched
+    if not applicable, return None
+    '''
+    # if there are watched movies, count genre freq
     if len(user_data["watched"])> 0:
+        # store counters in genres
         genres = dict()
         for movie in user_data["watched"]:
             if movie["genre"] in genres:
                 genres[movie["genre"]] += 1
             else:
                 genres[movie["genre"]] = 1
-        return max(genres, key=genres.get)
+        # get max genre freq
+        return max(genres, key=genres.get) 
     else:
         return None
 
 def movie_list(person):
+    '''
+    return list of a users watched movies
+    '''
     persons_movies = []
     for movie in person["watched"]:
         persons_movies.append(movie["title"])
     return persons_movies
 
 def friends_watched_movies(user_data):
+    '''
+    return set of all friends movies combined
+    '''
     friends_movie_list = []
     for friend in user_data["friends"]:
         friends_movie_list+=movie_list(friend)
@@ -102,18 +128,33 @@ def friends_watched_movies(user_data):
     return friends_movie_set
 
 def get_unique_watched(user_data):
+    ''' 
+    return movies user has watched but no friend has
+    '''
+    # get users watched movies
     user_movies = set(movie_list(user_data))
+    # get friends watched movies
     friends_movie_set = friends_watched_movies(user_data)
+    # get difference between user and friends
     unique_movies = user_movies - friends_movie_set
+    # store difference in dict
     diff_dict = []
     for movie in unique_movies:
         diff_dict.append({"title":movie})
     return diff_dict
 
 def get_friends_unique_watched(user_data):
+    ''' 
+    return movies at least one of the user's 
+    friends have watched, but the user has not watched.
+    '''
+    # get movies watched by user
     user_movies = set(movie_list(user_data))
+    # get movies watched by friends
     friends_movie_set = friends_watched_movies(user_data)
+    # get diff between friends and user
     unique_movies = friends_movie_set - user_movies 
+    # store diff in dict
     diff_dict = []
     for movie in unique_movies:
         diff_dict.append({"title":movie})
@@ -121,11 +162,16 @@ def get_friends_unique_watched(user_data):
 
 
 def get_available_recs(user_data):
+    ''' 
+    return list of recommended movies
+    recommended movies are not watched by user, 
+        a friend has watched it, & the user has the
+        subscription service
+    '''
     # user hasn't watched but 1+ friend has
     rec_list_unfiltered = []
     for rec in get_friends_unique_watched(user_data):
         rec_list_unfiltered.append(rec["title"])
-    print(rec_list_unfiltered)
     # list of subscriptions
     subs = user_data["subscriptions"]
     # pair rec with service
@@ -136,7 +182,6 @@ def get_available_recs(user_data):
                 if movie == watched["title"]:
                     movie_with_sub.append([movie,watched["host"]])
     # get movies that match users subs
-    print(movie_with_sub)
     recs = []
     for movie in movie_with_sub:
         if movie[1] in subs:
@@ -145,27 +190,32 @@ def get_available_recs(user_data):
                 recs.append(entry)
     return recs
 
-
 def get_new_rec_by_genre(user_data):
+    ''' 
+    return list of recommended movies
+    recommended movies are not in users watched,
+        1+ friend has seen it, it is in the users top genre
+    '''
     # user hasnt watched & 1+ friends has
     unwatched = get_friends_unique_watched(user_data)
-    #print("unwatched:\n", unwatched)
     # in users max genre
     genre = get_most_watched_genre(user_data)
-    #print("genre:\n", genre)
     movie_in_genre = []
     for movie in unwatched:
         for friend in user_data["friends"]:
             for watched in friend["watched"]:
-                #print("movie", movie, "title", watched["title"], watched["genre"])
                 if movie["title"] == watched["title"] and genre == watched["genre"]:
                     entry = {"title": movie["title"],"genre": watched["genre"]}
                     if entry not in movie_in_genre:
                         movie_in_genre.append(entry)
-    #print(movie_in_genre)
     return movie_in_genre
 
 def get_rec_from_favorites(user_data):
+    ''' 
+    return list of recommended movies
+    recommended movies are in users favs,
+        none of the friends have watched it
+    '''
     # unique watched from favorites
     user_favs = []
     for movie in user_data["favorites"]:
