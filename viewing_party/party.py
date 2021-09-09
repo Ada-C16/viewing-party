@@ -49,3 +49,13 @@ def get_available_recs(user_data):
     all_recs = get_friends_unique_watched(user_data)
     return list(filter(lambda m: m["host"] in user_data["subscriptions"], all_recs))
 
+def get_new_rec_by_genre(user_data):
+    favg = get_most_watched_genre(user_data)
+    all_recs = get_friends_unique_watched(user_data)
+    return list(filter(lambda m: m["genre"] is favg, all_recs))
+
+def get_rec_from_favorites(user_data):
+    all_recs = get_unique_watched(user_data)
+    user_favs = [m["title"] for m in user_data["favorites"]]
+    return list(filter(lambda m: m["title"] in user_favs, all_recs))
+
