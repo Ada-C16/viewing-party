@@ -45,4 +45,7 @@ def get_friends_unique_watched(user_data):
     user_watched_titles = [m["title"] for m in user_data["watched"]]
     return list(filter(lambda m: m["title"] not in user_watched_titles, friends_watched.values()))
 
+def get_available_recs(user_data):
+    all_recs = get_friends_unique_watched(user_data)
+    return list(filter(lambda m: m["host"] in user_data["subscriptions"], all_recs))
 
