@@ -1,3 +1,15 @@
+# The goal of this project is to write code in `party.py` so that as many of the tests pass as possible.
+
+# To complete this project, use the above workflow and follow these steps:
+
+# 1. Start with making the tests in `test_wave_01.py` pass.
+# 1. Review your code in `party.py` and see if there are ways you can make the code more readable.
+# 1. Then, work on making the tests in `test_wave_02.py` pass.
+# 1. Review your code in `party.py`
+# 1. Repeat on all test files until submission time.
+
+# At submission time, no matter where you are, submit the project via Learn.
+
 # 1. The first four tests are about a `create_movie()` function.
 
 # In `party.py`, there should be a function named `create_movie`. This function should...
@@ -8,6 +20,7 @@
 #   - The three keys should be `"title"`, `"genre"`, and `"rating"`
 #   - The values of these key-value pairs should be appropriate values
 # - If `title` is falsy, `genre` is falsy, or `rating` is falsy, this function should return `None`
+
 
 def create_movie(title, genre, rating):
     """
@@ -53,3 +66,17 @@ def add_to_watchlist(user_data, movie):
         watchlist[data].append(movie)
 
     return watchlist
+
+
+
+def watch_movie(movie_catalogue, movie):
+    movie_library = movie_catalogue
+
+    for the_movies in range(len(movie_library["watchlist"])):
+        if movie_library["watchlist"][the_movies]["title"] == movie:
+            a = movie_library["watchlist"].pop(the_movies)
+            movie_library["watched"].append(a)
+
+    return movie_library
+
+
