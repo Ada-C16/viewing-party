@@ -19,7 +19,7 @@ def create_movie(movie_title, genre, rating):
 
 def add_to_watched(user_data, movie):
     """
-    return user_data dictionary with movie dictionaryh added to "watched" list
+    return user_data dictionary with movie dictionary added to "watched" list
     """
     user_data["watched"].append(movie)
     return user_data
@@ -123,4 +123,25 @@ def get_available_recs(user_data):
     friends_watched = get_friends_unique_watched(user_data)
     recs = [movie for movie in friends_watched if movie["host"]
             in user_data["subscriptions"]]
+    return recs
+
+
+# wave 5
+def get_new_rec_by_genre(user_data):
+    """
+    returns list of movie dictionaries the user has not watched that match the user's most watched genre
+    """
+    friends_watched = get_friends_unique_watched(user_data)
+    genre = get_most_watched_genre(user_data)
+
+    recs = [movie for movie in friends_watched if movie["genre"] == genre]
+    return recs
+
+
+def get_rec_from_favorites(user_data):
+    """
+    returns list of movie dictionaries that are in the user's favorites and none of their friends have watched
+    """
+    user_watched = get_unique_watched(user_data)
+    recs = [movie for movie in user_watched if movie in user_data["favorites"]]
     return recs
