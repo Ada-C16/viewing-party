@@ -73,3 +73,22 @@ def watch_movie(user_data, movie_title):
     
     else:
         return user_data
+
+def get_watched_avg_rating(user_data):
+    '''
+    Calculates and returns average rating of films from 
+    'watched' list. 
+    '''
+    if user_data['watched']:
+        # Instantiate variable to hold running total
+        total = 0
+        # Loop through each movie's 'rating' in 'watched' list
+        for i in range(len(user_data['watched'])):
+            total += user_data['watched'][i]['rating']
+        
+        # Calculate average dividing total by length
+        average = total / (i + 1)
+        
+        return average
+    else:
+        return 0
