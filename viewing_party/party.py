@@ -67,23 +67,6 @@ def add_to_watchlist(user_data, movie):
 
     return watchlist
 
-# janes_data = {
-#     "watchlist": [
-#         {
-#             "title": "Title B",
-#             "genre": "Action",
-#             "rating": 2.0
-#         },
-#         #movie_to_watch
-#     ],
-#     "watched": [
-#         {
-#             "title": "Title C",
-#             "genre": "Intrigue",
-#             "rating": 3.9
-#         }
-#     ]
-# }
 
 def watch_movie(movie_catalogue, movie):
     """
@@ -111,27 +94,31 @@ def watch_movie(movie_catalogue, movie):
     return movie_library
 
 # ********* wave 2 begins ***********
-janes_data = {
-    "watched": [
-        {
-            "title": "Title A",
-            "genre": "Fantasy",
-            "rating": 4.8
-        },
-        {
-            "title": "Title B",
-            "genre": "Action",
-            "rating": 2.0
-        },
-        {
-            "title": "Title C",
-            "genre": "Intrigue",
-            "rating": 3.9
-        }
-    ]
-}
+# janes_data = {
+#     "watched": [
+#         {
+#             "title": "Title A",
+#             "genre": "Fantasy",
+#             "rating": 4.8
+#         },
+#         {
+#             "title": "Title B",
+#             "genre": "Action",
+#             "rating": 2.0
+#         },
+#         {
+#             "title": "Title C",
+#             "genre": "Intrigue",
+#             "rating": 3.9
+#         }
+#     ]
+# }
 def get_watched_avg_rating(user_data):
-
+    """
+    takes a dictionary of watched, values are a list of movies
+    returns average rating of movies in list, if list empty returns 
+    0.0
+    """
     userdata = user_data
 
     average_rating = 0.0
@@ -142,8 +129,31 @@ def get_watched_avg_rating(user_data):
             total_rating += userdata["watched"][movie]["rating"]
         
         average_rating = total_rating / len(userdata["watched"]) 
-    #print(total_rating)
-    #print(average_rating)
+    
     return average_rating
 
-#get_watched_avg_rating(janes_data)
+def get_most_watched_genre(watchedlist):
+    genre_tally = {}
+    highest_value = 0 
+    highest_genre = None
+
+    for i in range(len(watchedlist["watched"])):
+        if watchedlist["watched"]:
+            #genre_tally = {}
+            if watchedlist["watched"][i]["genre"] not in genre_tally:
+                genre_tally[watchedlist["watched"][i]["genre"]] = 1
+            else:
+                genre_tally[watchedlist["watched"][i]["genre"]] += 1
+    #             for i in genre_tally:
+    #                 if genre_tally[i] > highest_value:
+    #                     highest_value = genre_tally[i]
+    #                     highest_genre = i
+                if genre_tally[watchedlist["watched"][i]["genre"]] > highest_value:
+                    highest_value = genre_tally[watchedlist["watched"][i]["genre"]]
+                    #print(genre_tally)
+                    highest_genre = watchedlist["watched"][i]["genre"]
+
+    return highest_genre
+#print(genre_tally)
+# print(highest_value)
+# print(highest_genre)
