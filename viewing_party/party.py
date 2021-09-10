@@ -12,22 +12,39 @@ def create_movie(movie_title, genre, rating):
         return new_movie
 
 
-
-
-
-
-
-def watch_movie(data_dict, title):
-    pass
+def add_to_watched(user_data, movie):
+    #check if movie in the user_data
+    #if not add the data to the list
+    if movie not in user_data['watched']:
+        user_data["watched"] += [movie]
+    return user_data
 
 
 def add_to_watchlist(user_data, movie):
-    pass
+    # check if movie in the user_data
+    #if not add the data to the list
+    if movie not in user_data['watchlist']:
+        user_data["watchlist"] += [movie]
+    return user_data
 
 
 
-def add_to_watched(user_data, movie):
-    pass
+def watch_movie(user_data, title):
+    # if title in watchlist 
+    # Movie the movie object to watched
+    lenght_to_iterate = len(user_data["watchlist"])
+    watchlist = [elem for elem in user_data["watchlist"]]
+    for item in range(lenght_to_iterate):
+        if title in watchlist[item]['title']:
+            del user_data['watchlist'][item]
+            user_data["watched"] +=[watchlist[item]]
+    return user_data         
+
+
+
+
+
+
 def get_watched_avg_rating(data_dic):
     pass
 
