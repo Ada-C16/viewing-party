@@ -116,47 +116,14 @@ def get_friends_unique_watched(user_data):
                     list_unique_friends_watched.append(movie)
     return list_unique_friends_watched
 
+# Wave 4
+def get_available_recs(user_data):
+    list_recommended_movies = []
+    list_unique_friends_watched = get_friends_unique_watched(user_data)
 
+    for unique_movie in list_unique_friends_watched:
+        for service_provider in user_data["subscriptions"]:
+            if unique_movie["host"] == service_provider:
+                list_recommended_movies.append(unique_movie)
+    return list_recommended_movies
 
-
-
-    #main
-
-amandas_data = {
-        "watched": [
-            {
-                "title": "Title B"
-            },
-            {
-                "title": "Title C"
-            }
-        ],
-        "friends": [
-            {
-                "watched": [
-                    {
-                        "title": "Title A"
-                    },
-                    {
-                        "title": "Title C"
-                    }
-                ]
-            },
-            {
-                "watched": [
-                    {
-                        "title": "Title A"
-                    },
-                    {
-                        "title": "Title D"
-                    },
-                    {
-                        "title": "Title E"
-                    }
-                ]
-            }
-        ]
-    }    
-
-friends_unique_movies = get_friends_unique_watched(amandas_data)
-print(friends_unique_movies)
