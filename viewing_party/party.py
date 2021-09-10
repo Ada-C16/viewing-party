@@ -1,12 +1,14 @@
 def create_movie(title, genre, rating):
     new_movie = {}
-    new_movie["title"] = title
-    new_movie["genre"] =  genre
-    new_movie["rating"] = rating
-    if title == True and genre == True and rating == False:
-        return new_movie
+    if  title == True:
+        new_movie["title"] = title
+    elif genre == True:
+        new_movie["genre"] = genre
+    elif rating == True:
+        new_movie["rating"] = rating
     else:
-        return None
+        new_movie  is None
+    return new_movie
     
     
 
@@ -18,8 +20,8 @@ def add_to_watched(user_data, movie):
         "genre": "Horror",
         "rating": 3.5
     }
-    user_data["watched"].append(movie)
-    return user_data
+    return user_data["watched"].append(movie)
+    # return user_data
 
 def add_to_watchlist():
     pass
