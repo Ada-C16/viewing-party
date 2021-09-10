@@ -67,16 +67,47 @@ def add_to_watchlist(user_data, movie):
 
     return watchlist
 
-
+# janes_data = {
+#     "watchlist": [
+#         {
+#             "title": "Title B",
+#             "genre": "Action",
+#             "rating": 2.0
+#         },
+#         #movie_to_watch
+#     ],
+#     "watched": [
+#         {
+#             "title": "Title C",
+#             "genre": "Intrigue",
+#             "rating": 3.9
+#         }
+#     ]
+# }
 
 def watch_movie(movie_catalogue, movie):
+    """
+    takes two parameters movie_catalogue dictionary with keys watched and watched
+    list, updates watchedlist with movie, can be string or dict, if movie
+    in watched list, movies to watched, if movie not, does nothing 
+    returns updated library.
+    """
+
     movie_library = movie_catalogue
 
+    # for the_movies in range(len(movie_library["watchlist"])):
+    #     if movie_library["watchlist"][the_movies]["title"] == movie:
+    #         a = movie_library["watchlist"].pop(the_movies)
+    #         movie_library["watched"].append(a)
+
+    # return movie_library
+
     for the_movies in range(len(movie_library["watchlist"])):
-        if movie_library["watchlist"][the_movies]["title"] == movie:
-            a = movie_library["watchlist"].pop(the_movies)
-            movie_library["watched"].append(a)
+        movie_in_the_library = movie_library["watchlist"][the_movies]["title"]
+        if movie_in_the_library == movie:
+            watched_movie = movie_library["watchlist"].pop(the_movies)
+            movie_library["watched"].append(watched_movie)
 
     return movie_library
 
-
+#watch_movie(janes_data, "Title A")
