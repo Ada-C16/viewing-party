@@ -72,6 +72,8 @@ def create_unique_sets(user_data):
     """
     user_watched = set([movie["title"] for movie in user_data["watched"]])
     friends_watched = set()
+
+    # loop through all friends to create a set of all movies they have watched
     for friend in user_data["friends"]:
         friends_watched.update([movie["title"] for movie in friend["watched"]])
     return user_watched, friends_watched
@@ -82,8 +84,11 @@ def get_unique_watched(user_data):
     returns list of movies in user_data["watched"] but not in user_data["friends"]
     """
     user_watched, friends_watched = create_unique_sets(user_data)
+
+    # create list of movie titles only watched by the user
     unique_movies = list(user_watched - friends_watched)
 
+    # create list of movie dictionaries with movies only watched by the user
     unique_movies = [
         movie for movie in user_data["watched"] if movie["title"] in unique_movies]
 
@@ -95,8 +100,11 @@ def get_friends_unique_watched(user_data):
     returns list of movies in watched by friends but not the user
     """
     user_watched, friend_watched = create_unique_sets(user_data)
+
+    # create list of movie titles only watched by friends
     unique_movies = list(friend_watched - user_watched)
 
+    # create list of movie dictionaries only watched by friends
     result = []
     for friend in user_data["friends"]:
         for movie in friend["watched"]:
@@ -105,3 +113,14 @@ def get_friends_unique_watched(user_data):
                 unique_movies.remove(movie["title"])
 
     return result
+
+
+# wave 4
+def get_available_recs(user_data):
+    """
+    returns list of movie dictionaries the user has not watched but has the subscription for
+    """
+    friends_watched = get_friends_unique_watched(user_data)
+    recs = [movie for movie in friends_watched if movie["host"]
+            in user_data["subscriptions"]]
+    return recs
