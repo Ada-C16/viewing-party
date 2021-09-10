@@ -133,27 +133,22 @@ def get_watched_avg_rating(user_data):
     return average_rating
 
 def get_most_watched_genre(watchedlist):
+    """
+    takes dictionary of watched list, returns
+    most watched genre, in dictionary
+    """
     genre_tally = {}
     highest_value = 0 
     highest_genre = None
 
     for i in range(len(watchedlist["watched"])):
         if watchedlist["watched"]:
-            #genre_tally = {}
             if watchedlist["watched"][i]["genre"] not in genre_tally:
                 genre_tally[watchedlist["watched"][i]["genre"]] = 1
             else:
                 genre_tally[watchedlist["watched"][i]["genre"]] += 1
-    #             for i in genre_tally:
-    #                 if genre_tally[i] > highest_value:
-    #                     highest_value = genre_tally[i]
-    #                     highest_genre = i
                 if genre_tally[watchedlist["watched"][i]["genre"]] > highest_value:
                     highest_value = genre_tally[watchedlist["watched"][i]["genre"]]
-                    #print(genre_tally)
                     highest_genre = watchedlist["watched"][i]["genre"]
 
     return highest_genre
-#print(genre_tally)
-# print(highest_value)
-# print(highest_genre)
