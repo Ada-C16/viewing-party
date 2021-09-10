@@ -110,4 +110,40 @@ def watch_movie(movie_catalogue, movie):
 
     return movie_library
 
-#watch_movie(janes_data, "Title A")
+# ********* wave 2 begins ***********
+janes_data = {
+    "watched": [
+        {
+            "title": "Title A",
+            "genre": "Fantasy",
+            "rating": 4.8
+        },
+        {
+            "title": "Title B",
+            "genre": "Action",
+            "rating": 2.0
+        },
+        {
+            "title": "Title C",
+            "genre": "Intrigue",
+            "rating": 3.9
+        }
+    ]
+}
+def get_watched_avg_rating(user_data):
+
+    userdata = user_data
+
+    average_rating = 0.0
+    total_rating = 0.0
+
+    if userdata["watched"]:
+        for movie in range(len(userdata["watched"])):
+            total_rating += userdata["watched"][movie]["rating"]
+        
+        average_rating = total_rating / len(userdata["watched"]) 
+    #print(total_rating)
+    #print(average_rating)
+    return average_rating
+
+#get_watched_avg_rating(janes_data)
