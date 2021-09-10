@@ -92,53 +92,71 @@ def get_unique_watched(user_data):
                 list_unique_user_watched.append(movie)
     return list_unique_user_watched
 
+
+def get_friends_unique_watched(user_data):
+    set_user_watched = set()
+    set_friends_watched = set()
+    list_unique_friends_watched = []
+
+    for friends_data in user_data["friends"]:
+        for movie in friends_data["watched"]:
+            friends_watched = movie["title"]
+            set_friends_watched.add(friends_watched)
+
+    for user_watched_movie in user_data["watched"]:
+        set_user_watched.add(user_watched_movie["title"])
     
-#main
+    set_unique_friends_watched = set_friends_watched - set_user_watched
+
+    #append dict into list 
+    for unique_movie in set_unique_friends_watched:
+        for friends_data in user_data["friends"]:
+            for movie in friends_data["watched"]:
+                if movie["title"] == unique_movie and movie not in list_unique_friends_watched:
+                    list_unique_friends_watched.append(movie)
+    return list_unique_friends_watched
+
+
+
+
+
+    #main
 
 amandas_data = {
-    "watched": [
-        {
-            "title": "Title A"
-        },
-        {
-            "title": "Title B"
-        },
-        {
-            "title": "Title C"
-        },
-        {
-            "title": "Title D"
-        },
-        {
-            "title": "Title E"
-        },
-    ],
-    "friends": [
-        {
-            "watched": [
-                {
-                    "title": "Title A"
-                },
-                {
-                    "title": "Title C"
-                }
-            ]
-        },
-        {
-            "watched": [
-                {
-                    "title": "Title A"
-                },
-                {
-                    "title": "Title D"
-                },
-                {
-                    "title": "Title F"
-                }
-            ]
-        }
-    ]
-}
+        "watched": [
+            {
+                "title": "Title B"
+            },
+            {
+                "title": "Title C"
+            }
+        ],
+        "friends": [
+            {
+                "watched": [
+                    {
+                        "title": "Title A"
+                    },
+                    {
+                        "title": "Title C"
+                    }
+                ]
+            },
+            {
+                "watched": [
+                    {
+                        "title": "Title A"
+                    },
+                    {
+                        "title": "Title D"
+                    },
+                    {
+                        "title": "Title E"
+                    }
+                ]
+            }
+        ]
+    }    
 
-# Act
-print(get_unique_watched(amandas_data))
+friends_unique_movies = get_friends_unique_watched(amandas_data)
+print(friends_unique_movies)
