@@ -68,4 +68,77 @@ def get_most_watched_genre(user_data):
 
 # Wave 3
 def get_unique_watched(user_data):
-    pass
+    set_user_watched = set()
+    set_friends_watched = set()
+    list_unique_user_watched = []
+    length_user_watched = len_list(user_data, "watched")
+
+    for i in range(length_user_watched):
+        user_watched = user_data["watched"][i]["title"]
+        set_user_watched.add(user_watched)
+
+    # length_friends_watched = len(user_data["frieneds"]["watched"])
+    for friends_data in user_data["friends"]:
+        for movie in friends_data["watched"]:
+            friends_watched = movie["title"]
+            set_friends_watched.add(friends_watched)
+    
+    set_unique_user_watched = set_user_watched - set_friends_watched
+
+    #retrieve index 
+    for unique_movie in set_unique_user_watched:
+        for movie in user_data["watched"]:
+            if movie["title"] == unique_movie:
+                list_unique_user_watched.append(movie)
+    return list_unique_user_watched
+
+    
+#main
+
+amandas_data = {
+    "watched": [
+        {
+            "title": "Title A"
+        },
+        {
+            "title": "Title B"
+        },
+        {
+            "title": "Title C"
+        },
+        {
+            "title": "Title D"
+        },
+        {
+            "title": "Title E"
+        },
+    ],
+    "friends": [
+        {
+            "watched": [
+                {
+                    "title": "Title A"
+                },
+                {
+                    "title": "Title C"
+                }
+            ]
+        },
+        {
+            "watched": [
+                {
+                    "title": "Title A"
+                },
+                {
+                    "title": "Title D"
+                },
+                {
+                    "title": "Title F"
+                }
+            ]
+        }
+    ]
+}
+
+# Act
+print(get_unique_watched(amandas_data))
