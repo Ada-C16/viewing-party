@@ -54,9 +54,8 @@ def watch_movie(user_data, movie_title):
     # movie_watched is formated as follows:
         # [{'title': 'Title B', 'genre': 'Action', 'rating': 2.0}]
     
-    # If movie not in 'watched' list, return user data
+    # Confirm the movie watched was in 'watchlist'
     if movie_watched:
-
         # Append watched movie to 'watched' list
         user_data['watched'].append(movie_watched[0])
 
@@ -66,11 +65,11 @@ def watch_movie(user_data, movie_title):
         movies_unwatched = list(filter(lambda movie: movie['title'] != movie_title, 
             user_data['watchlist']))
 
-        # Refer 'watchlist' to updated list of 'movies_unwatched'
+        # Refer user_data['watchlist'] to updated list of 'movies_unwatched'
         user_data['watchlist'] = movies_unwatched
 
         return user_data
-    
+    # If the movie watched was not in 'watchlist'
     else:
         return user_data
 
@@ -79,6 +78,7 @@ def get_watched_avg_rating(user_data):
     Calculates and returns average rating of films from 
     'watched' list. 
     '''
+    # Confirm there is data in 'watched' list
     if user_data['watched']:
         # Instantiate variable to hold running total
         total = 0
@@ -90,5 +90,31 @@ def get_watched_avg_rating(user_data):
         average = total / (i + 1)
         
         return average
+    # If there is no data in 'watched' list
     else:
         return 0
+
+def get_most_watched_genre(user_data):
+    '''
+    Tabulates the genre most prevalent in a user's 'watch'
+    list.
+    '''
+    # Confirm there is data in 'watched' list
+    if user_data['watched']:
+        # Create a dictionary to hold counts of genres
+        genre_counts = {}
+
+        # Loop through 'watched' list counting occurances of each genre
+        for i in range(len(user_data['watched'])):
+            # Place long key name in shorter variable
+            current_key = user_data['watched'][i]['genre']
+            # Use .get() method to count occurances, default value of 1
+            genre_counts[current_key] = genre_counts.get(current_key, 1) + 1
+
+        # Find key with highest numerical value
+        most_watched_genre = max(genre_counts, key=genre_counts.get)
+        
+        return most_watched_genre
+    # If there is no data in 'watched' list
+    else:
+        return None
