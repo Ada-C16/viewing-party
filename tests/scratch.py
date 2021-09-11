@@ -1,41 +1,49 @@
-def watch_movie(user_data, title):
-    # if title in watchlist 
-    # Movie the movie object to watched
-    lenght_to_iterate = len(user_data["watchlist"])
-    watchlist = [elem for elem in user_data["watchlist"]]
-    for item in range(lenght_to_iterate):
-        if title in watchlist[item]['title']:
-            del user_data['watchlist'][item]
-            user_data["watched"] +=[watchlist[item]]
-    return user_data        
+def get_available_recs(user_data):
+#   loop through dic and find movies that friends have watched and Amanda did not!!
+#   The movies need to be supportted by the user's subscription - 
+#   if 'host' not in user subscription do not recommend movie
+#   return a dictionary eg:. {"title": "Title A", "host": "Service A"}
 
 
-    
-    
 
-title = "Title A"
-movie_to_watch = {
-        "title": "Title A",
-        "genre": "Fantasy",
-        "rating": 4.8
-    }
-user_data =  {
-        "watchlist": [
+
+
+
+
+
+amandas_data = {
+        "subscriptions": ["Service A", "Service B"],
+        "watched": [{ "title": "Title A" }],
+        "friends": [
             {
-                "title": "Title B",
-                "genre": "Action",
-                "rating": 2.0
+                "watched": [
+                    {
+                        "title": "Title A",
+                        "host": "Service A"
+                    },
+                    {
+                        "title": "Title C",
+                        "host": "Service C"
+                    }
+                ]
             },
-            movie_to_watch
-        ],
-        "watched": [
             {
-                "title": "Title C",
-                "genre": "Intrigue",
-                "rating": 3.9
+                "watched": [
+                    {
+                        "title": "Title A",
+                        "host": "Service A"
+                    },
+                    {
+                        "title": "Title B",
+                        "host": "Service B"
+                    },
+                    {
+                        "title": "Title D",
+                        "host": "Service D"
+                    }
+                ]
             }
         ]
     }
-    
 
-(watch_movie(user_data, title))
+get_friends_unique_watched(amandas_data)
