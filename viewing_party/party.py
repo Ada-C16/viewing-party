@@ -114,8 +114,43 @@ def get_most_watched_genre(user_data):
         # Find key with highest numerical value
         most_watched_genre = max(genre_counts, key=genre_counts.get)
         
-        
+
         return most_watched_genre
     # If there is no data in 'watched' list
     else:
         return None
+
+
+def get_unique_watched(user_data):
+    '''
+    Determines which movies user has watched that listed friends
+    have not watched. Returns a list of dictionaries, that
+    represents a list of movies.
+    '''
+    # Instantiate empty list to store returning movie data
+    unique_movies = []
+
+    # Create a set to store titles user has watched
+    users_movies = set()
+    for watched_title in user_data['watched']:
+        users_movies.add(watched_title['title'])
+    
+    # Create a set to store movie titles friends have watched
+    friends_movies = set()
+    for friend_data in user_data['friends']:
+        for watched_title in friend_data['watched']:
+            friends_movies.add(watched_title['title'])
+    
+    # Compare titles of user and friends, isolating titles unique
+    # to user in a set
+    titles_unique_to_user = users_movies.difference(friends_movies)
+
+    # For unique titles, create a dict and append to return list
+    # QUESTION: Is there a faster way to do this?
+    for title in titles_unique_to_user:
+        format_dict = {}
+        format_dict['title'] = title
+        unique_movies.append(format_dict)
+
+    # Return list of movie dictionaries
+    return unique_movies
