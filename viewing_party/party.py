@@ -64,54 +64,37 @@ def get_most_watched_genre(user_data):
 
 
 # wave 3
-
-def create_unique_sets(user_data):
-    """
-    returns two sets, one containing movies the user watched, and one containing movies the friends watched
-    """
-    user_watched = set([movie["title"] for movie in user_data["watched"]])
-    friends_watched = set()
-
-    # loop through all friends to create a set of all movies they have watched
-    for friend in user_data["friends"]:
-        friends_watched.update([movie["title"] for movie in friend["watched"]])
-    return user_watched, friends_watched
-
-
 def get_unique_watched(user_data):
     """
-    returns list of movies in user_data["watched"] but not in user_data["friends"]
+    returns list of movies user has watched and friends have not watched
     """
-    user_watched, friends_watched = create_unique_sets(user_data)
+    friends_watched_titles = []
 
-    # create list of movie titles only watched by the user
-    unique_movies = list(user_watched - friends_watched)
+    # create list of movie titles friends have watched
+    for friend in user_data["friends"]:
+        friends_watched_titles += [movie["title"]
+                                   for movie in friend["watched"]]
 
-    # create list of movie dictionaries with movies only watched by the user
-    unique_movies = [
-        movie for movie in user_data["watched"] if movie["title"] in unique_movies]
-
+    # build a list of movies only the user has seen
+    unique_movies = [movie for movie in user_data["watched"]
+                     if movie["title"] not in friends_watched_titles]
     return unique_movies
 
 
 def get_friends_unique_watched(user_data):
     """
-    returns list of movies in watched by friends but not the user
+    returns a list of movies the friends have seen but the user has not
     """
-    user_watched, friend_watched = create_unique_sets(user_data)
-
-    # create list of movie titles only watched by friends
-    unique_movies = list(friend_watched - user_watched)
-
-    # create list of movie dictionaries only watched by friends
-    result = []
+    friends_watched = {}
+    user_watched_titles = [movie["title"] for movie in user_data["watched"]]
     for friend in user_data["friends"]:
-        for movie in friend["watched"]:
-            if movie["title"] in unique_movies:
-                result.append(movie)
-                unique_movies.remove(movie["title"])
-
-    return result
+        # create a dictionary of movies in the format title: movie dictionary
+        # duplicate movies will get overridden due to the key, so there will be no duplicates
+        friends_watched.update(
+            {movie["title"]: movie for movie in friend["watched"] if movie["title"] not in user_watched_titles})
+    # convert dictionary to a list of dictionaries
+    unique_movies = list(friends_watched.values())
+    return unique_movies
 
 
 # wave 4
