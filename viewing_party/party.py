@@ -125,29 +125,30 @@ def get_unique_watched(user_data):
     '''
     Determines which movies user has watched that listed friends
     have not watched. Returns a list of dictionaries, that
-    represents a list of movies.
+    represents a list of unique movies.
     '''
     # Instantiate empty list to store returning movie data
     unique_movies = []
 
-    # Create a set to store titles user has watched
+    # Create a set to store movie titles user has watched, add titles
     users_movies = set()
-    for watched_title in user_data['watched']:
-        users_movies.add(watched_title['title'])
+    for watched_movie in user_data['watched']:
+        users_movies.add(watched_movie['title'])
     
     # Create a set to store movie titles friends have watched
     friends_movies = set()
     for friend_data in user_data['friends']:
-        for watched_title in friend_data['watched']:
-            friends_movies.add(watched_title['title'])
+        for watched_movie in friend_data['watched']:
+            friends_movies.add(watched_movie['title'])
     
-    # Compare titles of user and friends, isolating titles unique
+    # Compare watched titles of user and friends, isolating titles unique
     # to user in a set
-    titles_unique_to_user = users_movies.difference(friends_movies)
+    movies_unique_to_user = users_movies.difference(friends_movies)
 
-    # For unique titles, create a dict and append to return list
+    # For unique movie titles, create a dict and append to return list
     # QUESTION: Is there a faster way to do this?
-    for title in titles_unique_to_user:
+      # Cannot add dicts directly due to 'not hashable' error
+    for title in movies_unique_to_user:
         format_dict = {}
         format_dict['title'] = title
         unique_movies.append(format_dict)
