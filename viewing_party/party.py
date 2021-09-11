@@ -164,8 +164,6 @@ def get_friends_unique_watched(user_data):
     unique_movies = []
 
     # Create a set to store movie titles user has watched, add titles
-    # QUESTION: Is is better practice to account for empty lists
-    #  so this for loop doesn't run?
     users_movies = set()
     for watched_movie in user_data['watched']:
         users_movies.add(watched_movie['title'])
@@ -191,7 +189,8 @@ def get_friends_unique_watched(user_data):
 
 def get_available_recs(user_data):
     '''
-    Returns a list of recommended movies.
+    Returns a list of recommended movies based on movies friends
+    have watched and a platform that the user subscribes to. 
     '''
     # Instantiate a return list to store recommendation dictionaries
     recommendations = []
@@ -254,3 +253,32 @@ def get_new_rec_by_genre(user_data):
                 
     # Return recommendation list
     return recommendations
+
+def get_rec_from_favorites(user_data):
+    '''
+    Returns recommended movies from user's favorites list. 
+    Recommendations will have been watched by user, but not
+    by friends. 
+    '''
+    # Create a list of user's favorite movies
+    fav_movies = [movie for movie in user_data['favorites']]
+
+    # Create a list of user's watched-movies that friends haven't viewed
+    users_unique_movies = get_unique_watched(user_data)
+    
+    # Find user's favorite movies that friends haven't viewed
+    recommendations = [movie for movie in fav_movies if \
+        movie in users_unique_movies]
+
+    # Return unique friends. 
+    return recommendations
+
+
+
+
+
+
+
+
+
+    # TODO get_unique(key='watched', dataset=user_data)
