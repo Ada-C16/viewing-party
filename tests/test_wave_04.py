@@ -1,5 +1,5 @@
 import pytest
-from viewing_party.party import *
+from viewing_party.utils_04 import *
 
 
 def test_get_available_recs_returns_appropriate_recommendations_for_valid_input():

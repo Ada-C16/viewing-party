@@ -1,5 +1,5 @@
 import pytest
-from viewing_party.party import *
+from viewing_party.utils_02 import *
 
 
 def test_get_watched_avg_rating_calculates_watched_average_rating():
