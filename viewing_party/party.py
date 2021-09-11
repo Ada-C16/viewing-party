@@ -114,6 +114,7 @@ def get_most_watched_genre(user_data):
         # Find key with highest numerical value
         most_watched_genre = max(genre_counts, key=genre_counts.get)
         
+        
         return most_watched_genre
     # If there is no data in 'watched' list
     else:
