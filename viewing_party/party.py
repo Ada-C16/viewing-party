@@ -41,10 +41,10 @@ def get_unique_watched(user_data):
 
 def get_friends_unique_watched(user_data):
     friends_watched = dict()
-    for friend in user_data["friends"]:
-        friends_watched.update({m["title"]:m for m in friend["watched"]})
     user_watched_titles = [m["title"] for m in user_data["watched"]]
-    return [m for m in friends_watched.values() if m["title"] not in user_watched_titles]
+    for friend in user_data["friends"]:
+        friends_watched.update({m["title"]:m for m in friend["watched"] if m["title"] not in user_watched_titles})
+    return friends_watched.values()
 
 # wave 4
 
