@@ -155,3 +155,36 @@ def get_unique_watched(user_data):
 
     # Return list of movie dictionaries
     return unique_movies
+
+def get_friends_unique_watched(user_data):
+    '''
+    Determines which movies friends have watched that user
+    has not watched. Returns a list of dictionaries, that
+    represents a list of unique movies.
+    '''
+    # Instantiate empty list to store returning movie data 
+    unique_movies = []
+
+    # Create a set to store movie titles user has watched, add titles
+    users_movies = set()
+    for watched_movie in user_data['watched']:
+        users_movies.add(watched_movie['title'])
+
+    # Create a set to store movie titles friends have watched, add titles
+    friends_movies = set()
+    for friend_data in user_data['friends']:
+        for watched_movie in friend_data['watched']:
+            friends_movies.add(watched_movie['title'])
+    
+    # Compare watched titles of user and friends, isolating titles unique
+    # to friends in a set
+    movies_unique_to_friends = friends_movies.difference(users_movies)
+
+    # For unique movie titles, create a dict and append to return list
+    for movie in movies_unique_to_friends:
+        format_dict = {}
+        format_dict['title'] = movie
+        unique_movies.append(format_dict)
+
+    # Return list of movie dictionaries
+    return unique_movies
