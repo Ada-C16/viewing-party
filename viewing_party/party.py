@@ -15,11 +15,10 @@ def add_to_watchlist(user_data, movie):
     return user_data
 
 def watch_movie(user_data, title):
-    titlesearch = list(filter(lambda m: m["title"] == title, user_data["watchlist"]))
-    if titlesearch:
-        movie = titlesearch.pop() # assume unique title
-        user_data["watchlist"] = list(filter(lambda m: m["title"] != title, user_data["watchlist"]))
+    for movie in filter(lambda m: m["title"] == title, user_data["watchlist"]):
+        user_data["watchlist"] =  [m for m in user_data["watchlist"] if m["title"] != title]
         user_data["watched"].append(movie)
+        break # prevent multiple matches
     return user_data
 
 # wave 2
@@ -38,30 +37,30 @@ def get_unique_watched(user_data):
     friends_watched = set()
     for friend in user_data["friends"]:
         friends_watched.update([m["title"] for m in friend["watched"]])
-    return list(filter(lambda m: m["title"] not in friends_watched, user_data["watched"]))
+    return [m for m in user_data["watched"] if m["title"] not in friends_watched]
 
 def get_friends_unique_watched(user_data):
     friends_watched = dict()
     for friend in user_data["friends"]:
         friends_watched.update({m["title"]:m for m in friend["watched"]})
     user_watched_titles = [m["title"] for m in user_data["watched"]]
-    return list(filter(lambda m: m["title"] not in user_watched_titles, friends_watched.values()))
+    return [m for m in friends_watched.values() if m["title"] not in user_watched_titles]
 
 # wave 4
 
 def get_available_recs(user_data):
     all_recs = get_friends_unique_watched(user_data)
-    return list(filter(lambda m: m["host"] in user_data["subscriptions"], all_recs))
+    return [m for m in all_recs if m["host"] in user_data["subscriptions"]]
 
 # wave 5
 
 def get_new_rec_by_genre(user_data):
     favg = get_most_watched_genre(user_data)
     all_recs = get_friends_unique_watched(user_data)
-    return list(filter(lambda m: m["genre"] is favg, all_recs))
+    return [m for m in all_recs if m["genre"] is favg]
 
 def get_rec_from_favorites(user_data):
     all_recs = get_unique_watched(user_data)
     user_favs = [m["title"] for m in user_data["favorites"]]
-    return list(filter(lambda m: m["title"] in user_favs, all_recs))
+    return [m for m in all_recs if m["title"] in user_favs]
 
