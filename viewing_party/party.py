@@ -166,6 +166,8 @@ def get_friends_unique_watched(user_data):
     unique_movies = []
 
     # Create a set to store movie titles user has watched, add titles
+    # QUESTION: Is is better practice to account for empty lists
+    #  so this for loop doesn't run?
     users_movies = set()
     for watched_movie in user_data['watched']:
         users_movies.add(watched_movie['title'])
@@ -188,3 +190,39 @@ def get_friends_unique_watched(user_data):
 
     # Return list of movie dictionaries
     return unique_movies
+
+def get_available_recs(user_data):
+    '''
+    Returns a list of recommended movies.
+    '''
+    # Instantiate a return list to store recommendation dictionaries
+    recommendations = []
+
+    # Create variable to refer to list of user's subscriptions
+    user_subscriptions = user_data['subscriptions']
+
+    # QUESTION: Is there a way to incorporate get_friends_unique_watched(user_data)
+    
+    # Utilize get_friends_unique_watched function to filter for 
+    #  friend-recommended movie titles
+    friend_recommendations = get_friends_unique_watched(user_data)
+
+    # Isolate friend-recommended movie titles from friend_recommendations
+    #  in a list
+    friends_movies = []
+    for movie in friend_recommendations:
+        friends_movies.append(movie['title'])
+    
+    # Identify friend-recommended movies that user has subscription to view
+    for friend_data in user_data['friends']:
+        for watched_movie_data in friend_data['watched']:
+            # Check that user is subscribed to 'host' and
+            #  'title' is recommended
+            if watched_movie_data['host'] in user_subscriptions \
+                and watched_movie_data['title'] in friends_movies:
+                # If movie is not already recommended, addpend to recs
+                if watched_movie_data not in recommendations:
+                    recommendations.append(watched_movie_data)
+
+    # Return recommendations
+    return recommendations
