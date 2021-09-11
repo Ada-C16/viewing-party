@@ -22,7 +22,6 @@ def watch_movie(user_data, title):
     for movie in [m for m in user_data["watchlist"] if m["title"] == title]:
         user_data = add_to_watched(user_data, movie)
         user_data["watchlist"].remove(movie)
-        break  # prevent multiple matches
     return user_data
 
 
