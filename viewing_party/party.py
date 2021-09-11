@@ -109,7 +109,7 @@ def get_most_watched_genre(user_data):
             # Place long key name in shorter variable
             current_key = user_data['watched'][i]['genre']
             # Use .get() method to count occurances, default value of 1
-            genre_counts[current_key] = genre_counts.get(current_key, 1) + 1
+            genre_counts[current_key] = genre_counts.get(current_key, 0) + 1
 
         # Find key with highest numerical value
         most_watched_genre = max(genre_counts, key=genre_counts.get)
@@ -146,8 +146,6 @@ def get_unique_watched(user_data):
     movies_unique_to_user = users_movies.difference(friends_movies)
 
     # For unique movie titles, create a dict and append to return list
-    # QUESTION: Is there a faster way to do this?
-      # Cannot add dicts directly due to 'not hashable' error
     for title in movies_unique_to_user:
         format_dict = {}
         format_dict['title'] = title
@@ -200,8 +198,6 @@ def get_available_recs(user_data):
 
     # Create variable to refer to list of user's subscriptions
     user_subscriptions = user_data['subscriptions']
-
-    # QUESTION: Is there a way to incorporate get_friends_unique_watched(user_data)
     
     # Utilize get_friends_unique_watched function to filter for 
     #  friend-recommended movie titles
@@ -225,4 +221,36 @@ def get_available_recs(user_data):
                     recommendations.append(watched_movie_data)
 
     # Return recommendations
+    return recommendations
+
+def get_new_rec_by_genre(user_data):
+    '''
+    Returns a unique list of recommended movies based on movies
+    friends have watched that match user's most frequently watched
+    genre. 
+    '''
+    # Instantiate an empty list to hold recommendations
+    recommendations = []
+
+    # Determine user's most frequent genre using get_most_watched_genre()
+    most_freq_genre = get_most_watched_genre(user_data)
+
+    # Isolate friend-recommended movie titles with get_friends_unique_watched()
+    friends_movie_recs = get_friends_unique_watched(user_data)
+
+    # Determine which friend-recommmended titles match user's most freq genre
+    # Loop through each friend profile
+    for friend_data in user_data['friends']:
+        # Loop through watched movies in individual friend profile
+        for movie_data in friend_data['watched']:
+            # Find titles that are in friend-recommended list
+            #  and match user's most frequent genre
+            for movie in friends_movie_recs:
+                if movie_data['title'] in movie['title'] \
+                    and movie_data['genre'] == most_freq_genre:
+                    # If movie not already in rec list, add to list
+                    if movie_data not in recommendations:
+                        recommendations.append(movie_data)
+                
+    # Return recommendation list
     return recommendations
