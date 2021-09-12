@@ -28,39 +28,7 @@ def add_to_watchlist(user_data, movie):
     
     return user_data
 
-
-# movie_to_watch = {
-#     "title": "Title A",
-#     "genre": "Fantasy",
-#     "rating": 4.8
-# }
-# janes_data = {
-#     "watchlist": [
-#         {
-#             "title": "Title B",
-#             "genre": "Action",
-#             "rating": 2.0
-#         },
-#         movie_to_watch
-#     ],
-#     "watched": [
-#         {
-#             "title": "Title C",
-#             "genre": "Intrigue",
-#             "rating": 3.9
-#         }
-#     ]
-# }
-
-janes_data = {
-    "watchlist": [{
-        "title": "Title A",
-        "genre": "Fantasy",
-        "rating": 4.8
-    }],
-    "watched": []
-}
-
+#moves movie into watched list if already seen
 def watch_movie(user_data, title):
     #iterating through movies in user watch list
     for movie in user_data['watchlist']:
@@ -71,5 +39,3 @@ def watch_movie(user_data, title):
             #remove movie from watchlist
             user_data['watchlist'].remove(movie)
     return user_data
-
-print(watch_movie(janes_data, "Title A"))
