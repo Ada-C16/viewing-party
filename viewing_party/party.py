@@ -11,15 +11,30 @@ def create_movie(title, genre, rating):
 
 
 def add_to_watched(user_data, movie):
-    
     if movie:
         user_data["watched"].append(movie)
     else:
         user_data["watched"]    
     return user_data
 
-def add_to_watchlist():
-    pass
+def add_to_watchlist(user_data, movie):
+    if movie:
+        user_data["watchlist"].append(movie)
+    else:
+        user_data["watchlist"]
+    return user_data
 
-def watch_move():
-    pass
+
+def watch_movie(user_data, title): # still working on this for 1 test
+    
+    for item in user_data["watchlist"]:
+        if not title:
+            user_data = user_data["watchlist"].copy()
+        if title:
+            change = user_data["watchlist"].pop()
+            user_data["watched"].append(change)
+        # else:
+        #     user_data = user_data["watchlist"].copy()
+        # if title not in user_data["watchlist"]:
+        #     user_data
+    return user_data
