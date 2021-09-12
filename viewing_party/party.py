@@ -56,14 +56,14 @@ def get_most_watched_genre(user_data):
     if len(user_data["watched"]):
         most_watched_genre = max(most_watched_genre_stat_dict, key=most_watched_genre_stat_dict.get)
 
-    #return the most watched genre
+    # return the most watched genre
     return most_watched_genre
 
 def get_unique_watched(user_data):
-    #create list to host dictionaries of movies that only the user has watched
+    # create list to host dictionaries of movies that only the user has watched
     user_unique_watched = []
 
-    #create list of strings of movie titles that friends have watched
+    # create list of strings of movie titles that friends have watched
     friends_watched_movie_titles = []
 
     # iterate through the movie dictionaries that friends have watched
@@ -100,7 +100,7 @@ def get_friends_unique_watched(user_data):
     for movie_dict in user_data["watched"]:
         user_watched_movie_titles.append(movie_dict.get("title"))
 
-    #check that the user has friends
+    # check that the user has friends
     if user_data["friends"]:
     # iterate through the movies that the user's friends have watched.
     # if the title of a movie the user's friends have watched is not in 
