@@ -43,9 +43,9 @@ def get_most_watched_genre(user_data):
 
 
 def get_unique_watched(user_data):
-    friends_watched = set()
-    for friend in user_data["friends"]:
-        friends_watched.update([movie["title"] for movie in friend["watched"]])
+    friends_watched = [
+        movie["title"] for friend in user_data["friends"] for movie in friend["watched"]
+    ]
     return [
         movie for movie in user_data["watched"] if movie["title"] not in friends_watched
     ]
