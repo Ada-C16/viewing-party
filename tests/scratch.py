@@ -1,49 +1,59 @@
-def get_available_recs(user_data):
-#   loop through dic and find movies that friends have watched and Amanda did not!!
-#   The movies need to be supportted by the user's subscription - 
-#   if 'host' not in user subscription do not recommend movie
-#   return a dictionary eg:. {"title": "Title A", "host": "Service A"}
+def get_rec_from_favorites(user_data):
+# return value from favorites that friends have not watched yet
+# loop through friends movies title and store in list
+# store favorites in a list
+#create a variable  to store the result
+    favorites = [item['title'] for item in user_data["favorites"]]
+    friends_watched = []
+    for item in user_data["friends"]:
+        for  value  in item['watched']:
+            friends_watched.append(value['title']) 
+    not_watched = set(favorites).difference(set(friends_watched))
+    result= [{"title":item} for item in not_watched]
+    return result
 
 
+    
 
 
-
-
-
-
-amandas_data = {
-        "subscriptions": ["Service A", "Service B"],
-        "watched": [{ "title": "Title A" }],
+sonyas_data = {
+        "watched": [
+            {
+                "title": "Title A"
+            },
+            {
+                "title": "Title B"
+            },
+            {
+                "title": "Title C"
+            }
+        ],
+        "favorites": [
+            {
+                "title": "Title A"
+            },
+            {
+                "title": "Title B"
+            }
+        ],
         "friends": [
             {
                 "watched": [
                     {
-                        "title": "Title A",
-                        "host": "Service A"
-                    },
-                    {
-                        "title": "Title C",
-                        "host": "Service C"
+                        "title": "Title B"
                     }
                 ]
             },
             {
                 "watched": [
                     {
-                        "title": "Title A",
-                        "host": "Service A"
+                        "title": "Title C"
                     },
                     {
-                        "title": "Title B",
-                        "host": "Service B"
-                    },
-                    {
-                        "title": "Title D",
-                        "host": "Service D"
+                        "title": "Title D"
                     }
                 ]
             }
         ]
     }
-
-get_friends_unique_watched(amandas_data)
+print(get_rec_from_favorites(sonyas_data))

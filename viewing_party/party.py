@@ -104,11 +104,56 @@ def get_friends_unique_watched(user_data):
     result =  [{"title":item} for item in unique_in_friends]
     return result
 
-def get_available_recs(data_dict):
-    pass
+def get_available_recs(user_data):
+    #   loop through dic and find movies that friends have watched and Amanda did not!!
+    #   The movies need to be supportted by the user's subscription - 
+    #   if 'host' not in user subscription do not recommend movie
+    #   return a dictionary with recommended movie and host(provider)eg:. {"title": "Title A", "host": "Service A"}
+    friends_list = []
+    user_list = [item['title'] for item in user_data['watched']] #list of dictionaries
+    host_list = user_data['subscriptions'] #list
+    recommendations = []
+    for item in user_data["friends"]:
+        for  value  in item['watched']:
+            friends_list.append(value)  
+    for i in friends_list:  
+        if i['title'] not in user_list and i['host'] in host_list:  
+            if  i not in recommendations:
+                recommendations.append(i)
+        elif user_list == [] and i['host'] in host_list:
+            if i not in recommendations:
+                recommendations.append(i)
+    return recommendations
 
-def get_new_rec_by_genre(data):
-    pass
 
-def get_rec_from_favorites(data):
-    pass
+def get_new_rec_by_genre(user_data):
+    # Recommend movies based on the genre 
+    #if friends have watched movies that are the same genre that user likes(has movies watched) - recommend the movie
+        #if user haven't seen the movie yet
+    friends_list = [] #list od dic
+    genre_recom = []
+    user_list_genre= [item['genre'] for item in user_data['watched']] #list of dictionaries
+    user_list_title = [item['title'] for item in user_data['watched']] #list of dictionaries
+    for item in user_data["friends"]:
+        for  value  in item['watched']:
+            friends_list.append(value)  
+    for i in friends_list:  
+        if i['title'] not in user_list_title and i['genre'] in user_list_genre: 
+            if i not in genre_recom:
+                genre_recom.append(i)  
+    return genre_recom
+
+
+def get_rec_from_favorites(user_data):
+# return value from favorites that friends have not watched yet
+# loop through friends movies title and store in list
+# store favorites in a list
+#create a variable  to store the result
+    favorites = [item['title'] for item in user_data["favorites"]]
+    friends_watched = []
+    for item in user_data["friends"]:
+        for  value  in item['watched']:
+            friends_watched.append(value['title']) 
+    not_watched = set(favorites).difference(set(friends_watched))
+    result= [{"title":item} for item in not_watched]
+    return result
