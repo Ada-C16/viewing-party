@@ -38,8 +38,6 @@ def watch_movie(user_data, title):
 
 #WAVE 2
 def get_watched_avg_rating(user_data):
-#   pass
-# #STEP 1 CALCULATE THE AVERAGE RATING OF ALL MOVIES IN THE WATCHED LIST
     list_of_watched_movies = user_data["watched"]
     score = 0
     average_rating = 0.0
@@ -52,7 +50,6 @@ def get_watched_avg_rating(user_data):
     return average_rating
     
 
-# #STEP 2 RETURN THE MOST POPULAR GENRE
 def get_most_watched_genre(user_data):
     list_of_watched_movies = user_data["watched"]
     list_of_genres = []
@@ -67,15 +64,9 @@ def get_most_watched_genre(user_data):
     return popular_genre
 
 
+#WAVE 3
+def get_unique_watched(user_data):
+    pass
 
-
-
-
-    
-
-    
-
-# STEP 1 WHICH GENRE IS MOST FREQUENTLY OCCURING IN THE WATCHED LIST
-
-# STEP 2 RETURN THE GENRE 
-    # return most_watched_genre
+def get_friends_unique_watched(user_data):
+    pass
