@@ -40,20 +40,42 @@ def watch_movie(user_data, title):
 def get_watched_avg_rating(user_data):
 #   pass
 # #STEP 1 CALCULATE THE AVERAGE RATING OF ALL MOVIES IN THE WATCHED LIST
-    watched_list = user_data["watched"]["rating"]
-    print(f"{watched_list=}")
+    list_of_watched_movies = user_data["watched"]
     score = 0
-    for movie in watched_list:
-        score += movie
-    average_rating = score/len(watched_list)
+    average_rating = 0.0
+
+    if list_of_watched_movies == []:
+        return average_rating 
+    for movie in list_of_watched_movies:
+        score += movie["rating"]
+    average_rating = score/len(list_of_watched_movies)
     return average_rating
+    
+
+# #STEP 2 RETURN THE MOST POPULAR GENRE
+def get_most_watched_genre(user_data):
+    list_of_watched_movies = user_data["watched"]
+    list_of_genres = []
+
+    if list_of_watched_movies == []:
+            return None
+    
+    for movie in list_of_watched_movies:
+        list_of_genres.append(movie["genre"])
+
+    popular_genre = max(list_of_genres,key=list_of_genres.count)
+    return popular_genre
 
 
 
-# #STEP 2 RETURN THE AVERAGE RATING
-    # return average_rating
-# def get_most_watched_genre(user_data):
-#     pass
-#STEP 1 WHICH GENRE IS MOST FREQUENTLY OCCURING IN THE WATCHED LIST
-#STEP 2 RETURN THE GENRE 
-    # return genre
+
+
+
+    
+
+    
+
+# STEP 1 WHICH GENRE IS MOST FREQUENTLY OCCURING IN THE WATCHED LIST
+
+# STEP 2 RETURN THE GENRE 
+    # return most_watched_genre
