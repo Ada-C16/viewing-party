@@ -1,3 +1,5 @@
+# Wave 1
+
 def create_movie(title, genre, rating):
     if not title or not genre or not rating:
         return None
@@ -28,3 +30,30 @@ def watch_movie(user_data, title):
         user_data["watched"].append(watched_from_watchlist)
     return user_data
 
+# Wave 2
+
+def get_watched_avg_rating(user_data):
+    watched_list = user_data["watched"]
+    if not watched_list:
+        return 0.0
+
+    total_ratings = 0
+    for movie in watched_list:
+        total_ratings += movie["rating"]
+    avg = total_ratings / len(watched_list)
+    return avg
+
+def get_most_watched_genre(user_data):
+    watched_list = user_data["watched"]
+    if len(watched_list) == 0:
+        return None
+    genre_counts = {}
+    for movie in watched_list:
+        genre = movie["genre"]
+        genre_counts[genre] = genre_counts.get(genre, 0) + 1
+    
+    max_count = max(genre_counts.values())
+    for genre, count in genre_counts.items():
+        if count == max_count:
+            return genre
+    # What if more than one generes at the same max counts?
