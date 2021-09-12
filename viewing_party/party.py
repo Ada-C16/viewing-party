@@ -57,3 +57,32 @@ def get_most_watched_genre(user_data):
         if count == max_count:
             return genre
     # What if more than one generes at the same max counts?
+
+
+# Wave 3
+
+def get_unique_watched(user_data):
+    movies_watched = user_data["watched"]
+    friends = user_data["friends"]
+
+    unique_movies = []
+    for movie in movies_watched:
+        is_unique = True
+        for friend in friends:
+            if movie in friend["watched"]:
+                is_unique = False
+                break
+        if is_unique:
+            unique_movies.append(movie)
+    return unique_movies
+
+def get_friends_unique_watched(user_data):
+    movie_watched = user_data["watched"]
+    friends = user_data["friends"]
+
+    unique_movies = []
+    for friend in friends:
+        for movie in friend["watched"]:
+            if movie not in movie_watched and movie not in unique_movies:
+                unique_movies.append(movie)
+    return unique_movies
