@@ -159,3 +159,4 @@ def get_rec_from_favorites(user_data):
     not_watched = set(favorites).difference(set(friends_watched))
     result= [{"title":item} for item in not_watched]
     return result
+
