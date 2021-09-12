@@ -26,15 +26,32 @@ def add_to_watchlist(user_data, movie):
 
 
 def watch_movie(user_data, title): # still working on this for 1 test
-    
+    for item in user_data["watchlist"]:   
+        # updated_data = []
+        if item["title"] == title:
+            user_data["watched"].append(item)
     for item in user_data["watchlist"]:
-        if not title:
-            user_data = user_data["watchlist"].copy()
-        if title:
-            change = user_data["watchlist"].pop()
-            user_data["watched"].append(change)
-        # else:
-        #     user_data = user_data["watchlist"].copy()
-        # if title not in user_data["watchlist"]:
-        #     user_data
-    return user_data
+        if item in user_data["watched"]:
+            user_data["watchlist"].remove(item)
+    return user_data 
+    # still not working, returns empty list if title not in watchlist
+
+def get_watched_avg_rating(user_data):
+    counter = 0
+    total = 0
+    if user_data["watched"] == []:
+        avg = 0.0
+    for item in user_data["watched"]:
+        if item["rating"]:
+            counter += 1
+            total += item["rating"]
+            avg = total/counter
+    return avg
+
+def get_most_watched_genre(user_data):
+    pass
+    count = 0
+    genre_list = []
+    # for item in user_data["watched"]:
+        # if item["genre"] not in genre_list:
+        #     genre_list.append(item[])
