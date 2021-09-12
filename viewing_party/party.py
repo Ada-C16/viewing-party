@@ -24,10 +24,10 @@ def watch_movie(user_data, title):
         if movie["title"] == title:
             watched_from_watchlist = movie
             break
-        watched_from_watchlist = None
-    if watched_from_watchlist:
-        watchlist.remove(watched_from_watchlist)
-        user_data["watched"].append(watched_from_watchlist)
+    else:
+        return user_data
+    watchlist.remove(watched_from_watchlist)
+    user_data["watched"].append(watched_from_watchlist)
     return user_data
 
 # Wave 2
@@ -45,26 +45,25 @@ def get_watched_avg_rating(user_data):
 
 def get_most_watched_genre(user_data):
     watched_list = user_data["watched"]
-    if len(watched_list) == 0:
+    if not watched_list:
         return None
     genre_counts = {}
     for movie in watched_list:
         genre = movie["genre"]
         genre_counts[genre] = genre_counts.get(genre, 0) + 1
-    
+
     max_count = max(genre_counts.values())
     for genre, count in genre_counts.items():
         if count == max_count:
             return genre
     # What if more than one generes at the same max counts?
 
-
 # Wave 3
 
 def get_unique_watched(user_data):
     movies_watched = user_data["watched"]
     friends = user_data["friends"]
-
+    
     unique_movies = []
     for movie in movies_watched:
         is_unique = True
