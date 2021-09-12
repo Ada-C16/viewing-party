@@ -1,7 +1,6 @@
 from collections import Counter
 
 def create_movie(movie_title, genre, rating):
-    #if any  value == None return None
     if  genre== None  or  movie_title == None or  rating ==None:
         return None
     else:
@@ -13,16 +12,12 @@ def create_movie(movie_title, genre, rating):
 
 
 def add_to_watched(user_data, movie):
-    #check if movie in the user_data
-    #if not add the data to the list
     if movie not in user_data['watched']:
         user_data["watched"] += [movie]
     return user_data
 
 
 def add_to_watchlist(user_data, movie):
-    # check if movie in the user_data
-    #if not add the data to the list
     if movie not in user_data['watchlist']:
         user_data["watchlist"] += [movie]
     return user_data
@@ -30,8 +25,6 @@ def add_to_watchlist(user_data, movie):
 
 
 def watch_movie(user_data, title):
-    # if title in watchlist 
-    # Movie the movie object to watched
     lenght = len(user_data["watchlist"])
     watchlist = [elem for elem in user_data["watchlist"]]
     for item in range(lenght):
@@ -42,8 +35,6 @@ def watch_movie(user_data, title):
 
 
 def get_watched_avg_rating(user_data):
-    # Access all rating values and store in a list named rating_list
-    # SUM all values using sum() and divide by the len(rating_list)
     lenght = len(user_data["watched"])
     lista = [value for value in user_data['watched']]
     list_ratings = []
@@ -58,8 +49,8 @@ def most_frequent(list_value):
     count = Counter(list_value)
     return count.most_common(1)[0][0]
 
-def get_most_watched_genre(user_data):
 
+def get_most_watched_genre(user_data):
     if not user_data["watched"]:
         return None 
     else:
@@ -71,13 +62,8 @@ def get_most_watched_genre(user_data):
         popular_genre = most_frequent(list_genre)
         return popular_genre
 
+
 def get_unique_watched(user_data):
-    #ITERATE OVER THE DICTIONARY AND:
-    #CREATE A LIST WITH AMANDA'S MOVIES
-    #CREATE A LIST WITH FRIEND'S MOVIES
-    # COMPARE THOSE 2 LISTS
-    #USE SET ATTRIBUTES TO FIND UNIQUE VALUES FROM AMANDA'S
-    #Create a IF STATEMENT IN CASE THERE NO VALUE IN WATCHED LIST -none
     user_watched_list = []
     friends_watched_list =[]
     for item  in user_data['watched']:
@@ -88,6 +74,7 @@ def get_unique_watched(user_data):
     unique_in_user = set(user_watched_list).difference(set(friends_watched_list))
     result =  [{"title":item} for item in unique_in_user]
     return result
+
 
 def get_friends_unique_watched(user_data):
     user_watched_list = []
@@ -101,11 +88,8 @@ def get_friends_unique_watched(user_data):
     result =  [{"title":item} for item in unique_in_friends]
     return result
 
+
 def get_available_recs(user_data):
-    #   loop through dic and find movies that friends have watched and Amanda did not!!
-    #   The movies need to be supportted by the user's subscription - 
-    #   if 'host' not in user subscription do not recommend movie
-    #   return a dictionary with recommended movie and host(provider)eg:. {"title": "Title A", "host": "Service A"}
     friends_list = []
     user_list = [item['title'] for item in user_data['watched']] #list of dictionaries
     host_list = user_data['subscriptions'] #list
@@ -123,10 +107,8 @@ def get_available_recs(user_data):
     return recommendations
 
 
+
 def get_new_rec_by_genre(user_data):
-    # Recommend movies based on the genre 
-    #if friends have watched movies that are the same genre that user likes(has movies watched) - recommend the movie
-        #if user haven't seen the movie yet
     friends_list = [] #list od dic
     genre_recom = []
     user_list_genre= [item['genre'] for item in user_data['watched']] #list of dictionaries
@@ -142,10 +124,6 @@ def get_new_rec_by_genre(user_data):
 
 
 def get_rec_from_favorites(user_data):
-# return value from favorites that friends have not watched yet
-# loop through friends movies title and store in list
-# store favorites in a list
-#create a variable  to store the result
     favorites = [item['title'] for item in user_data["favorites"]]
     friends_watched = []
     for item in user_data["friends"]:
