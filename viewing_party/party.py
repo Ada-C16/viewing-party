@@ -56,3 +56,35 @@ def make_watched_genre_list(user_data):
         watched_genres.append(movie["genre"])
     return watched_genres
 
+def get_friends_unique_watched(user_data):
+    user_watched_set = make_user_watched_set(user_data)
+    friend_watched_set = make_friends_watch_set(user_data)
+    friends_unique_watched = friend_watched_set - user_watched_set
+    friends_unique_watched_list = make_list_of_dict_from_set(friends_unique_watched)
+    return friends_unique_watched_list
+
+def get_unique_watched(user_data):
+    user_watched_set = make_user_watched_set(user_data)
+    friend_watched_set = make_friends_watch_set(user_data)
+    unique_watched = user_watched_set - friend_watched_set
+    unique_watched_list = make_list_of_dict_from_set(unique_watched)
+    return unique_watched_list
+
+def make_user_watched_set(user_data):
+    user_watched_set = set()
+    for movie in user_data["watched"]:
+        user_watched_set.add(movie["title"])
+    return user_watched_set
+
+def make_friends_watch_set(user_data):
+    friends_watch_set = set()
+    for friend in user_data["friends"]:
+        for movie in friend["watched"]:
+            friends_watch_set.add(movie["title"])
+    return friends_watch_set
+
+def make_list_of_dict_from_set(unique_set):
+    unique_list = []
+    for movie in unique_set:
+        unique_list.append({"title": movie})
+    return unique_list
