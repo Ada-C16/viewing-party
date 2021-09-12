@@ -47,14 +47,11 @@ def get_watched_avg_rating(user_data):
     lenght = len(user_data["watched"])
     lista = [value for value in user_data['watched']]
     list_ratings = []
-    average = None
+    average = 0
     for item in range(lenght):
         list_ratings += [lista[item]['rating']]
-
     if len(list_ratings) !=0:
         average =  sum(list_ratings)/ len(list_ratings)
-    else:
-        return 0.0
     return average
 
 def most_frequent(list_value):
