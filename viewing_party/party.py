@@ -83,3 +83,32 @@ def get_unique_watched(user_data):
 
 def get_friends_unique_watched(user_data):
     pass
+    list_of_user_watched_movies = user_data["watched"]
+    friend_movie_list = []
+    friends_unique_movie_list = []
+    final_friends_unique_list = []
+
+
+    for friend in user_data["friends"]:
+        for movie in friend["watched"]:
+            friend_movie_list.append(movie) 
+
+    for movie in friend_movie_list:
+        if not movie in list_of_user_watched_movies:
+            friends_unique_movie_list.append(movie)
+        
+    for movie in friends_unique_movie_list:
+        if not movie in final_friends_unique_list:
+            final_friends_unique_list.append(movie)
+
+    return final_friends_unique_list
+
+#WAVE 4
+def get_available_recs(user_data):
+    pass
+
+#WAVE 5
+def get_new_rec_by_genre(user_data):
+    pass
+    
+    
