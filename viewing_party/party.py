@@ -8,7 +8,7 @@ def create_movie(movie_title, genre, rating):
         return new_movie
     else: 
         return None
-# Comment
+# Test 2
 
 def add_to_watched(user_data, movie):
     user_data["watched"].append(movie)
