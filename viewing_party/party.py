@@ -18,6 +18,9 @@ def add_to_watchlist(user_data, movie):
     return user_data
 
 def watch_movie(user_data, title):
+    """
+    moves the movie that mataches the title from the list watchlist to another list watched inside of user_data
+    """
     watchlist = user_data["watchlist"]
     for movie in watchlist:
         if movie["title"] == title:
@@ -57,6 +60,9 @@ def get_most_watched_genre(user_data):
 # Wave 3
 
 def get_unique_watched(user_data):
+    """
+    returns a list of movies that the user has watched but none of users' friends hasn't
+    """
     unique_movies = []
     for movie in user_data["watched"]:
         for friend in user_data["friends"]:
@@ -67,7 +73,9 @@ def get_unique_watched(user_data):
     return unique_movies
 
 def get_friends_unique_watched(user_data):
-
+    """
+    returns a list of movies that any of friends has watched but the user hasn't
+    """
     unique_movies = []
     for friend in user_data["friends"]:
         for movie in friend["watched"]:
@@ -89,6 +97,9 @@ def is_movie_in_list(list, movie):
 # Wave 4
 
 def get_available_recs(user_data):
+    """
+    returns a list of recommended movies based on what friends have watched and hosts that user subscribes for
+    """
     subscriptions = user_data["subscriptions"]
     recommendations = []
     friends_unique_movies = get_friends_unique_watched(user_data)
@@ -100,6 +111,9 @@ def get_available_recs(user_data):
 # Wave 5
 
 def get_new_rec_by_genre(user_data):
+    """
+    returns a list of recommended movies based on user's favorite genre and friends have watched
+    """
     favorite_genre = get_most_watched_genre(user_data)
     friends_unique_watched = get_friends_unique_watched(user_data)
     recommendations = []
@@ -109,6 +123,9 @@ def get_new_rec_by_genre(user_data):
     return recommendations
 
 def get_rec_from_favorites(user_data):
+    """
+    returns a list of recommended movies that user has watched and also liked
+    """
     unique_watched = get_unique_watched(user_data)
     favorites = user_data["favorites"]
     return [movie for movie in unique_watched if movie in favorites]
