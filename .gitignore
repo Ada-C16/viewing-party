@@ -1,5 +1,7 @@
 .vscode/
 .DS_Store
+notes-to-self.md
+playground.py
 
 # GitHub's boilerplate Python gitignore
 # https://github.com/github/gitignore/blob/master/Python.gitignore
