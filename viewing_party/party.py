@@ -108,11 +108,39 @@ def get_unique_watched(user_data):
     #return a list of dictionaries of the movies only the user has watched
 
     #want to iterate through both lists and compare the innermost lists 
+    only_user_watched = []
+    user_watched_set = set()
+    friends_watched_set = set()
+    only_user_watched_set = set()
 
     for movie_user_watched in user_data["watched"]:
+        user_watched_set.add(movie_user_watched["title"])
         for friends_watched_lists in user_data["friends"]:
-            for movie_friends_watched in friends_watched_lists:
-                
+            for movies_friends_watched_list in friends_watched_lists.values():
+                for indiv_dict in movies_friends_watched_list:
+                    friends_watched_set.add(indiv_dict["title"])
+
+    only_user_watched_set = user_watched_set.difference(friends_watched_set)
+
+    print(only_user_watched_set)
+
+    for item in only_user_watched_set:
+        only_user_watched.append({"title" : item})
+
+
+    return only_user_watched
+                    
+    
+#my logic doesn't make sense! I am comparing everything in one list to another
+#i can try to use sets instead
+#make two sets: one with everything from user,
+#one with everything from friends
+#then, compare sets
+#then, build a dict with only the values that are 
+
+    
+
+
 
 
 
