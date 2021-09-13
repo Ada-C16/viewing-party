@@ -25,20 +25,13 @@ def add_to_watchlist(user_data, movie):
     user_data['watchlist'].append(movie)
     return user_data
 
-
 def watch_movie(user_data, title):
-    watchlist = user_data["watchlist"]
-    watched = user_data["watched"]
-    # user_data: dictionary that contains a list of movies
-        # example: {'watchlist': 'xxx' , 'watched': 'xxx'}
-    # title: string
-    # if title in watchlist
-    if title in watchlist.values():
-        # remove that dict from watchlist key
-        del title
-        # add dict to watched key
-        watched = f"{watched}, {title}"
-        # if title not in watchlist, return user_data
-    else:
-        return user_data
+    watchlist = user_data["watchlist"] # This is a list
+    watched = user_data["watched"] # This is a list
+    for movie in watchlist:
+        if movie['title'] == title:
+            watched.append(movie)
+            watchlist.remove(movie)
+        else:
+            continue
     return user_data
