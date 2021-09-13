@@ -35,3 +35,26 @@ def watch_movie(user_data, title):
 
 # wave02
 
+def get_watched_avg_rating(user_data):
+    # takes ratings from user_data's watched list of movie dicts and takes the average
+    avg_rating = 0.0
+    rating_sum = 0
+    for i in range(len(user_data["watched"])):
+        rating_sum += user_data["watched"][i]["rating"]
+    if len(user_data["watched"]) > 0:
+        avg_rating = rating_sum / len(user_data["watched"])
+    return avg_rating
+
+def get_most_watched_genre(user_data):
+    # calculates which genre appears most frequenly in watched and returns it
+    genre_frequencies = {}
+    for i in range(len(user_data["watched"])):
+        if user_data["watched"][i]["genre"] not in genre_frequencies:
+            genre_frequencies[user_data["watched"][i]["genre"]] = 1
+        else:
+            genre_frequencies[user_data["watched"][i]["genre"]] += 1
+    if genre_frequencies != {}:
+        most_watched_genre = max(genre_frequencies, key = lambda genre : genre_frequencies[genre])
+        return most_watched_genre
+    else:
+        return None
