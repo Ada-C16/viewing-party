@@ -47,26 +47,59 @@ def add_to_watched(user_data, movie):
     movie to list, funct. returns dict of userdata with updated 
     watched movies.
     """
-    watched = user_data
+    #watched = user_data
+    #new_user_data = {}
 
-    for data in watched:
-        watched[data].append(movie)
+    for data in user_data:
+        user_data[data].append(movie)
 
-    return watched
+    return user_data
+
+    # for data in user_data:
+    #     new_user_data["watched"] = user_data[data] 
+
+    # new_user_data["watched"].append(movie)
+
+    # return new_user_data
+
 
 def add_to_watchlist(user_data, movie):
     """
     takes two params userdata and movie, user_data a dict and movie expected
     returns dictionary with list of watchlist as values
     """
+    # updating list while looping through, fix that
+    #watchlist = user_data
+    #new_dict = {"watchlist":[]}
 
-    watchlist = user_data
+    # for data in user_data:
+    #     user_data[data].append(movie)
 
-    for data in watchlist:
-        watchlist[data].append(movie)
+    # return user_data
 
-    return watchlist
+    # for data in user_data:
+    #     new_dict[data] = new_dict[data].append(movie)
 
+    # return new_dict
+    # new_dict = {"watchlist":[]}
+
+    for data in user_data:
+        user_data[data].append(movie)
+
+    return user_data
+
+    # for data in user_data:
+    #     new_dict["watchlist"] = user_data[data]
+
+    # return new_dict
+    # new_dict = {}
+
+    # for data in user_data:
+    #     new_dict["watchlist"] = user_data[data]
+        
+    # new_dict["watchlist"].append(movie)
+
+    # return new_dict
 
 def watch_movie(movie_catalogue, movie):
     """
@@ -76,7 +109,7 @@ def watch_movie(movie_catalogue, movie):
     returns updated library.
     """
 
-    movie_library = movie_catalogue
+    #movie_library = movie_catalogue
 
     # for the_movies in range(len(movie_library["watchlist"])):
     #     if movie_library["watchlist"][the_movies]["title"] == movie:
@@ -84,14 +117,36 @@ def watch_movie(movie_catalogue, movie):
     #         movie_library["watched"].append(a)
 
     # return movie_library
+    # write the code without altering the list you are currently iterating through
+    #new_dict = {}
+    new_movie_catalogue = {}
 
-    for the_movies in range(len(movie_library["watchlist"])):
-        movie_in_the_library = movie_library["watchlist"][the_movies]["title"]
+    new_movie_catalogue["watchlist"] = movie_catalogue["watchlist"]
+    new_movie_catalogue["watched"] = movie_catalogue["watched"]
+
+
+    # for the_movies in range(len(movie_catalogue["watchlist"])):
+    #     movie_in_the_library = movie_catalogue["watchlist"][the_movies]["title"]
+    #     if movie_in_the_library == movie:
+    #         watched_movie = movie_catalogue["watchlist"].pop(the_movies)
+    #         movie_catalogue["watched"].append(watched_movie)
+
+    # return movie_catalogue
+
+    for the_movies in range(len(new_movie_catalogue["watchlist"])):
+        movie_in_the_library = new_movie_catalogue["watchlist"][the_movies]["title"]
         if movie_in_the_library == movie:
-            watched_movie = movie_library["watchlist"].pop(the_movies)
-            movie_library["watched"].append(watched_movie)
+            watched_movie = new_movie_catalogue["watchlist"].pop(the_movies)
+            new_movie_catalogue["watched"].append(watched_movie)
 
-    return movie_library
+    return new_movie_catalogue
+
+    #new_dict = {}
+
+    # for the_movies in range(len(movie_library["watchlist"])):
+    #     movie_in_the_library = movie_library["watchlist"][the_movies]["title"]
+    #     if movie_in_the_library == movie:
+
 
 # ********* wave 2 begins ***********
 # janes_data = {
@@ -119,16 +174,16 @@ def get_watched_avg_rating(user_data):
     returns average rating of movies in list, if list empty returns 
     0.0
     """
-    userdata = user_data
+    #userdata = user_data
 
     average_rating = 0.0
     total_rating = 0.0
 
-    if userdata["watched"]:
-        for movie in range(len(userdata["watched"])):
-            total_rating += userdata["watched"][movie]["rating"]
+    if user_data["watched"]:
+        for movie in range(len(user_data["watched"])):
+            total_rating += user_data["watched"][movie]["rating"]
         
-        average_rating = total_rating / len(userdata["watched"]) 
+        average_rating = total_rating / len(user_data["watched"]) 
     
     return average_rating
 
@@ -152,3 +207,7 @@ def get_most_watched_genre(watchedlist):
                     highest_genre = watchedlist["watched"][i]["genre"]
 
     return highest_genre
+
+# ********* wave 3 begins ***********
+
+
