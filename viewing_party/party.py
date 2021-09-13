@@ -67,6 +67,7 @@ def get_unique_watched(user_data):
     return unique_movies
 
 def get_friends_unique_watched(user_data):
+
     unique_movies = []
     for friend in user_data["friends"]:
         for movie in friend["watched"]:
@@ -87,7 +88,11 @@ def is_movie_in_list(list, movie):
 
 # Wave 4
 
-# def get_available_recs(user_data):
-#     subscriptions = user_data["subscriptions"]
-#     recommendations = []
-#     friends_unique_movies = get_friends_unique_watched(user_data)
+def get_available_recs(user_data):
+    subscriptions = user_data["subscriptions"]
+    recommendations = []
+    friends_unique_movies = get_friends_unique_watched(user_data)
+    for movie in friends_unique_movies:
+        if movie["host"] in subscriptions:
+            recommendations.append(movie)
+    return recommendations
