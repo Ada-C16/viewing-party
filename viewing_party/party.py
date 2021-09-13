@@ -2,16 +2,14 @@
 
 # WAVE 1 FUNCTIONS:
 
-# function will create a dictionary of a movie
+# function to create new movie dictionary object
 def create_movie(movie_title, genre, rating):
-    if not (movie_title and genre and rating):
-        return None
-    movie = { "title":movie_title, "genre":genre, "rating":rating}
-    return movie
+    if (movie_title and genre and rating):
+        return { "title":movie_title, "genre":genre, "rating":rating}
+    return None
 
 # function to add movie to 'watched' movie list
 def add_to_watched(user_data, movie):
-    # create a dictionary within the list within the dictionary
     user_data["watched"].append(movie)
     return user_data
     
