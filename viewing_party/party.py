@@ -60,7 +60,7 @@ def get_most_watched_genre(user_data):
                 previous_highest_times_watched = times_watched
         if len(genre_list) == 1:
             return genre_list[0]
-        elif len(genre_list) > 1:
+        elif len(genre_list) > 1: #code to account for more than 1 most popular genre
             multiple_highest_genre = ""
             for genre in genre_list:
                 if multiple_highest_genre == "":
@@ -69,10 +69,174 @@ def get_most_watched_genre(user_data):
                     multiple_highest_genre += f"& {genre} "
             return multiple_highest_genre
 
+#*****************************************
+def get_unique_watched(user_data):
+  
+    #creation of 2 independent lists, one for watched for freidns and another for watched for user to be able to manipulate the data without changing the original user_data data and to be able to more easily compare user & friend data
+
+    user_watched_list =[]
+    friends_watched_list = []
+
+    if not user_data["watched"]:
+        return user_data["watched"]
+    else:
+        for movie in user_data["watched"]:
+            user_watched_list.append(movie)
+
+    i=0
+    while i < len(user_data["friends"]):
+        for movie in user_data["friends"][i]["watched"]:
+            friends_watched_list.append(movie)
+        i += 1
+    
+
+    user_watched_set = set()
+    friends_watched_set = set()
+    #convert friend_list and User-List to a list of strings, then to sets of strings
+    i = 0
+    while i < len(user_watched_list):
+        user_watched_set.add(str(user_watched_list[i]))
+        i += 1
+
+    j = 0
+    while j < len(friends_watched_list):
+        friends_watched_set.add(str(friends_watched_list[j]))
+        j += 1
 
 
+    user_only_watched_set = user_watched_set - friends_watched_set
 
 
+    #converting difference set back to a list of dictionaries
+    import ast
+    user_only_watched_list = list(user_only_watched_set)
+    user_only_watched_list_final = []
+
+    k=0
+    while k < len(user_only_watched_set):
+        convert_to_dict = ast.literal_eval(user_only_watched_list[k])
+        user_only_watched_list_final.append(convert_to_dict)
+        k += 1
+
+    return user_only_watched_list_final
+
+
+def get_friends_unique_watched(user_data):
+    user_watched_list =[]
+    friends_watched_list = []
+
+    for movie in user_data["watched"]:
+        user_watched_list.append(movie)
+
+    i = 0
+    while i < len(user_data["friends"]):
+        for movie in user_data["friends"][i]["watched"]:
+            friends_watched_list.append(movie)
+        i += 1
+    
+
+    user_watched_set = set()
+    friends_watched_set = set()
+    #convert friend_list and User-List to a list of strings, then to sets of strings
+    i = 0
+    while i < len(user_watched_list):
+        user_watched_set.add(str(user_watched_list[i]))
+        i += 1
+
+    j = 0
+    while j < len(friends_watched_list):
+        friends_watched_set.add(str(friends_watched_list[j]))
+        j += 1
+
+
+    friends_only_watched_set = friends_watched_set - user_watched_set  
+
+
+    #converting difference set back to a list of dictionaries
+    import ast
+    friends_only_watched_list = list(friends_only_watched_set)
+    friends_only_watched_list_final = []
+
+    k=0
+    while k < len(friends_only_watched_set):
+        convert_to_dict = ast.literal_eval(friends_only_watched_list[k])
+        friends_only_watched_list_final.append(convert_to_dict)
+        k += 1
+
+    return friends_only_watched_list_final
+
+amand_data = {
+        "watched": [],
+        "friends": [
+            {
+                "watched": [
+                    {
+                        "title": "Title A"
+                    },
+                    {
+                        "title": "Title B"
+                    }
+                ]
+            },
+            {
+                "watched": [
+                    {
+                        "title": "Title A"
+                    },
+                    {
+                        "title": "Title C"
+                    }
+                ]
+            }
+        ]
+    }
+
+get_friends_unique_watched(amand_data)
+
+amandas_data = {
+        "watched": [
+            {
+                "title": "Title A"
+            },
+            {
+                "title": "Title B"
+            },
+            {
+                "title": "Title C"
+            },
+            {
+                "title": "Title D"
+            },
+            {
+                "title": "Title E"
+            },
+        ],
+        "friends": [
+            {
+                "watched": [
+                    {
+                        "title": "Title A"
+                    },
+                    {
+                        "title": "Title C"
+                    }
+                ]
+            },
+            {
+                "watched": [
+                    {
+                        "title": "Title A"
+                    },
+                    {
+                        "title": "Title D"
+                    },
+                    {
+                        "title": "Title F"
+                    }
+                ]
+            }
+        ]
+    }
 
 user_data = {
     "watchlist": [{
