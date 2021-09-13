@@ -52,7 +52,7 @@ def test_get_available_recs_doesnt_recommend_watched_movie():
     # Arrange
     amandas_data = {
         "subscriptions": ["Service A", "Service B"],
-        "watched": [{ "title": "Title A" }],
+        "watched": [{ "title": "Title A"}],
         "friends": [
             {
                 "watched": [
