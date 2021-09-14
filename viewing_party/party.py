@@ -134,9 +134,7 @@ def get_unique_watched(user_data):
     # get difference between user and friends
     unique_movies = user_movies - friends_movie_set
     # store difference in dict
-    diff_dict = []
-    for movie in unique_movies:
-        diff_dict.append({"title":movie})
+    diff_dict = [{"title":movie} for movie in unique_movies]
     return diff_dict
 
 def get_friends_unique_watched(user_data):
