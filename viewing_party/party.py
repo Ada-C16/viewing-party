@@ -58,3 +58,94 @@ def get_most_watched_genre(user_data):
         return most_watched_genre
     else:
         return None
+
+# wave03
+
+def get_unique_watched(user_data):
+    # determines which movies the user has seen that friends have not and returns a list of them
+    all_friends_watched = []
+    in_common_watched = []
+    unique_watched = []
+    # makes a list of the movie dicts the friends have watched, removing duplicates
+    for i in range(len(user_data["friends"])):
+        for j in range(len(user_data["friends"][i]["watched"])):
+            if user_data["friends"][i]["watched"][j] not in all_friends_watched:
+                all_friends_watched.append(user_data["friends"][i]["watched"][j])
+    # makes a list of the movie dicts the friends have watched that user has also watched
+    for i in range(len(user_data["watched"])):
+        for j in range(len(all_friends_watched)):
+            if user_data["watched"][i]["title"] == all_friends_watched[j]["title"]:
+                in_common_watched.append(user_data["watched"][i])
+    # removes the movie dicts friends and user have in common
+    unique_watched = user_data["watched"]
+    for movie in in_common_watched:
+        unique_watched.remove(movie)
+    return unique_watched
+    
+def get_friends_unique_watched(user_data):
+    all_friends_watched = []
+    in_common_watched = []
+    friend_unique_watched = []
+    # makes a list of the movie dicts the friends have watched, removing duplicates
+    for i in range(len(user_data["friends"])):
+        for j in range(len(user_data["friends"][i]["watched"])):
+            if user_data["friends"][i]["watched"][j] not in all_friends_watched:
+                all_friends_watched.append(user_data["friends"][i]["watched"][j])
+    # makes a list of the movie dicts the friends have watched that user has also watched
+    for i in range(len(user_data["watched"])):
+        for j in range(len(all_friends_watched)):
+            if user_data["watched"][i]["title"] == all_friends_watched[j]["title"]:
+                in_common_watched.append(user_data["watched"][i])
+    # removes the movie dicts friends and user have in common  
+    friend_unique_watched = all_friends_watched
+    for movie in in_common_watched:
+        friend_unique_watched.remove(movie)
+    return friend_unique_watched
+
+
+    
+    
+# get_unique_watched({
+#         "watched": [
+#             {
+#                 "title": "Title A"
+#             },
+#             {
+#                 "title": "Title B"
+#             },
+#             {
+#                 "title": "Title C"
+#             },
+#             {
+#                 "title": "Title D"
+#             },
+#             {
+#                 "title": "Title E"
+#             },
+#         ],
+#         "friends": [
+#             {
+#                 "watched": [
+#                     {
+#                         "title": "Title A"
+#                     },
+#                     {
+#                         "title": "Title C"
+#                     }
+#                 ]
+#             },
+#             {
+#                 "watched": [
+#                     {
+#                         "title": "Title A"
+#                     },
+#                     {
+#                         "title": "Title D"
+#                     },
+#                     {
+#                         "title": "Title F"
+#                     }
+#                 ]
+#             }
+#         ]
+#     })
