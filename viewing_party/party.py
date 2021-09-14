@@ -83,8 +83,10 @@ def get_unique_watched(user_data):
 def get_friends_unique_watched(user_data):
     user_watched_list = []
     friends_watched_list =[]
+    # create a helper function
     for item  in user_data['watched']:
         user_watched_list += [item['title']]
+    # helper function
     for item in user_data["friends"]:
         for  value  in item['watched']:
             friends_watched_list += [value['title']]
@@ -98,9 +100,10 @@ def get_available_recs(user_data):
     recommendations = []
     user_list = [item['title'] for item in user_data['watched']]
     host_list = user_data['subscriptions']
-    for item in user_data["friends"]:
-        for  value  in item['watched']:
-            friends_list.append(value)  
+    # for item in user_data["friends"]:
+    #     for  value  in item['watched']:
+    #         friends_list.append(value) 
+    create_friends_list(user_data,friends_list) 
     for i in friends_list:  
         if (i['title'] not in user_list and i['host'] in host_list) and (i not in recommendations):  
             recommendations.append(i)
@@ -108,15 +111,28 @@ def get_available_recs(user_data):
             recommendations.append(i)
     return recommendations
 
+def create_friends_list(user_data,friends_list):
+    for item in user_data["friends"]:
+        for  value  in item['watched']:
+            friends_list.append(value) 
+    return friends_list
+
+def create_friends_list_title(user_data,friends_list):
+    for item in user_data["friends"]:
+        for  value  in item['watched']:
+            friends_list.append(value['title']) 
+    return friends_list
+
 
 def get_new_rec_by_genre(user_data):
     friends_list = []
     genre_recom = []
     user_list_genre= [item['genre'] for item in user_data['watched']] #list of dictionaries
     user_list_title = [item['title'] for item in user_data['watched']] #list of dictionaries
-    for item in user_data["friends"]:
-        for  value  in item['watched']:
-            friends_list.append(value)  
+    # for item in user_data["friends"]:
+    #     for  value  in item['watched']:
+    #         friends_list.append(value)  
+    create_friends_list(user_data,friends_list)
     for i in friends_list:  
         if i['title'] not in user_list_title and i['genre'] in user_list_genre: 
             if i not in genre_recom:
@@ -126,10 +142,13 @@ def get_new_rec_by_genre(user_data):
 
 def get_rec_from_favorites(user_data):
     favorites = [item['title'] for item in user_data["favorites"]]
-    friends_watched = []
+    friends_list = []
     for item in user_data["friends"]:
         for  value  in item['watched']:
-            friends_watched.append(value['title']) 
-    not_watched = set(favorites).difference(set(friends_watched))
+            friends_list.append(value['title']) 
+    # create_friends_list(user_data,friends_list)   
+    
+    print(friends_list)    
+    not_watched = set(favorites).difference(set(friends_list))
     result= [{"title":item} for item in not_watched]
     return result
