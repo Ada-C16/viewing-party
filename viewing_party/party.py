@@ -103,7 +103,7 @@ def get_available_recs(user_data):
     friends_unique_watched_host = get_friends_unique_watched_host(user_data, friends_unique_watched)
     for movie in friends_unique_watched:
         host = friends_unique_watched_host[movie]   
-        if check_host_in_subs(user_data, host):
+        if host in user_data["subscriptions"]:
             recommendations.append({"title": movie, "host": host})
     return recommendations
 
@@ -113,12 +113,6 @@ def get_friends_unique_watched_host(user_data, friends_unique_watched):
         for movie in friend["watched"]:
             friends_watched_with_host[movie["title"]] = movie["host"]
     return friends_watched_with_host
-
-def check_host_in_subs(user_data, host):
-    if host in user_data["subscriptions"]:
-        return True
-    else:
-        return False
 
 # Wave 05
 
