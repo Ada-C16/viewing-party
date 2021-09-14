@@ -8,41 +8,22 @@ def create_movie(title,genre,rating):
         return dict
     else:
         return None
-    
-#a function named `add_to_watched`. This function should...
-
-#take two parameters: `user_data`, `movie`
-#- add the `movie` to the `"watched"` list inside of `user_data`
-#- return the `user_data`
 
 def add_to_watched(user_data,movie):
    
     #user_data={'watched':[{},{},{}]}
     #movie={"title": "Title A", "genre": "Horror", "rating": 3.5}
-    x=user_data['watched']
-    x.append(movie)
+    watched=user_data['watched']
+    watched.append(movie)
     return user_data
-
-#a function named `add_to_watchlist`. This function should...
-
- #take two parameters: `user_data`, `movie`
- #add the `movie` to the `"watchlist"` list inside of `user_data`
- #return the `user_data`
 
 def add_to_watchlist(user_data, movie):
-    #the value of `user_data` will be a dictionary with a key `"watchlist"`, 
-    # and a value which is a list of dictionaries representing the movies the user wants to watch
+    #user_data=dictionary with a key `"watchlist"`, 
+    #and a value which is a list of dictionaries representing the movies the user wants to watch
     #user_data={'watchlist':[{}{}{}]}
-    y=user_data['watchlist']
-    y.append(movie)
+    watchlist=user_data['watchlist']
+    watchlist.append(movie)
     return user_data
-
-#a function named `watch_movie`. This function should...
-
-#take two parameters: `user_data`, `title`
-
-  #the value of `title` will be a string. This represents the title of the movie the user has watched
-  
   
 def watch_movie(user_data,title):
        #user_data={'watchlist':[{}{}{}], 'watched':[{}{}{}]}
@@ -64,14 +45,6 @@ def watch_movie(user_data,title):
 
 ## WAVE 2 !!!
 
-#a function named `get_watched_avg_rating`. This function should...
-
-#take one parameter: `user_data`
-  #the value of `user_data` will be a dictionary with a `"watched"` list of movie dictionaries
-    #This represents that the user has a list of watched movies
-#Calculate the average rating of all movies in the watched list
-  #The average rating of an empty watched list is `0.0`
-#return the average rating
 
 def get_watched_avg_rating(user_data):
     #user_data={'watched'=[{},{},{}]}
@@ -87,19 +60,6 @@ def get_watched_avg_rating(user_data):
     
     return avg_rating
 
-
-
-#The next three tests are about a `get_most_watched_genre()` function.
-
-#`party.py`, there should be a function named `get_most_watched_genre`. This function should...
-
-#take one parameter: `user_data`
-  #the value of `user_data` will be a dictionary with a `"watched"` list of movie dictionaries. 
-  # Each movie dictionary has a key `"genre"`.
-    #This represents that the user has a list of watched movies. Each watched movie has a genre.
-    #The values of `"genre"` is a string.
-#Determine which genre is most frequently occurring in the watched list
-#return the genre that is the most frequently watched
 
 def get_most_watched_genre(user_data):
     #user_data={'watched'=[{'genre'},{}]}
@@ -230,14 +190,6 @@ def get_new_rec_by_genre(user_data):
   return recommended_movies
 
 def get_rec_from_favorites(user_data):
-
-  #user_data` will have a field `"favorites"`. The value of `"favorites"` is a list of movie dictionaries
-    #This represents the user's favorite movies
-#Then, determine a list of recommended movies. A movie should be added to this list if and only if:
-  #The movie is in the user's `"favorites"`
-  #None of the user's friends have watched it
-#Return the list of recommended movies
-
  recommended_list=[]
  unique_watched=get_unique_watched(user_data)
 
