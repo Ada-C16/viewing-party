@@ -162,101 +162,90 @@ def get_friends_unique_watched(user_data):
         convert_to_dict = ast.literal_eval(friends_only_watched_list[k])
         friends_only_watched_list_final.append(convert_to_dict)
         k += 1
-
+    
     return friends_only_watched_list_final
 
-amand_data = {
-        "watched": [],
-        "friends": [
-            {
-                "watched": [
-                    {
-                        "title": "Title A"
-                    },
-                    {
-                        "title": "Title B"
-                    }
-                ]
-            },
-            {
-                "watched": [
-                    {
-                        "title": "Title A"
-                    },
-                    {
-                        "title": "Title C"
-                    }
-                ]
-            }
-        ]
-    }
+def get_available_recs(user_data):
+    
+#create separate watched and sucriptions list for user
+#create separate list of dicts for friends watched movies-make set to avoid duplicates
 
-get_friends_unique_watched(amand_data)
+#compare friends movies to user watched movies 
+#    -if movie title NOT in user watched AND user has subscription, add to recommended list
+    user_subcription_list = user_data["subscriptions"]
+    user_watched_list = user_data["watched"]
+    recommend_for_user_list = []
 
-amandas_data = {
-        "watched": [
-            {
-                "title": "Title A"
-            },
-            {
-                "title": "Title B"
-            },
-            {
-                "title": "Title C"
-            },
-            {
-                "title": "Title D"
-            },
-            {
-                "title": "Title E"
-            },
-        ],
-        "friends": [
-            {
-                "watched": [
-                    {
-                        "title": "Title A"
-                    },
-                    {
-                        "title": "Title C"
-                    }
-                ]
-            },
-            {
-                "watched": [
-                    {
-                        "title": "Title A"
-                    },
-                    {
-                        "title": "Title D"
-                    },
-                    {
-                        "title": "Title F"
-                    }
-                ]
-            }
-        ]
-    }
+    friends_watched_list = [] 
+    friends_watched_list_no_duplicates = []
+    friends_watched_set = set()
 
-user_data = {
-    "watchlist": [{
-  "title": "Title A",
-  "genre": "Horror",
-  "rating": 3.5
-},
-{
-  "title": "Title B",
-  "genre": "Horror",
-  "rating": 3.5
-}], 
-  "watched": [{
-  "title": "Title A",
-  "genre": "Horror",
-  "rating": 3.5
-},
-{
-  "title": "Title B",
-  "genre": "Horror",
-  "rating": 3.5
-}]
-}
+    #list of dictionaries of titles and hosts for friends
+    #must create loop to create this list to include data for all friends
+
+    for friends_dict in user_data["friends"]:
+        for friends_watched_dict in friends_dict["watched"]:
+            friends_watched_list.append(friends_watched_dict)
+
+    #remove duplicates from friends_watched_list by converting 
+    #dictionaries to strings then converting the outer list to a set
+    for watched_dict in friends_watched_list:
+        friends_watched_set.add(str(watched_dict))
+    #converting back to a list of dictionaries
+
+    #make outer loop friends watched list and compare its values to user list and append if not there
+    
+
+    import ast
+
+    for string in friends_watched_set:
+        convert_to_dict = ast.literal_eval(string)
+        friends_watched_list_no_duplicates.append(convert_to_dict)
+    
+    print(f"{friends_watched_list_no_duplicates=}")
+
+    for film_host_dict in friends_watched_list_no_duplicates:
+        if user_watched_list == []:
+            if film_host_dict["host"] in user_subcription_list:
+                recommend_for_user_list.append(film_host_dict)
+        else:
+            for film_dict in user_watched_list:
+            #  print(film_dict["title"])
+            #  print(film_host_dict["title"])
+            
+                
+                if film_dict["title"] != film_host_dict["title"]:
+                    x = film_dict["title"] 
+                    y = film_host_dict["title"]
+                    print(f"{x=}")
+                    print(f"{y=}")
+                    if film_host_dict["host"] in user_subcription_list:
+                        recommend_for_user_list.append(film_host_dict)
+                        
+    #code to remove any films user has already seen from recommended list
+    for movie in user_watched_list:
+        for movie_host in recommend_for_user_list:
+            if movie["title"] == movie_host["title"]:
+                recommend_for_user_list.remove(movie_host)
+
+    print(f"{recommend_for_user_list=}")
+    return recommend_for_user_list
+
+#separate users watched into list of dictionaries
+#create list of friends watched-remove duplicates
+#determine the user's most frequent genre
+# for titles in friends:
+#   if titles NOT in users_watched:
+        # if titles[genre]==users_most_frequent_genre
+        #   recommend_to_user.append(titles)
+def get_new_rec_by_genre(user_data):
+    user_watched_list = user_data["watched"]
+    friends_watched_list = [] 
+    friends_watched_list_no_duplicates = []
+    friends_watched_set = set()
+	#create a loop to add movie dictionaries for all friends into one list
+    for movie in user_data["friends"]:
+	    friends_watched_list.append(movie["watched"])
+
+    print(f"{user_watched_list=}")
+    print(f"{friends_watched_list=}")
