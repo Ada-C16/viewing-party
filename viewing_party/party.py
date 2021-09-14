@@ -36,14 +36,18 @@ def add_to_watchlist(user_data, movie):
 
 def watch_movie (user_data, title): 
 
-    for film in user_data["watchlist"]:
-        if film["title"] == title:
-        #if title["title"] in user_data["watchlist"]:
+    for movie in user_data["watchlist"]:
+        if movie["title"] == title:
+        # if movie["title"] in user_data["watchlist"]:
 
-            user_data["watched"].append(film)
-            user_data["watchlist"].remove(film)
+            user_data["watched"].append(movie)
+            user_data["watchlist"].remove(movie)
     return user_data
-
+#  add_to_watchlist({"watchlist":[{},{},{}], {"watched":[{},{},{}] }} ,{{
+#   "title": "Title A",
+#   "genre": "Horror",
+#   "rating": 3.5
+# }})
 
 
 
