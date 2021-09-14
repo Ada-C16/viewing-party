@@ -24,6 +24,16 @@ def watch_movie(janes_data, watched_movie):
             janes_data["watchlist"].remove(movie)
     return janes_data
 
+def get_watched_avg_rating(janes_data):
+    watched_ratings = []
+    if not janes_data["watched"]:
+        return 0
+    else: 
+        for movie in janes_data["watched"]: 
+            watched_ratings.append(movie["rating"])
+        sum_watched_ratings = sum(watched_ratings)
+        avg_watched_rating = sum_watched_ratings/len(watched_ratings)
+        return avg_watched_rating
 
 
 # print(create_movie("Title A", "Horror", 4)) # test 1
