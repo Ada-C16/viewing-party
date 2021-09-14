@@ -160,8 +160,6 @@ def get_available_recs(user_data):
         a friend has watched it, & the user has the
         subscription service
     '''
-    # user hasn't watched but 1+ friend has
-    #rec_list_unfiltered = [rec["title"] for rec in get_friends_unique_watched(user_data)]
     # list of subscriptions
     subs = user_data["subscriptions"]
     # pair rec with service
