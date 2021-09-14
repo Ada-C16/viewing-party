@@ -110,9 +110,7 @@ def movie_list(person):
     '''
     return list of a users watched movies
     '''
-    persons_movies = []
-    for movie in person["watched"]:
-        persons_movies.append(movie["title"])
+    persons_movies = [movie["title"] for movie in person["watched"]]
     return persons_movies
 
 def friends_watched_movies(user_data):
