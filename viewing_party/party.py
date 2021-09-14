@@ -63,6 +63,7 @@ def get_most_watched_genre(user_data):
     genre_list = []
     max_genre = None
     genre_count = {}
+    highest_count = 0
     
     for movie in watched_list:
         genre_list.append(movie["genre"])
@@ -76,7 +77,12 @@ def get_most_watched_genre(user_data):
         elif genre in genre_count:
             genre_count[genre] += 1
     
-    max_genre = max(genre_count, key = genre_count.get)
+    for genre, count in genre_count.items():
+        if count > highest_count:
+            highest_count = count
+            max_genre = genre
+        else:
+            pass
     return max_genre
 
 def get_unique_watched(user_data):
@@ -142,13 +148,13 @@ def get_friends_unique_watched(user_data):
 
 def get_available_recs(user_data):
     user_watched_list = user_data["watched"]
-    
+    user_watched_titles = []
     friends_list = user_data["friends"]
     friends_watched_lists = []
     list_of_friends_movies = []
-    movies_seen_by_one_friend = []
-
-    movies_user_not_watched = []
+    no_dups = []
+    watched = None
+    user_not_watched = []
     available_recs = []
 
 # Isolate and extract lists/dicts
@@ -162,21 +168,21 @@ def get_available_recs(user_data):
             list_of_friends_movies.append(movie)
 
     for movie in list_of_friends_movies:
-        if movie not in movies_seen_by_one_friend:
-            movies_seen_by_one_friend.append(movie)
+        if movie not in no_dups:
+            no_dups.append(movie)
         else:
             pass
     
-    for movie in movies_seen_by_one_friend:
-        if movie not in user_watched_list:
-            movies_user_not_watched.append(movie)
-        else:
-            continue
+    for movie in no_dups:
+        watched = False
+        for user_movie in user_watched_list:
+            if user_movie["title"] == movie["title"]:
+                watched = True
+        if watched == False:
+            user_not_watched.append(movie)
     
-    for movie in movies_user_not_watched:
+    for movie in user_not_watched:
         if movie["host"] in user_data["subscriptions"]:
             available_recs.append(movie)
-        else:
-            continue
     
     return available_recs
