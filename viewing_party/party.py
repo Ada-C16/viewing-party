@@ -1,3 +1,10 @@
+# Two general questions:
+# 1. Should I remove these wordy docstrings? They were written to help me in 
+#    my process, but seem a bit long for "real life" (?).  
+# 2. Should I avoid list comprehensions b/c they're too confusing for 
+#    someone reading your code who is not you? (See first line of 
+#    find_user_and_friend_movies() function as an example.)
+
 def create_movie(title, genre, rating):
     '''returns a dict with 3 key-value pairs (1 per param)'''
     if title and genre and rating:
@@ -23,19 +30,20 @@ def add_to_watchlist(user_data, movie):
     return user_data
 
 def watch_movie(user_data, title):
-    '''takes in a user_data dict with two keys--watch list and watched--that 
-    each correspond to a list of movies, and a title; returns updated 
-    user_data depending on which condition is met'''
+    '''takes in a user_data dict with two keys--watchlist and watched--that 
+    each correspond to a list of movies, and a title; if title in watchlist,
+    it's removed from watchlist + added to watched; returns user_data'''
     for movie in user_data['watchlist']:
         if title == movie['title']:
-            add_to_watched(user_data, movie)
             user_data['watchlist'].remove(movie)
+            add_to_watched(user_data, movie)
     return user_data
 
 def get_watched_avg_rating(user_data):
     '''takes in a user_data dict with key 'watched' and values of list of 
     watched movies; returns average rating of all movies'''
-    rating_sum, num_of_movies = 0, len(user_data['watched']) 
+    rating_sum = 0
+    num_of_movies = len(user_data['watched']) 
     for movie in user_data['watched']:
         rating_sum += movie['rating']
     return 0.0 if num_of_movies == 0 else rating_sum/num_of_movies
@@ -137,82 +145,3 @@ def get_rec_from_favorites(user_data):
             recommendations.append(movie)
     
     return recommendations
-
-# sample data
-# sonyas_data = {
-#             "watched": [
-#                 {
-#                     "title": "Title A"
-#                 },
-#                 {
-#                     "title": "Title B"
-#                 },
-#                 {
-#                     "title": "Title C"
-#                 },
-#                 {
-#                     "title": "Title X"
-#                 }
-#             ],
-#             "favorites": [
-#                 {
-#                     "title": "Title A"
-#                 },
-#                 {
-#                     "title": "Title B"
-#                 }
-#             ],
-#             "friends": [
-#                 {
-#                     "watched": [
-#                         {
-#                             "title": "Title B"
-#                         }
-#                     ]
-#                 },
-#                 {
-#                     "watched": [
-#                         {
-#                             "title": "Title C"
-#                         },
-#                         {
-#                             "title": "Title D"
-#                         }
-#                     ]
-#                 }
-#             ]
-#         }
-
-# user_data = {
-#     'watched' : [{
-#             'title': 'Bridesmaids',
-#             'genre': 'comedy',
-#             'rating': 5
-#         }, 
-#         {
-#             'title': 'Us',
-#             'genre': 'horror',
-#             'rating': 4.5
-#         },
-#         {
-#             'title': 'Candyman',
-#             'genre': 'horror',
-#             'rating': 4.5
-#         }], 
-#     'watchlist' : [{
-#             'title': 'John Wick III',
-#             'genre': 'action',
-#             'rating': 3
-#         }, 
-#         {
-#             'title': 'Her',
-#             'genre': 'scifi',
-#             'rating': 4
-#         }]
-# }
-
-# user_data2 = {
-#     'watched' : []
-# }
-
-# get_most_watched_genre(user_data)
