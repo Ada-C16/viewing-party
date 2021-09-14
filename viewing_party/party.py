@@ -150,10 +150,6 @@ def get_friends_unique_watched(user_data):
     unique_movies = friends_movie_set - user_movies 
     # store diff in dict
     diff_dict = [{"title":movie} for movie in unique_movies]
-    '''
-    for movie in unique_movies:
-        diff_dict.append({"title":movie})
-    '''
     return diff_dict
 
 
@@ -166,10 +162,6 @@ def get_available_recs(user_data):
     '''
     # user hasn't watched but 1+ friend has
     rec_list_unfiltered = [rec["title"] for rec in get_friends_unique_watched(user_data)]
-    '''
-    for rec in get_friends_unique_watched(user_data):
-        rec_list_unfiltered.append(rec["title"])
-    '''
     # list of subscriptions
     subs = user_data["subscriptions"]
     # pair rec with service
