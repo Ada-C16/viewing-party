@@ -38,9 +38,9 @@
 
 # def watch_movie(user_data, title): 
 #     """
-#     The function returns a dictionary, user_data, that gives information 
-#     about movies that the user has watched and movies that are on the 
-#     user's watchlist. If the title, a string, is in the user's watchlist, 
+#     The function returns a dictionary that gives information about 
+#     movies that the user has watched and movies that are on the 
+#     user's watchlist. If the title is in the user's watchlist, 
 #     the function will remove the movie from the watchlist and add it to 
 #     the list of movies that the user has already watched. Otherwise, 
 #     the function will simply return user_data. 
@@ -100,52 +100,84 @@
 #             return genre
 
 # Wave 3
-def get_unique_watched(user_data):
-    """
-    This function returns a list of dictionaries that represents a list 
-    of movies that the user has watched, but none of their friends
-    have watched. 
-    """
-    watched_titles = set()
-    for title in user_data["watched"]:
-        watched_titles.add((title["title"]))
-    friends_titles = set()
-    for watched in user_data["friends"]:
-        for title in watched["watched"]:
-            friends_titles.add(title["title"])
+# def get_unique_watched(user_data):
+#     """
+#     This function returns a list of dictionaries that represents a list 
+#     of movies that the user has watched, but none of their friends
+#     have watched. 
+#     """
+#     watched_titles = set()
+#     for title in user_data["watched"]:
+#         watched_titles.add((title["title"]))
+#     friends_titles = set()
+#     for watched in user_data["friends"]:
+#         for title in watched["watched"]:
+#             friends_titles.add(title["title"])
     
-    unique_watched = watched_titles - friends_titles
+#     unique_watched = watched_titles - friends_titles
 
-    unique_titles = list(unique_watched)
-    title = ["title" for i in range(len(unique_titles))]
+#     unique_titles = list(unique_watched)
+#     title = ["title" for i in range(len(unique_titles))]
 
-    # Creates a list of dictionaries w/ "title" as key and movie title as value
-    # Zip returns iterator of tuples
-    # Creates dictionary with each iteration
-    # Then takes individual dictionaries and creates one list
-    unique_watched = [{key:value} for key, value in zip(title,unique_titles)]
-    return unique_watched
+#     # Creates a list of dictionaries w/ "title" as key and movie title as value
+#     # Zip returns iterator of tuples
+#     # Creates dictionary with each iteration
+#     # Then takes individual dictionaries and creates one list
+#     unique_watched = [{key:value} for key, value in zip(title,unique_titles)]
+#     return unique_watched
 
-def get_friends_unique_watched(user_data):
-    """
-    This function returns a list of dictionaries that represent a list of
-    movies that the user's friends have watched, but the user has not
-    watched. 
-    """
-    watched_titles = set()
+# def get_friends_unique_watched(user_data):
+#     """
+#     This function returns a list of dictionaries that represent a list of
+#     movies that the user's friends have watched, but the user has not
+#     watched. 
+#     """
+#     watched_titles = set()
+#     for title in user_data["watched"]:
+#         watched_titles.add((title["title"]))
+
+#     friends_titles = set()
+#     for watched in user_data["friends"]:
+#         for title in watched["watched"]:
+#             friends_titles.add(title["title"])
+
+#     friends_unique_watched = friends_titles - watched_titles
+
+#     unique_titles = list(friends_unique_watched)
+#     title = ["title" for i in range(len(unique_titles))]
+
+#     # Creates a list of dictionaries w/ "title" as key and movie title as value
+#     friends_unique = [{key:value} for key, value in zip(title,unique_titles)]
+#     return friends_unique
+
+# Wave 4
+def get_available_recs(user_data):
+    # Accessing the titles and hosts from movies that user's friends have watched
+    friends_watched = []
+    for watched_movies in user_data["friends"]:
+        for title_host in watched_movies["watched"]:
+            friends_watched.append(title_host)
+    
+    # Get list of titles and hosts that user has subscriptions for
+    subscriptions_match = []
+    for subscription in user_data["subscriptions"]:
+        for title_host in friends_watched:
+            if title_host["host"] == subscription and title_host not in subscriptions_match:
+                subscriptions_match.append(title_host)
+
+    # Get titles that user has not watched yet from matching subscriptions
+    recommendations = []
+    watched_titles_only = []
+
     for title in user_data["watched"]:
-        watched_titles.add((title["title"]))
+        watched_titles_only.append(title["title"])
 
-    friends_titles = set()
-    for watched in user_data["friends"]:
-        for title in watched["watched"]:
-            friends_titles.add(title["title"])
-
-    friends_unique_watched = friends_titles - watched_titles
-
-    unique_titles = list(friends_unique_watched)
-    title = ["title" for i in range(len(unique_titles))]
-
-    # Creates a list of dictionaries w/ "title" as key and movie title as value
-    friends_unique = [{key:value} for key, value in zip(title,unique_titles)]
-    return friends_unique
+    if not user_data["watched"]:
+        return subscriptions_match
+    else:
+        for title_host in subscriptions_match:
+            if title_host["title"] in watched_titles_only:
+                pass
+            else:
+                recommendations.append(title_host)
+        return recommendations
