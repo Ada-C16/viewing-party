@@ -122,3 +122,22 @@ def check_host_in_subs(user_data, host):
 
 # Wave 05
 
+def get_new_rec_by_genre(user_data):
+    recs_by_genre = []
+    user_watched = make_user_watched_set(user_data)
+    most_watched_genre = get_most_watched_genre(user_data)
+    for friend in user_data["friends"]:
+        for movie in friend["watched"]:
+            if movie not in recs_by_genre and movie["genre"] == most_watched_genre\
+                and movie["title"] not in user_watched:
+                recs_by_genre.append(movie)
+    return recs_by_genre
+
+# Not working right
+def get_rec_from_favorites(user_data):
+    recs_from_favorites = []
+    friends_unique_watched = get_friends_unique_watched(user_data)
+    for movie in user_data["favorites"]:
+        if movie["title"] not in friends_unique_watched:
+            recs_from_favorites.append(movie)
+    return recs_from_favorites
