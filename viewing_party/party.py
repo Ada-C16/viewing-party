@@ -70,10 +70,14 @@ def get_unique_watched(user_data):
     unique_movies = []
     watched = user_data["watched"]
     friends = user_data["friends"]
-    for user_movie in watched:
-        for friend_movie in friends:
-            if user_movie["title"] == friend_movie["title"]:
-                continue
-            else:
-                unique_movies.append(user_movie["title"])
-    return unique_movies
+    for watched_by_user in watched:
+        # print(watched_by_user)
+        for watched_by_friends in friends:
+            for watched_by_friends_key, watched_by_friends_value in watched_by_friends.items():
+                # print(watched_by_friends_value, type(watched_by_friends_value), len(watched_by_friends_value))
+                for watched_by_friend_value in watched_by_friends_value:
+                    # print(watched_by_friend_value)
+                    if watched_by_user == watched_by_friend_value:
+                        print(watched_by_user, watched_by_friend_value)
+                    else:
+                        unique_movies.append(watched_by_user)
