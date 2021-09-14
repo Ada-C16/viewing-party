@@ -47,3 +47,17 @@ def get_most_watched_genre(janes_data):
                 genres_dict[movie["genre"]] += 1
         most_watched_genre = max(genres_dict, key=genres_dict.get)
         return most_watched_genre
+
+def get_unique_watched(amandas_data):
+    friends_watched = []
+    for friends in amandas_data["friends"]:
+        for movie in friends["watched"]:
+            if movie not in friends_watched:
+                friends_watched.append(movie)
+    
+    unique_watched = []
+    for movie in amandas_data["watched"]:
+        if movie not in friends_watched:
+            unique_watched.append(movie)
+
+    return unique_watched
