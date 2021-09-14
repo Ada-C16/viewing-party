@@ -1,3 +1,5 @@
+# Wave 01
+
 def create_movie(title, genre, rating):
     if title and genre and rating:
         new_movie = {
@@ -26,6 +28,8 @@ def watch_movie(user_data, title):
             new_watchlist.append(movie)
     user_data["watchlist"] = new_watchlist
     return user_data
+
+# Wave 02
 
 def get_watched_avg_rating(user_data):
     ratings = make_avg_rating_list(user_data)
@@ -56,19 +60,21 @@ def make_watched_genre_list(user_data):
         watched_genres.append(movie["genre"])
     return watched_genres
 
-def get_friends_unique_watched(user_data):
-    user_watched_set = make_user_watched_set(user_data)
-    friend_watched_set = make_friends_watch_set(user_data)
-    friends_unique_watched = friend_watched_set - user_watched_set
-    friends_unique_watched_list = make_list_of_dict_from_set(friends_unique_watched)
-    return friends_unique_watched_list
+# Wave 03
 
 def get_unique_watched(user_data):
     user_watched_set = make_user_watched_set(user_data)
     friend_watched_set = make_friends_watch_set(user_data)
-    unique_watched = user_watched_set - friend_watched_set
-    unique_watched_list = make_list_of_dict_from_set(unique_watched)
+    unique_watched_set = user_watched_set - friend_watched_set
+    unique_watched_list = make_list_of_dict_from_set(unique_watched_set)
     return unique_watched_list
+
+def get_friends_unique_watched(user_data):
+    user_watched_set = make_user_watched_set(user_data)
+    friend_watched_set = make_friends_watch_set(user_data)
+    friends_unique_watched_set = friend_watched_set - user_watched_set
+    friends_unique_watched_list = make_list_of_dict_from_set(friends_unique_watched_set)
+    return friends_unique_watched_list
 
 def make_user_watched_set(user_data):
     user_watched_set = set()
@@ -88,3 +94,31 @@ def make_list_of_dict_from_set(unique_set):
     for movie in unique_set:
         unique_list.append({"title": movie})
     return unique_list
+
+# Wave 04
+
+def get_available_recs(user_data):
+    recommendations = []
+    friends_watched_set = make_friends_watch_set(user_data)
+    watched_set = make_user_watched_set(user_data)
+    friends_unique_watched = friends_watched_set - watched_set
+    friends_unique_watched_host = get_friends_unique_watched_host(user_data, friends_unique_watched)
+    for movie in friends_unique_watched:
+        host = friends_unique_watched_host[movie]   
+        if check_host_in_subs(user_data, host):
+            recommendations.append({"title": movie, "host": host})
+    return recommendations
+
+def get_friends_unique_watched_host(user_data, friends_unique_watched):
+    friends_watched_with_host = {}
+    for friend in user_data["friends"]:
+        for movie in friend["watched"]:
+            friends_watched_with_host[movie["title"]] = movie["host"]
+    return friends_watched_with_host
+
+def check_host_in_subs(user_data, host):
+    if host in user_data["subscriptions"]:
+        return True
+    else:
+        return False
+
