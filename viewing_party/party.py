@@ -1,27 +1,5 @@
 # The goal of this project is to write code in `party.py` so that as many of the tests pass as possible.
 
-# To complete this project, use the above workflow and follow these steps:
-
-# 1. Start with making the tests in `test_wave_01.py` pass.
-# 1. Review your code in `party.py` and see if there are ways you can make the code more readable.
-# 1. Then, work on making the tests in `test_wave_02.py` pass.
-# 1. Review your code in `party.py`
-# 1. Repeat on all test files until submission time.
-
-# At submission time, no matter where you are, submit the project via Learn.
-
-# 1. The first four tests are about a `create_movie()` function.
-
-# In `party.py`, there should be a function named `create_movie`. This function should...
-
-# - take three parameters: `title`, `genre`, `rating`
-# - If those three attributes are truthy, then return a dictionary. This dictionary should...
-#   - Have three key-value pairs, with specific keys
-#   - The three keys should be `"title"`, `"genre"`, and `"rating"`
-#   - The values of these key-value pairs should be appropriate values
-# - If `title` is falsy, `genre` is falsy, or `rating` is falsy, this function should return `None`
-
-
 def create_movie(title, genre, rating):
     """
     takes three parameters -title, genre and ratings. title and parameters
@@ -108,30 +86,22 @@ def watch_movie(movie_catalogue, movie):
     in watched list, movies to watched, if movie not, does nothing 
     returns updated library.
     """
-
-    #movie_library = movie_catalogue
-
-    # for the_movies in range(len(movie_library["watchlist"])):
-    #     if movie_library["watchlist"][the_movies]["title"] == movie:
-    #         a = movie_library["watchlist"].pop(the_movies)
-    #         movie_library["watched"].append(a)
-
-    # return movie_library
-    # write the code without altering the list you are currently iterating through
-    #new_dict = {}
     new_movie_catalogue = {}
 
     new_movie_catalogue["watchlist"] = movie_catalogue["watchlist"]
     new_movie_catalogue["watched"] = movie_catalogue["watched"]
 
 
-    # for the_movies in range(len(movie_catalogue["watchlist"])):
-    #     movie_in_the_library = movie_catalogue["watchlist"][the_movies]["title"]
+    # for the_movies in movie_catalogue:
+    #     new_movie_catalogue["watchlist"] = the_movies
+    #     new_movie_catalogue["watched"] = movie_catalogue["watched"]
+    #     movie_in_the_library = new_movie_catalogue["watchlist"][the_movies]["title"]
     #     if movie_in_the_library == movie:
-    #         watched_movie = movie_catalogue["watchlist"].pop(the_movies)
-    #         movie_catalogue["watched"].append(watched_movie)
+    #         watched_movie = new_movie_catalogue["watchlist"].pop(the_movies)
+    #         new_movie_catalogue["watched"].append(watched_movie)
 
-    # return movie_catalogue
+    # return new_movie_catalogue
+  
 
     for the_movies in range(len(new_movie_catalogue["watchlist"])):
         movie_in_the_library = new_movie_catalogue["watchlist"][the_movies]["title"]
@@ -141,33 +111,9 @@ def watch_movie(movie_catalogue, movie):
 
     return new_movie_catalogue
 
-    #new_dict = {}
-
-    # for the_movies in range(len(movie_library["watchlist"])):
-    #     movie_in_the_library = movie_library["watchlist"][the_movies]["title"]
-    #     if movie_in_the_library == movie:
-
 
 # ********* wave 2 begins ***********
-# janes_data = {
-#     "watched": [
-#         {
-#             "title": "Title A",
-#             "genre": "Fantasy",
-#             "rating": 4.8
-#         },
-#         {
-#             "title": "Title B",
-#             "genre": "Action",
-#             "rating": 2.0
-#         },
-#         {
-#             "title": "Title C",
-#             "genre": "Intrigue",
-#             "rating": 3.9
-#         }
-#     ]
-# }
+
 def get_watched_avg_rating(user_data):
     """
     takes a dictionary of watched, values are a list of movies
@@ -210,4 +156,15 @@ def get_most_watched_genre(watchedlist):
 
 # ********* wave 3 begins ***********
 
+def get_unique_watched(data):
+    friends_watched_list = []
+    for i in range(len(data["friends"])):
+        friends_watched_list += data["friends"][i]["watched"]
+
+    unique_list = []
+    for i in data["watched"]:
+        if i not in unique_list:
+            unique_list.append(i)
+
+    return unique_list
 
