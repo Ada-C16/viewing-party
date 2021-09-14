@@ -8,24 +8,29 @@ def create_movie(movie_title, genre, rating):
         return new_movie
     else: 
         return None
-# Test 2 ksjhfdkdjs
+# Creates Movie Function
 
 def add_to_watched(user_data, movie):
     user_data["watched"].append(movie)
     return user_data
+#Creates a watched list
 
 def add_to_watchlist(user_data, movie):
     user_data["watchlist"].append(movie)
     return user_data
+#Creates a watchlist
 
-def watch_movie(user_data, title):
-    for movie in user_data["watchlist"]:
-        if movie["title"] == title:
-            user_watched = movie
-            break
-    else: 
-        return user_data  
-    user_data["watched"].append(user_watched)
-    user_data["watchlist"].remove(user_watched)
-   
+def watch_movie(user_data, movie_to_watch):
+    for movie_data in user_data["watchlist"]:
+        if movie_data["title"] == movie_to_watch:
+            user_data["watched"].append(movie_data)
+            user_data["watchlist"].remove(movie_data)
     return user_data
+
+def get_watched_avg_rating(user_data):
+    average_data = []
+    for movie_data in user_data["watched"]:
+        average_data.append(movie_data["rating"])
+    
+    return sum(average_data)/len(average_data)
+
