@@ -35,8 +35,15 @@ def get_watched_avg_rating(janes_data):
         avg_watched_rating = sum_watched_ratings/len(watched_ratings)
         return avg_watched_rating
 
-
-# print(create_movie("Title A", "Horror", 4)) # test 1
-# print(create_movie(None, "Horror", 3.5)) # test 2
-# print(create_movie("Title A", None, 4)) # test 3
-# print(create_movie("Title A", "Horror", None)) # test 4
+def get_most_watched_genre(janes_data):
+    genres_dict = {}
+    if not janes_data["watched"]:
+        return None
+    else: 
+        for movie in janes_data["watched"]:
+            if movie["genre"] not in genres_dict:
+                genres_dict[movie["genre"]] = 1
+            elif movie["genre"] in genres_dict:
+                genres_dict[movie["genre"]] += 1
+        most_watched_genre = max(genres_dict, key=genres_dict.get)
+        return most_watched_genre
