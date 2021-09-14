@@ -95,57 +95,55 @@ def get_friends_unique_watched(user_data):
     for i in range(len(user_data["watched"])):
         for j in range(len(all_friends_watched)):
             if user_data["watched"][i]["title"] == all_friends_watched[j]["title"]:
-                in_common_watched.append(user_data["watched"][i])
+                in_common_watched.append(all_friends_watched[j])
     # removes the movie dicts friends and user have in common  
     friend_unique_watched = all_friends_watched
     for movie in in_common_watched:
         friend_unique_watched.remove(movie)
     return friend_unique_watched
 
+# wave04
 
-    
-    
-# get_unique_watched({
-#         "watched": [
-#             {
-#                 "title": "Title A"
-#             },
-#             {
-#                 "title": "Title B"
-#             },
-#             {
-#                 "title": "Title C"
-#             },
-#             {
-#                 "title": "Title D"
-#             },
-#             {
-#                 "title": "Title E"
-#             },
-#         ],
-#         "friends": [
-#             {
-#                 "watched": [
-#                     {
-#                         "title": "Title A"
-#                     },
-#                     {
-#                         "title": "Title C"
-#                     }
-#                 ]
-#             },
-#             {
-#                 "watched": [
-#                     {
-#                         "title": "Title A"
-#                     },
-#                     {
-#                         "title": "Title D"
-#                     },
-#                     {
-#                         "title": "Title F"
-#                     }
-#                 ]
-#             }
-#         ]
-#     })
+def get_available_recs(user_data):
+    available_recs = []
+    if get_friends_unique_watched(user_data):
+        all_recs = get_friends_unique_watched(user_data)
+    for movie in all_recs:
+        if movie["host"] in user_data["subscriptions"]:
+            available_recs.append(movie)
+    return available_recs
+
+get_available_recs({
+        "subscriptions": ["Service A", "Service B"],
+        "watched": [{ "title": "Title A" }],
+        "friends": [
+            {
+                "watched": [
+                    {
+                        "title": "Title A",
+                        "host": "Service A"
+                    },
+                    {
+                        "title": "Title C",
+                        "host": "Service C"
+                    }
+                ]
+            },
+            {
+                "watched": [
+                    {
+                        "title": "Title A",
+                        "host": "Service A"
+                    },
+                    {
+                        "title": "Title B",
+                        "host": "Service B"
+                    },
+                    {
+                        "title": "Title D",
+                        "host": "Service D"
+                    }
+                ]
+            }
+        ]
+    })
