@@ -207,13 +207,13 @@ def get_rec_from_favorites(user_data):
         none of the friends have watched it
     '''
     # unique watched from favorites
-    user_favs = []
-    for movie in user_data["favorites"]:
-        user_favs.append(movie["title"])
+    user_favs = [movie["title"] for movie in user_data["favorites"]]
     user_favs = set(user_favs)
     friends_movie_set = friends_watched_movies(user_data)
     fav_recs = user_favs - friends_movie_set
-    diff_dict = []
+    diff_dict = [{"title":movie} for movie in fav_recs]
+    '''
     for movie in fav_recs:
         diff_dict.append({"title":movie})
+    '''
     return diff_dict
