@@ -64,3 +64,16 @@ def get_most_watched_genre(user_data):
             most_watched = count
             most_watched_genre = genre
     return most_watched_genre
+
+# Wave 3
+def get_unique_watched(user_data):
+    unique_movies = []
+    watched = user_data["watched"]
+    friends = user_data["friends"]
+    for user_movie in watched:
+        for friend_movie in friends:
+            if user_movie["title"] == friend_movie["title"]:
+                continue
+            else:
+                unique_movies.append(user_movie["title"])
+    return unique_movies
