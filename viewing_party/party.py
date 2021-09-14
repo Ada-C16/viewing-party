@@ -134,6 +134,7 @@ def get_friends_unique_watched(user_data):
     return list_unique_friends_watched
 
 
+
 # Wave 4
 def get_available_recs(user_data):
     list_recommended_movies = []
@@ -184,3 +185,20 @@ def helper_func_add_movie_title_to_set(set_to_be_added, dict_value_movie_is_stor
 #         for unique_movie in watched_list:                
 #                 if unique_movie[genre] == comparison_obj:                               
 #                     recommended_movies.append(unique_movie)   
+
+# Audrey's version on Wave 3 for learning list comprehension 
+# def get_friends_unique_watched(user_data):
+#     if not user_data:
+#         return None 
+
+#     watched = user_data["watched"]
+#     friends = user_data["friends"]
+
+#     friends_movies = [movie for friend in friends for movie in friend["watched"]]
+    
+#     unique_friends_movies = {
+#         movies['title']:movies for movies in friends_movies
+#     }.values()
+    
+#     unique_movies = [ movie for movie in unique_friends_movies if movie not in watched]
+#     return unique_movies
