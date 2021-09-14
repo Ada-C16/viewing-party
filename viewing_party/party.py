@@ -16,9 +16,7 @@ def valid_rating(rating):
     rating_stat = isinstance(rating, (int, float))
     if rating_stat:
         # is it in range
-        lower = 0
-        upper = 5
-        if lower <= rating <= upper:
+        if 0 <= rating <= 5:
             return True
         else:
             return False
