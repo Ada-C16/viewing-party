@@ -61,7 +61,6 @@ def watch_movie(user_data, movie_title):
 
         # Remove watched movie from 'watchlist' by filtering
             # for titles that do not match 'movie_title'
-        # QUESTION: Is there a better way to do this?
         movies_unwatched = list(filter(lambda movie: movie['title'] != movie_title, 
             user_data['watchlist']))
 
@@ -272,13 +271,3 @@ def get_rec_from_favorites(user_data):
 
     # Return unique friends. 
     return recommendations
-
-
-
-
-
-
-
-
-
-    # TODO get_unique(key='watched', dataset=user_data)
