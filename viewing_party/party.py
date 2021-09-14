@@ -161,24 +161,29 @@ def get_available_recs(user_data):
         subscription service
     '''
     # user hasn't watched but 1+ friend has
-    rec_list_unfiltered = [rec["title"] for rec in get_friends_unique_watched(user_data)]
+    #rec_list_unfiltered = [rec["title"] for rec in get_friends_unique_watched(user_data)]
     # list of subscriptions
     subs = user_data["subscriptions"]
     # pair rec with service
     movie_with_sub = []
-    for movie in rec_list_unfiltered:
+    for movie in get_friends_unique_watched(user_data):
         for friend in user_data["friends"]:
             for watched in friend["watched"]:
-                if movie == watched["title"]:
-                    movie_with_sub.append([movie,watched["host"]])
+                entry = {"title": movie["title"],"host":watched["host"]}
+                if movie["title"] == watched["title"] and \
+                    watched["host"] in subs and \
+                    entry not in movie_with_sub:
+                    movie_with_sub.append(entry)
     # get movies that match users subs
+    '''
     recs = []
     for movie in movie_with_sub:
         if movie[1] in subs:
             entry = {"title": movie[0], "host":movie[1]}
             if entry not in recs:
                 recs.append(entry)
-    return recs
+    '''
+    return movie_with_sub
 
 def get_new_rec_by_genre(user_data):
     ''' 
