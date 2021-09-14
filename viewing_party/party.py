@@ -174,15 +174,6 @@ def get_available_recs(user_data):
                     watched["host"] in subs and \
                     entry not in movie_with_sub:
                     movie_with_sub.append(entry)
-    # get movies that match users subs
-    '''
-    recs = []
-    for movie in movie_with_sub:
-        if movie[1] in subs:
-            entry = {"title": movie[0], "host":movie[1]}
-            if entry not in recs:
-                recs.append(entry)
-    '''
     return movie_with_sub
 
 def get_new_rec_by_genre(user_data):
@@ -191,12 +182,10 @@ def get_new_rec_by_genre(user_data):
     recommended movies are not in users watched,
         1+ friend has seen it, it is in the users top genre
     '''
-    # user hasnt watched & 1+ friends has
-    unwatched = get_friends_unique_watched(user_data)
     # in users max genre
     genre = get_most_watched_genre(user_data)
     movie_in_genre = []
-    for movie in unwatched:
+    for movie in get_friends_unique_watched(user_data):
         for friend in user_data["friends"]:
             for watched in friend["watched"]:
                 if movie["title"] == watched["title"] and genre == watched["genre"]:
