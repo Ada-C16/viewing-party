@@ -17,15 +17,12 @@ def add_to_watchlist(user_data, movie):
     user_data["watchlist"].append(movie)
     return user_data
 
-def watch_movie(janes_data, movie_title):
-    watched_movie = janes_data["watchlist"][0]
-    for movie in watched_movie.values():
-        if movie == movie_title:
-            janes_data["watchlist"].remove(watched_movie)
-            janes_data["watched"].append(watched_movie)
+def watch_movie(janes_data, watched_movie):
+    for movie in janes_data["watchlist"]:
+        if movie == watched_movie or watched_movie == movie["title"]:
+            janes_data["watched"].append(movie)
+            janes_data["watchlist"].remove(movie)
     return janes_data
-
-
 
 
 
