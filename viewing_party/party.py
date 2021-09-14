@@ -17,12 +17,19 @@ def add_to_watchlist(user_data, movie):
     return user_data
 
 def watch_movie(user_data, title):
+    movies_to_remove = []
     for item in user_data["watchlist"]:
         for key, value in item.items():
             if key == "title" and value == title:
                 movie = user_data["watchlist"][user_data["watchlist"].index(item)]
-    user_data["watched"].append(movie)
-    user_data["watchlist"].remove(movie)
+                movies_to_remove.append(movie)
+    if len(movies_to_remove) == 0:
+        return user_data
+    else:
+        for movie in movies_to_remove:
+            user_data["watchlist"].remove(movie)
+            user_data["watched"].append(movie)
+            
     return user_data
                 
 def get_watched_avg_rating(user_data):
@@ -55,68 +62,63 @@ def get_most_watched_genre(user_data):
             most_popular_genre = key
     return most_popular_genre
 
+
+amandas_data = {
+        "watched": [
+            {
+                "title": "Title A"
+            },
+            {
+                "title": "Title B"
+            },
+            {
+                "title": "Title C"
+            },
+            {
+                "title": "Title D"
+            },
+            {
+                "title": "Title E"
+            },
+        ],
+        "friends": [
+            {
+                "watched": [
+                    {
+                        "title": "Title A"
+                    },
+                    {
+                        "title": "Title C"
+                    }
+                ]
+            },
+            {
+                "watched": [
+                    {
+                        "title": "Title A"
+                    },
+                    {
+                        "title": "Title D"
+                    },
+                    {
+                        "title": "Title F"
+                    }
+                ]
+            }
+        ]
+    }
+
+
 def get_unique_watched(user_data):
-    unique_movies_dict = {}
+    friends_watched = []
     unique_movies = []
+    for friend in user_data["friends"]:
+        for item in friend["watched"]:
+            friends_watched.append(item)
     for movie in user_data["watched"]:
-        for key, value in movie.items():
-            if value not in unique_movies_dict:
-        # if movie not in unique_movies_dict:
-                unique_movies_dict[movie] = 1
-            else:
-                unique_movies_dict[movie] += 1
-    for movie in unique_movies_dict:
-        if unique_movies_dict[movie] == 1:
-            unique_movies.append(unique_movies_dict[movie])
+        if movie not in friends_watched:
+            unique_movies.append(movie)
     return unique_movies
 
-# def map_character_frequency(words):
-#     char_map = {}
-#     for word in words:
-#         for character in word:
-#             if character not in char_map:
-#                 char_map[character] = 1
-#             else:
-#                 char_map[character] += 1
-#     return char_map
 
-
-
-
-
-    # friend_titles = []
-    # print(friend_titles)
-    # unique_movies = []
-    # for friend in user_data["friends"]:
-    #     for key, value in friend.items():
-    #         friend_titles.append(value)
-    # for movie in user_data["watched"]:
-    #     for key, value in movie.items():
-    #         if value not in friend_titles:
-    #             unique_movies.append(movie)
-    # return unique_movies
-    
-
-
-# get_unique_watched(user_data)
-    
-    # user_titles_watched = []
-    # # user_watched = set()
-    # for item in user_data["watched"]:
-    #     user_titles_watched.append(item)
-    # user_watched = set(user_titles_watched)
-    # friends_watched = set()
-    # for item in user_data["friends"]:
-    #     friends_movies = user_data["friends"][user_data["friends"].index(item)]
-    #     friends_watched.update(friends_movies)
-    # unique_movies = user_watched.difference(friends_watched)
-    # return unique_movies
-
-
-    # friends_watched = set()
-    # for item in user_data["friends"]:
-    #     for key, value in item.items():
-    #         friend_movies = user_data["friends"][user_data["friends"]["watched"].index(item)]["title"]
-    #         friends_watched.update(friend_movies)
-    # unique_movies = user_watched.difference(friends_watched)
-    # return unique_movies
+get_unique_watched(amandas_data)
