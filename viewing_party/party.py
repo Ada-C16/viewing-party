@@ -11,23 +11,26 @@ def create_movie(movie_title, genre, rating):
         return new_movie
 
 
-def add_to_watched(user_data, movie):
-    if movie not in user_data['watched']:
-        user_data["watched"] += [movie]
+def search_value(user_data,movie,search_for):
+    if movie not in user_data[search_for]:
+        user_data[search_for] += [movie]
     return user_data
+
+
+def add_to_watched(user_data, movie):
+    search_for = 'watched'
+    return search_value(user_data, movie, search_for)
 
 
 def add_to_watchlist(user_data, movie):
-    if movie not in user_data['watchlist']:
-        user_data["watchlist"] += [movie]
-    return user_data
-
+    search_for = 'watchlist'
+    return search_value(user_data, movie, search_for)
 
 
 def watch_movie(user_data, title):
-    lenght = len(user_data["watchlist"])
+    length = len(user_data["watchlist"])
     watchlist = [elem for elem in user_data["watchlist"]]
-    for item in range(lenght):
+    for item in range(length):
         if title in watchlist[item]['title']:
             del user_data['watchlist'][item]
             user_data["watched"] +=[watchlist[item]]
@@ -35,15 +38,16 @@ def watch_movie(user_data, title):
 
 
 def get_watched_avg_rating(user_data):
-    lenght = len(user_data["watched"])
+    length = len(user_data["watched"])
     lista = [value for value in user_data['watched']]
     list_ratings = []
     average = 0
-    for item in range(lenght):
+    for item in range(length):
         list_ratings += [lista[item]['rating']]
     if len(list_ratings) !=0:
         average =  sum(list_ratings)/ len(list_ratings)
     return average
+
 
 def most_frequent(list_value):
     count = Counter(list_value)
@@ -54,10 +58,10 @@ def get_most_watched_genre(user_data):
     if not user_data["watched"]:
         return None 
     else:
-        lenght = len(user_data["watched"])
+        length = len(user_data["watched"])
         lista_watched= [value for value in user_data['watched']]
         list_genre = []
-        for item in range(lenght):
+        for item in range(length):
             list_genre += [lista_watched[item]['genre']]   
         popular_genre = most_frequent(list_genre)
         return popular_genre
@@ -91,25 +95,22 @@ def get_friends_unique_watched(user_data):
 
 def get_available_recs(user_data):
     friends_list = []
-    user_list = [item['title'] for item in user_data['watched']] #list of dictionaries
-    host_list = user_data['subscriptions'] #list
     recommendations = []
+    user_list = [item['title'] for item in user_data['watched']]
+    host_list = user_data['subscriptions']
     for item in user_data["friends"]:
         for  value  in item['watched']:
             friends_list.append(value)  
     for i in friends_list:  
-        if i['title'] not in user_list and i['host'] in host_list:  
-            if  i not in recommendations:
-                recommendations.append(i)
-        elif user_list == [] and i['host'] in host_list:
-            if i not in recommendations:
-                recommendations.append(i)
+        if (i['title'] not in user_list and i['host'] in host_list) and (i not in recommendations):  
+            recommendations.append(i)
+        elif (not user_list and i['host'] in host_list) and (i not in recommendations): 
+            recommendations.append(i)
     return recommendations
 
 
-
 def get_new_rec_by_genre(user_data):
-    friends_list = [] #list od dic
+    friends_list = []
     genre_recom = []
     user_list_genre= [item['genre'] for item in user_data['watched']] #list of dictionaries
     user_list_title = [item['title'] for item in user_data['watched']] #list of dictionaries

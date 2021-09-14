@@ -12,26 +12,30 @@ def create_movie(movie_title, genre, rating):
         return new_movie
 
 
+def search_value(user_data,movie,search_for):
+    if movie not in user_data[search_for]:
+        user_data[search_for] += [movie]
+    return user_data
+
 def add_to_watched(user_data, movie):
     #check if movie in the user_data
     #if not add the data to the list
-    if movie not in user_data['watched']:
-        user_data["watched"] += [movie]
-    return user_data
+    search_for = 'watched'
+    return search_value(user_data, movie, search_for)
+    
 
 
 def add_to_watchlist(user_data, movie):
     # check if movie in the user_data
     #if not add the data to the list
-    if movie not in user_data['watchlist']:
-        user_data["watchlist"] += [movie]
-    return user_data
+    search_for = 'watchlist'
+    return search_value(user_data, movie, search_for)
 
 
 
 def watch_movie(user_data, title):
     # if title in watchlist 
-    # Movie the movie object to watched
+    # Move the movie object to watched
     lenght = len(user_data["watchlist"])
     watchlist = [elem for elem in user_data["watchlist"]]
     for item in range(lenght):
@@ -73,6 +77,10 @@ def get_most_watched_genre(user_data):
         return popular_genre
 
 
+
+def get_unique_value(user_data):
+    pass
+
 def get_unique_watched(user_data):
     #ITERATE OVER THE DICTIONARY AND:
     #CREATE A LIST WITH AMANDA'S MOVIES
@@ -84,7 +92,7 @@ def get_unique_watched(user_data):
     friends_watched_list =[]
     for item  in user_data['watched']:
         user_watched_list += [item['title']]
-    for item in user_data["friends"]:
+    for item in user_data['friends']:
         for  value  in item['watched']:
             friends_watched_list += [value['title']]
     unique_in_user = set(user_watched_list).difference(set(friends_watched_list))
@@ -111,18 +119,16 @@ def get_available_recs(user_data):
     #   if 'host' not in user subscription do not recommend movie
     #   return a dictionary with recommended movie and host(provider)eg:. {"title": "Title A", "host": "Service A"}
     friends_list = []
+    recommendations = []
     user_list = [item['title'] for item in user_data['watched']] #list of dictionaries
     host_list = user_data['subscriptions'] #list
-    recommendations = []
     for item in user_data["friends"]:
         for  value  in item['watched']:
             friends_list.append(value)  
     for i in friends_list:  
-        if i['title'] not in user_list and i['host'] in host_list:  
-            if  i not in recommendations:
+        if (i['title'] not in user_list and i['host'] in host_list) and (i not in recommendations):  
                 recommendations.append(i)
-        elif user_list == [] and i['host'] in host_list:
-            if i not in recommendations:
+        elif (user_list == [] and i['host'] in host_list) and (i not in recommendations): 
                 recommendations.append(i)
     return recommendations
 
