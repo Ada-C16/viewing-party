@@ -1,13 +1,15 @@
 
-
+######################################################
+                # Wave 1 #
+######################################################
 
 #makes movie dictionary and returns it
 def create_movie(movie_title, genre, rating):
     #initialize variables
     movie_dict = {}
 
-    #check if movie title, genre and rating are correct
-    #var types and returns movie_dict or None
+    #check if movie title, genre and rating are string variables
+    #returns movie_dict or None
     if type(movie_title) == str and type(genre) == str and type(rating) == float:
         movie_dict['title'] = movie_title
         movie_dict['genre'] = genre
@@ -18,44 +20,42 @@ def create_movie(movie_title, genre, rating):
 
 #add movie already seen to user_data dictionary and returns user_data
 def add_to_watched(user_data, movie):
-    #add user data to watched dictionary
     user_data["watched"].append(movie)
-    
     return user_data
 
 #add movies to user_data watchlist and returns user_data
 def add_to_watchlist(user_data, movie):
-    #add user data to watched dictionary
     user_data["watchlist"].append(movie)
-    
     return user_data
 
 #modifies watched and watchlist lists if movie is watched
 #and returns user_data list
 def watch_movie(user_data, title):
-    #iterating through movies in user watch list
+    #loop through each movie in watchlist
+    #if movie title is same as given title, add movie to watched
+    #remove movie from watchlist
     for movie in user_data['watchlist']:
-        #if movie title is the same as given title
         if movie['title'] == title:
-            #add movie to watched
             user_data['watched'].append(movie)
-            #remove movie from watchlist
             user_data['watchlist'].remove(movie)
     return user_data
+
+######################################################
+                # Wave 2 #
+######################################################
 
 #calculates average for all movie ratings and returns average rating
 def get_watched_avg_rating(user_data):
     #initliaze list
     rating_list = []
-    #check if watched list has at least one movie..
+    
+    #check if watched list has at least one movie
+    #loop through each movie in watched list and get rating
+    #calculates avg rating or return 0 if no movies are in list
     if len(user_data['watched']) >= 1:
-        #for each movie in watched list...
         for movies in user_data['watched']:
-            #get rating value and store in list
             rating_list.append(movies['rating'])
-        #caluculate average
         avg_rating = sum(rating_list)/len(rating_list)
-    #if no movies are in list, return 0 as average rating
     else:
         avg_rating = 0
     
@@ -77,18 +77,20 @@ def make_genre_frequency_dict(user_data):
     #intialize variables
     genre_frequency = {}
 
-    #for each movie in watched list...
+    #loop through movies in watched list and checks if movie genre is key
+    #add 1 to value in dict if genre is key
+    #add genre to freq_dict if not in freq_dict
     for movies in user_data['watched']:
-        #check if movie genre is a key in genre_frequency dict
         if movies['genre'] in genre_frequency.keys():
-            #add one to value if key is in genre_frequency
             genre_frequency[movies['genre']] += 1
-        #add genre if not in frequency dict
         else:
             genre_frequency[movies['genre']] = 1
     
     return genre_frequency
 
+######################################################
+                # Wave 3 #
+######################################################
 
 #returns list of dictionary that user has seen that none of their friends have seen
 def get_unique_watched(user_data):
@@ -100,10 +102,10 @@ def get_unique_watched(user_data):
     friend_movie_set = make_friend_movie_set(user_data)
     #convert difference set to tuple to iterate and make new dictionary
     movie_titles_unqiue = tuple(my_movie_set - friend_movie_set)
-    
-    #iterating thru tuple list..
+
+    #loop through each title in movies_title_unquie tuple and add title
+    #dictionary to unser_unique_movie_watched list
     for title in movie_titles_unqiue:
-        #add title dictionary to unique_movie_watched list
         user_unqiue_movie_watched.append({'title': title})
 
     return user_unqiue_movie_watched
@@ -112,6 +114,7 @@ def get_unique_watched(user_data):
 def make_my_movie_set(user_data):
     #intialize variable
     user_movie_set = set()
+
     #for each movie in watched list, add only movie title to user_set set
     for my_movies in user_data['watched']:
         user_movie_set.add(my_movies['title'])
@@ -120,9 +123,8 @@ def make_my_movie_set(user_data):
 
 #takes nested friend dictionary list and returns set of movie titles from friend list
 def make_friend_movie_set(user_data):
-    #intialize friend_set
+    #intialize variables
     friend_movie_set = set()
-    #set friend_list to list of friend's movie dictionary list
     friend_list = user_data['friends']
 
     #iterating thru each friend's movie dictionary list, set friend_movie_list to hold the dictionary of of movies watched from friends
@@ -151,6 +153,9 @@ def get_friends_unique_watched(user_data):
 
     return friend_unqiue_movie_watched
 
+######################################################
+                # Wave 4 #
+######################################################
 
 #takes user_data and returns a list of reccomended movies referencing friend's movie watched list and user subscription
 def get_available_recs(user_data):
@@ -158,7 +163,7 @@ def get_available_recs(user_data):
     rec_list = []
     movie_title_user = []
 
-    #add 
+    #add movie title to movie_title_user list
     for movie_user in user_data['watched']:
         movie_title_user.append(movie_user['title'])
 
@@ -177,3 +182,60 @@ def get_available_recs(user_data):
     return rec_list
 
 
+######################################################
+                # Wave 5 #
+######################################################
+
+#make recommendation list of movies dictionaries by genre and
+#friend's watched list
+def get_new_rec_by_genre(user_data):
+    #intialize variables
+    rec_list = []
+
+    #call get_most_watched_grenre function and return 
+    user_most_watched_genre = get_most_watched_genre(user_data)
+
+    #call get_friends_unique_watched and returns dictionary of movie titles that
+    #friends have seen but user has not seen
+    movies_friend_watched = get_friends_unique_watched(user_data)
+    
+    #add genre to movies_friend_watched list and..
+    for movies in movies_friend_watched:
+        for friend in user_data['friends']:
+            friend_movies_watched_list = friend['watched']
+    
+            for movie_item in friend_movies_watched_list:
+                if movies['title'] == movie_item['title']:
+                    movies['genre'] = movie_item['genre']
+                
+                #checks if genre is user's most watched genre and adds to rec_list
+                if user_most_watched_genre == movie_item['genre'] and movie_item not in rec_list:
+                    rec_list.append(movie_item)
+
+    return rec_list
+
+#helper function turns tuple into set with a dict
+def make_tuple_return_set(given_dict):
+    movie_tuple = tuple()
+    for movie_item in given_dict:
+        movie_tuple += tuple(movie_item.items())
+    return set(movie_tuple)
+
+#make reccomendation list from favorites list and friend's watched list
+def get_rec_from_favorites(user_data):
+    #initialize variables
+    rec_list = []
+
+    fav_movies_set = make_tuple_return_set(user_data['favorites'])
+    
+    movies_friend_not_watched = get_unique_watched(user_data)
+    movies_friend_not_watched_set = make_tuple_return_set(movies_friend_not_watched)
+
+    #get movies in both fav_movies_set and movies_friend_not_watched_set
+    movies_rec_tuple = tuple(fav_movies_set & movies_friend_not_watched_set)
+    
+    #check if any movies were returned and append to rec list
+    if len(movies_rec_tuple) > 0:
+        rec_list.append(dict(movies_rec_tuple))
+
+    return rec_list
