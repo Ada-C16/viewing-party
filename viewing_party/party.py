@@ -6,6 +6,7 @@ def create_movie(movie_title, genre, rating):
         "genre": genre,
         "rating": rating
         }
+    print(new_movie)
     return new_movie
 
 def add_to_watched(user_data, movie):
@@ -62,7 +63,6 @@ def get_most_watched_genre(user_data):
             most_popular_genre = key
     return most_popular_genre
 
-
 amandas_data = {
         "watched": [
             {
@@ -118,7 +118,74 @@ def get_unique_watched(user_data):
     for movie in user_data["watched"]:
         if movie not in friends_watched:
             unique_movies.append(movie)
+    # print(unique_movies)
     return unique_movies
 
+# get_unique_watched(amandas_data)
 
-get_unique_watched(amandas_data)
+def get_friends_unique_watched(user_data):
+    friends_watched = []
+    friends_unique_movies = []
+    for friend in user_data["friends"]:
+        for item in friend["watched"]:
+            friends_watched.append(item)
+    for movie in friends_watched:
+        if movie not in user_data["watched"] and movie not in friends_unique_movies:
+            friends_unique_movies.append(movie)
+    return friends_unique_movies
+
+# get_friends_unique_watched(amandas_data)
+
+service_data = {
+        "subscriptions": ["Service A", "Service B"],
+        "watched": [],
+        "friends": [
+            {
+                "watched": [
+                    {
+                        "title": "Title A",
+                        "host": "Service A"
+                    },
+                    {
+                        "title": "Title C",
+                        "host": "Service C"
+                    }
+                ]
+            },
+            {
+                "watched": [
+                    {
+                        "title": "Title A",
+                        "host": "Service A"
+                    },
+                    {
+                        "title": "Title B",
+                        "host": "Service B"
+                    },
+                    {
+                        "title": "Title D",
+                        "host": "Service D"
+                    }
+                ]
+            }
+        ]
+    }
+
+
+def get_available_recs(user_data):
+    recommendations = []
+    friends_watched = []
+    for friend in user_data["friends"]:
+        for item in friend["watched"]:
+            friends_watched.append(item)
+    # print("friends watched", friends_watched)
+    user_subscriptions = user_data["subscriptions"]
+    # print("sub", user_subscriptions)
+    for movie in friends_watched:
+        # print("movie", movie["host"])
+        if movie["host"] in user_subscriptions and movie["title"] not in user_data["watched"] and movie["title"] not in recommendations:
+            recommendations.append(item)
+            # print("recommendations", recommendations)
+    return recommendations
+
+get_available_recs(service_data)
