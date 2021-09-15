@@ -139,32 +139,34 @@ def get_unique_watched(user_data):
 def get_friends_unique_watched(user_data):
     # create an empty list to hold the movie dictionaries
     unique_friend_list = []
-    user_movie_set = set()
-    friend_movie_set = set()
+    friend_watched_list = []
 
-    # access movie title names, so that you can compare them
+    # get list of user's watched movies
     user_watched_list = user_data["watched"]
-    friends_watched = user_data["friends"]
-
-    # loop through user's movies and add them to a set
-    for movie_dict in user_watched_list:
-        users_movie_titles = movie_dict["title"]
-        user_movie_set.add(users_movie_titles)
-
-    # loop through friends' movies and add to set
-    for friend_dict in friends_watched:
+    # get friends' watched dictionaries
+    friends_watched_dict = user_data["friends"]
+    
+    # iterate through friend dictionaries and append each movie dict to friends_watched_list
+    for friend_dict in friends_watched_dict:
         for item in friend_dict["watched"]:
-            friend_movie_titles = item["title"]
-            friend_movie_set.add(friend_movie_titles)
-    # difference of two sets is a new set composed of all of the elements of the first set except for any elements that overlap with the second set
-    unique_friend_set = friend_movie_set - user_movie_set
+            friend_watched_list.append(item)
     
-    # iterate through unique friend set and add values with the key "title" to dictionary, then append dict to list
-    for title in unique_friend_set:
-        unique_movie = {}
-        unique_movie["title"] = title
-        unique_friend_list.append(unique_movie)
-    
+    print(user_watched_list)
+    print(":::::::::::::")
+    print(friend_watched_list)
+
+    # compare lists
+    # need to add dicts that are in friend_watched but not user_watched to unique_friend_list
+    # cannot have duplicates
+    for item in friend_watched_list:
+        if item not in user_watched_list:
+            if item not in unique_friend_list:
+                unique_friend_list.append(item)
+
+
+    print(":::::::::")
+    print(unique_friend_list)
+
     return unique_friend_list
                
 
