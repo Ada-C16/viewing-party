@@ -41,8 +41,10 @@ def get_watched_avg_rating(user_data):
     rating_sum = 0
     for i in range(len(user_data["watched"])):
         rating_sum += user_data["watched"][i]["rating"]
-    if len(user_data["watched"]) > 0:
+    try:
         avg_rating = rating_sum / len(user_data["watched"])
+    except ZeroDivisionError:
+        return avg_rating
     return avg_rating
 
 def get_most_watched_genre(user_data):
@@ -63,14 +65,9 @@ def get_most_watched_genre(user_data):
 
 def get_unique_watched(user_data):
     # determines which movies the user has seen that friends have not and returns a list of them
-    all_friends_watched = []
+    all_friends_watched = get_all_friends_watched_no_duplicates(user_data)
     in_common_watched = []
     unique_watched = []
-    # makes a list of the movie dicts the friends have watched, removing duplicates
-    for i in range(len(user_data["friends"])):
-        for j in range(len(user_data["friends"][i]["watched"])):
-            if user_data["friends"][i]["watched"][j] not in all_friends_watched:
-                all_friends_watched.append(user_data["friends"][i]["watched"][j])
     # makes a list of the movie dicts the friends have watched that user has also watched
     for i in range(len(user_data["watched"])):
         for j in range(len(all_friends_watched)):
@@ -83,14 +80,9 @@ def get_unique_watched(user_data):
     return unique_watched
     
 def get_friends_unique_watched(user_data):
-    all_friends_watched = []
+    all_friends_watched = get_all_friends_watched_no_duplicates(user_data)
     in_common_watched = []
     friend_unique_watched = []
-    # makes a list of the movie dicts the friends have watched, removing duplicates
-    for i in range(len(user_data["friends"])):
-        for j in range(len(user_data["friends"][i]["watched"])):
-            if user_data["friends"][i]["watched"][j] not in all_friends_watched:
-                all_friends_watched.append(user_data["friends"][i]["watched"][j])
     # makes a list of the movie dicts the friends have watched that user has also watched
     for i in range(len(user_data["watched"])):
         for j in range(len(all_friends_watched)):
@@ -126,13 +118,17 @@ def get_new_rec_by_genre(user_data):
 
 def get_rec_from_favorites(user_data):
     recs_from_favorites = []
-    all_friends_watched = []
-    # makes a list of the movie dicts the friends have watched, removing duplicates
-    for i in range(len(user_data["friends"])):
-        for j in range(len(user_data["friends"][i]["watched"])):
-            if user_data["friends"][i]["watched"][j] not in all_friends_watched:
-                all_friends_watched.append(user_data["friends"][i]["watched"][j])
+    all_friends_watched = get_all_friends_watched_no_duplicates(user_data)
     for i in range(len(user_data["favorites"])):
         if user_data["favorites"][i] not in all_friends_watched:
             recs_from_favorites.append(user_data["favorites"][i])
     return recs_from_favorites
+
+def get_all_friends_watched_no_duplicates(user_data):
+    # makes a list of the movie dicts the friends have watched, removing duplicates
+    all_friends_watched = []
+    for i in range(len(user_data["friends"])):
+        for j in range(len(user_data["friends"][i]["watched"])):
+            if user_data["friends"][i]["watched"][j] not in all_friends_watched:
+                all_friends_watched.append(user_data["friends"][i]["watched"][j])
+    return all_friends_watched
