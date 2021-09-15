@@ -92,13 +92,15 @@ def watch_movie(movie_catalogue, movie):
     new_movie_catalogue["watched"] = movie_catalogue["watched"]
 
 
-    # for the_movies in movie_catalogue:
+    # for the_movies in range(len(movie_catalogue[""])):
     #     new_movie_catalogue["watchlist"] = the_movies
-    #     new_movie_catalogue["watched"] = movie_catalogue["watched"]
+    #     #new_movie_catalogue["watched"] = movie_catalogue["watched"]
     #     movie_in_the_library = new_movie_catalogue["watchlist"][the_movies]["title"]
     #     if movie_in_the_library == movie:
     #         watched_movie = new_movie_catalogue["watchlist"].pop(the_movies)
     #         new_movie_catalogue["watched"].append(watched_movie)
+
+    # new_movie_catalogue["watched"] += movie_catalogue["watched"]
 
     # return new_movie_catalogue
   
@@ -193,3 +195,27 @@ def get_friends_unique_watched(user_data):
 
 
 # ********* wave 4 begins ***********
+def get_available_recs(user_data):
+    friends_watched = []
+    for i in user_data["friends"]:
+        for w in i["watched"]:
+            if w not in friends_watched:
+                friends_watched.append(w)
+
+
+    friends_watched_titles = []
+    for i in friends_watched:
+        friends_watched_titles.append(i["title"])
+
+    users_watched_titles = []
+    for i in user_data["watched"]:
+        users_watched_titles.append(i["title"])
+
+    unwatched_movies = set(friends_watched_titles).difference(set(users_watched_titles))
+
+    recs = []
+    for i in friends_watched:
+        if i["title"] in unwatched_movies and i["host"] in user_data["subscriptions"]:
+            recs.append(i)
+
+    return recs
