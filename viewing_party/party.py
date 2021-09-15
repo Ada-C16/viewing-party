@@ -166,11 +166,8 @@ def get_friends_unique_watched(user_data):
 def get_available_recs(user_data):
     
     host_list = []
-    
     recommendation_list = []
-    
     subscription_list = user_data["subscriptions"]
-    
     user_not_watched_list = get_friends_unique_watched(user_data)
     
     for movie_dict in user_not_watched_list:
@@ -181,8 +178,93 @@ def get_available_recs(user_data):
 
 
 
+### WAVE 5 ###
+
+def get_new_rec_by_genre(user_data):
+  #from user's most frequently watched, list of recommended
+  #add to list of recommended, if user has not watched and atleast one friend watched and genre is ame as users most frequent
   
+  
+  user_most_frequently_watched = 
+  
+  
+  
+  
+  
+def get_rec_from_favorites(user_data):
+  # from users favorite movies, return list of movie dictionaries that none of user's friends have watched
+  
+  recommended_movies_list = []
+  favorites_list = user_data["favorites"]
+  friends_not_watched_list = get_unique_watched(user_data)
+  
+  for movie_dict in favorites_list:
+    if movie_dict in friends_not_watched_list:
+      recommended_movies_list.append(movie_dict)
+  
+  return recommended_movies_list
+
+
+
+
+
+
+
+
+
+
+
 #################################################
+
+sonyas_data = {
+        "watched": [
+            {
+                "title": "Title A"
+            },
+            {
+                "title": "Title B"
+            },
+            {
+                "title": "Title C"
+            }
+        ],
+        "favorites": [
+            {
+                "title": "Title A"
+            },
+            {
+                "title": "Title B"
+            }
+        ],
+        "friends": [
+            {
+                "watched": [
+                    {
+                        "title": "Title B"
+                    }
+                ]
+            },
+            {
+                "watched": [
+                    {
+                        "title": "Title C"
+                    },
+                    {
+                        "title": "Title D"
+                    }
+                ]
+            }
+        ]
+    }
+
+
+recommendations = get_rec_from_favorites(sonyas_data)
+print(recommendations)
+
+
+
+
+
 
 # amandas_data = {
 # "watched": [
@@ -229,10 +311,10 @@ def get_available_recs(user_data):
 # ]
 # }
 
-# Act
-amandas_unique_movies = get_unique_watched(amandas_data)
 
-print(amandas_unique_movies)
+# amandas_unique_movies = get_unique_watched(amandas_data)
+
+# print(amandas_unique_movies)
 
 
 
