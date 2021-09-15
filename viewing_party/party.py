@@ -39,13 +39,13 @@ def watch_movie(user_data, title):
 
 
 def get_watched_avg_rating(user_data):
-    average = 0
+    average_result = 0
     outer_key = "watched"
     inner_key = "rating"
     list_ratings =  get_dict_value(user_data, outer_key, inner_key)
-    if len(list_ratings):
-        average =  sum(list_ratings)/ len(list_ratings)
-    return average
+    if list_ratings:
+        average_result =  average(list_ratings)
+    return average_result
 
 
 def get_most_watched_genre(user_data):
@@ -164,3 +164,7 @@ def get_dict_value(user_data, user_data_key, inner_key):
     for item in range(length):
         list_values += [list_watched[item][inner_key]]
     return list_values
+
+    
+def average(list_number):
+    return sum(list_number)/len(list_number)
