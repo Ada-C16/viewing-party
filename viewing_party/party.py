@@ -148,7 +148,6 @@ def get_friends_unique_watched(user_data):
 
 def get_available_recs(user_data):
     user_watched_list = user_data["watched"]
-    user_watched_titles = []
     friends_list = user_data["friends"]
     friends_watched_lists = []
     list_of_friends_movies = []
@@ -186,3 +185,30 @@ def get_available_recs(user_data):
             available_recs.append(movie)
     
     return available_recs
+
+def get_new_rec_by_genre(user_data):
+    freq_genre = get_most_watched_genre(user_data)
+    user_not_watched = get_friends_unique_watched(user_data)
+    rec_list = []
+
+    for movie in user_not_watched:
+        if movie["genre"] == freq_genre:
+            rec_list.append(movie)
+    
+    return rec_list
+
+def get_rec_from_favorites(user_data):
+    user_favs = user_data["favorites"]
+    friends_list = user_data["friends"]
+    list_of_friends_movies = []
+    fav_recs = []
+
+    for friend in friends_list:
+        for movie in friend["watched"]:
+            list_of_friends_movies.append(movie)
+    
+    for movie in user_favs:
+        if movie not in list_of_friends_movies:
+            fav_recs.append(movie)
+    
+    return fav_recs
