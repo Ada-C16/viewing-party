@@ -90,29 +90,29 @@ def get_most_watched_genre (user_data):
 def get_unique_watched(user_data):
     user_watched_list = user_data["watched"]
     user_titles_list = []
+    friends_watched_list = user_data["friends"]
+    friends_titles_list = []
     if user_watched_list != []:       
-            for movie in user_watched_list:
+        for movie in user_watched_list:
             user_movie_title = movie["title"]
             user_titles_list.append(user_movie_title)
 
-            friends_watched_list = user_data["friends"]
-            friends_titles_list = []
-            for friend in friends_watched_list:
-                friend_list = friend["watched"]
-                for movie in friend_list:
-                    watched_movie = movie["title"]
-                    friends_titles_list.append(watched_movie)
+        for friend in friends_watched_list:
+            friend_list = friend["watched"]
+            for movie in friend_list:
+                watched_movie = movie["title"]
+                friends_titles_list.append(watched_movie)
 
-            user_titles_set = set(user_titles_list)
-            friends_titles_set = set(friends_titles_list)
-            unique_movie = list(user_titles_set - friends_titles_set)
+        user_titles_set = set(user_titles_list)
+        friends_titles_set = set(friends_titles_list)
+        unique_movie = list(user_titles_set - friends_titles_set)
 
 
-            #NEED TO CONINTUE TO WORK ON THIS!!!
-            unique_movie_dict1 = {"title": unique_movie[0]}
-            unique_movie_dict2 = {"title": unique_movie[1]}
-            amandas_unique_movies = [unique_movie_dict1, unique_movie_dict2]
-            amandas_unique_movies
-            return amandas_unique_movies
+        #NEED TO CONINTUE TO WORK ON THIS!!!
+        unique_movie_dict1 = {"title": unique_movie[0]}
+        unique_movie_dict2 = {"title": unique_movie[1]}
+        amandas_unique_movies = [unique_movie_dict1, unique_movie_dict2]
+        amandas_unique_movies
+        return amandas_unique_movies
     else:
         return user_titles_list
