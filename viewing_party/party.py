@@ -101,75 +101,51 @@ def get_friends_unique_watched(user_data):
 
 
 #WAVE 4
+    
 def get_available_recs(user_data):
-    # LIST OF MOVIES WATCHED BY THE USER
+    #LIST OF MOVIES USER WATCHED (LIST OF DICTIONARIES)
     list_of_user_watched_movies = user_data["watched"]
-
-
-
-    #LIST OF SUBSCRIPTIONS OF THE USER
+    
+    #LIST OF SUBSCRIPTIONS BY USER (LIST OF STRINGS)
     list_of_user_subscriptions = user_data["subscriptions"]
-
-    #LOOP TO GET SUBSCIPTONS OF THE FRIENDS
-    list_of_friends_subscriptions = []
-    friends_movie_list = []
-    friends_unique_movie_list = []
-    final_friends_unique_list = []
-
-
-    #LIST OF RECOMMENDED MOVIES
+   
+    #CREATE AN EMPTY LIST (RECS)
     list_of_rec_movies = []
 
-    #CONDITIONAL FOR EMPTY LIST
-    if len(list_of_rec_movies) == 0:
-        return []
+    #CONDITIONAL IF RECOMMENDATION LIST EQUALS TO ZERO
+    friends_movie_list = []
+    user_not_watched_list = []
+    friends_no_dup_unique_movie_list = []
 
-    #LOOP GETS ALL THE MOVIES IN FRIENDS LIST
     for friend in user_data["friends"]:
         for movie in friend["watched"]:
             friends_movie_list.append(movie) 
-
-    #LOOP GETS THE MOVIES IN FRIENDS LIST THAT USER HAS NOT SEEN
-    for movie in friends_movie_list:
-        if not movie in list_of_user_watched_movies:
-            friends_unique_movie_list.append(movie)
-
-    #LOOP GETS ALL THE FRIENDS UNIQUE MOVIES WITHOUT DUPLICATES  
-    for movie in friends_unique_movie_list:
-        if not movie in final_friends_unique_list:
-            final_friends_unique_list.append(movie)
-
-    #LOOP GETS THE FRIENDS SUBSCRIPTIONS
-    for friend in user_data["friends"]:
-        for sub in friend["watched"]:
-          list_of_friends_subscriptions.append(sub)
-
-    #LOOP COMPARES THE FRIENDS SUBS WITH THE USERS
-    for movie in final_friends_unique_list:
-        if list_of_user_subscriptions == list_of_friends_subscriptions:
-            list_of_rec_movies.append(movie)
-
-    #RETURNS THE LIST OF RECOMMENEDED MOVIES
-    return list_of_rec_movies
-
-
     
-    #FINAL FRIENDS UNIQUE LIST GIVES THE LIST OF MOVIES THAT USER HAS NOT SEEN
-    #LOOP THROUGH BOTH THE USER AND FRIENDS SUBSCRIPTIONS TO GET COMPARISON
-    #APPEND TO RECOMMENDED MOVIE LIST 
-    #RETURN THE LIST
+    for movie in friends_movie_list:
+        if not movie in friends_no_dup_unique_movie_list:
+            friends_no_dup_unique_movie_list.append(movie)
+    
+    for movie in friends_no_dup_unique_movie_list:
+        watched = False
+        for movies_for_user in list_of_user_watched_movies:
+            if movies_for_user["title"] == movie["title"]:
+                watched = True
+        if watched == False:
+            user_not_watched_list.append(movie)
 
+    for movie in user_not_watched_list:
+        if movie["host"] in list_of_user_subscriptions:
+            list_of_rec_movies.append(movie)     
+    if len(list_of_rec_movies) == 0:
+        return []
 
-
-
-
-
-
-
+    #RETURN LIST OF RECOMMENDATIONS
+    return list_of_rec_movies
 
 
 #WAVE 5
 def get_new_rec_by_genre(user_data):
+    list_of_rec_movies_by_genre = []
     pass
     
     
