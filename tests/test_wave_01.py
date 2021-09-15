@@ -11,7 +11,7 @@ def test_create_movie_all_params_valid_returns_movie():
 
     # Act
     new_movie = create_movie(movie_title, genre, rating)
-
+    print(new_movie)
     # Assert
     assert new_movie["title"] == "Title A"
     assert new_movie["genre"] == "Horror"

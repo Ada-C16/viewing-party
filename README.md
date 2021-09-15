@@ -84,7 +84,7 @@ Summary of one-time project setup:
 1. When you want to begin work on this project, ensure that your virtual environment is activated:
 
 ```bash
-$ source venv/bin/activate
+$ venv/bin/activate
 ```
 
 2. Find the test file that contains the test you want to run. Ensure that the test(s) you want to run isn't skipped.
