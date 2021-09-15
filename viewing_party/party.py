@@ -15,7 +15,7 @@ def create_movie(title,genre,rating):
 
 def add_to_watched(user_data, movie):
 
-    # add the dictionary of a movie and its relevant dat to a user's list of watched movies
+    # add the dictionary of a movie and its relevant data to a user's list of watched movies
     user_data["watched"].append(movie)
     
     # return the user's data with an updated list of watched movies
@@ -38,7 +38,7 @@ def watch_movie(user_data, title):
     for movie in watchlist:
         movie_title = movie["title"]
 
-        # if the title passed in as an argument is on the watchlist,
+        # if the title that was passed in as an argument is on the watchlist,
         #  remove the movie from the watchlist
         #  add the movie to the watched movies list
         if title == movie_title:
@@ -46,7 +46,7 @@ def watch_movie(user_data, title):
             watched_movies.append(movie)
 
     
-    # return the user's data with an updated watchlist and watched movies list 
+    # return the user's data with an updated watchlist and watched movies list
     return user_data
 
 def get_watched_avg_rating(user_data):
@@ -64,7 +64,7 @@ def get_watched_avg_rating(user_data):
         # add the movie's rating to the overall sum of movie ratings
         sum_of_ratings += movie["rating"]
 
-    # get the ratings average by diving sum of ratings by the number of movies
+    # get the average rating by diving sum of ratings by the number of movies
     average_rating = sum_of_ratings / number_of_movies_watched
     
     # return the average rating of the user's watched movies
@@ -80,7 +80,7 @@ def get_most_watched_genre(user_data):
     if watched_movies:
         for movie in watched_movies:
             # if a genre is not already listed in the dictionary of genres and their watch counts,
-            #  add the genre without counting a watch
+            #  add the genre key and assign 0 to the watch count value
             if not movie["genre"] in genres_with_watch_counts.keys():
                 genres_with_watch_counts[movie["genre"]] = 0
             # update the genre's watch count by one        
@@ -166,12 +166,12 @@ def get_friends_unique_watched(user_data):
         # add the movie title to the list of unique movies
         friends_unique_movies.append(movie_title)
 
-    # return the list of movies only the user's friends have watched
+    # return the list of movies the user's friends have watched but the user has not
     return friends_unique_movies
 
 def get_friends_unique_watched_with_details(user_data):
 
-    # get a list of movies only the user's friends have watched
+    # get a list of movie only theuser's friends have watched
     users_unwatched_movies = get_friends_unique_watched(user_data)
     friends_list = user_data["friends"]
 
@@ -197,7 +197,7 @@ def get_friends_unique_watched_with_details(user_data):
 
 def get_available_recs(user_data):
     
-    # get a list of movies and their streaming services that the user's friends have watched but the user has not
+    # get a list of movies and their streaming services only the user's friends have watched
     unwatched_movies_and_hosts = get_friends_unique_watched_with_details(user_data)
     
     available_recommended_movies = []
