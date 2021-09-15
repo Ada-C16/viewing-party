@@ -167,6 +167,27 @@ def get_available_recs(user_data):
 # Wave 5
 def get_new_rec_by_genre(user_data):
     pass
+    #return new_rec_by_genre
 
+    # determine most_watched_genre
+    new_rec_by_genre = []
+    # add to new_rec if & only if:
+    #   if user has not watched it
+    # if user_has_watched(movie, watched_movies) is True
+    # at least 1 friend has watched
+    # if in_friends_watchlist(movie, watched_by_friends) is True
+    # if 'genre' of movie == as most_watched_genre
+    
+
+
+
+def get_rec_from_favorites(user_data):
+    pass
+    # return rec_from_favorites
+    # list of dictionaries called 'favorites'
+    # user_favorites = user_data["favorites"]
+    rec_from_favorites = []
+    # append to rec_from_favorites
+    # if movie in user_favorites
 
 
