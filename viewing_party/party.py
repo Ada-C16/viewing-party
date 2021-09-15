@@ -90,26 +90,6 @@ def get_most_watched_genre(user_data):
 
 #### WAVE 3
 
-# def get_unique_watched(user_data):
-  
-#   friends_list = user_data
-#   user_movies_list = []
-#   friends_movies_list = []
-#   user_unique_movies = []
-#   friends_unique_movies = {}
-#   friends_movie_dict_list = user_data["friends"]
-
-
-#   for friends_dict in friends_movie_dict_list:
-#     for movie_watched_list in friends_dict["watched"]:
-#       friends_movies_list.append(movie_watched["title"])
-
-#   for movie_dict in user_data["watched"]:
-#     if movie_dict["title"] not in friends_unique_movies:
-#       user_unique_movies.append(movie_dict)
-      
-#   return user_unique_movies
-
         
 def get_unique_watched(user_data):
     
@@ -181,15 +161,27 @@ def get_available_recs(user_data):
 ### WAVE 5 ###
 
 def get_new_rec_by_genre(user_data):
-  #from user's most frequently watched, list of recommended
-  #add to list of recommended, if user has not watched and atleast one friend watched and genre is ame as users most frequent
+    
+  #most watched function has genre, return genre most watched
+  #from find the movies in the users watched that match this genre and add to list if USER has not watched, one FRIEND has watch
+  
+  user_fave_genre = get_most_watched_genre(user_data)
+  friends_watched_list = get_friends_unique_watched(user_data)
+  new_rec_list = []
   
   
-  user_most_frequently_watched = 
+  if len(friends_watched_list) == 0:
+    return new_rec_list
   
+  for movie_dict in friends_watched_list:
+    # the following is comparing two strings
+    if user_fave_genre == movie_dict["genre"]:
+      new_rec_list.append(movie_dict)
   
-  
-  
+  return new_rec_list
+
+
+
   
 def get_rec_from_favorites(user_data):
   # from users favorite movies, return list of movie dictionaries that none of user's friends have watched
@@ -204,192 +196,3 @@ def get_rec_from_favorites(user_data):
   
   return recommended_movies_list
 
-
-
-
-
-
-
-
-
-
-
-#################################################
-
-sonyas_data = {
-        "watched": [
-            {
-                "title": "Title A"
-            },
-            {
-                "title": "Title B"
-            },
-            {
-                "title": "Title C"
-            }
-        ],
-        "favorites": [
-            {
-                "title": "Title A"
-            },
-            {
-                "title": "Title B"
-            }
-        ],
-        "friends": [
-            {
-                "watched": [
-                    {
-                        "title": "Title B"
-                    }
-                ]
-            },
-            {
-                "watched": [
-                    {
-                        "title": "Title C"
-                    },
-                    {
-                        "title": "Title D"
-                    }
-                ]
-            }
-        ]
-    }
-
-
-recommendations = get_rec_from_favorites(sonyas_data)
-print(recommendations)
-
-
-
-
-
-
-# amandas_data = {
-# "watched": [
-# {
-# "title": "Title A"
-# },
-# {
-# "title": "Title B"
-# },
-# {
-# "title": "Title C"
-# },
-# {
-# "title": "Title D"
-# },
-# {
-# "title": "Title E"
-# },
-# ],
-# "friends": [
-# {
-# "watched": [
-# {
-# "title": "Title A"
-# },
-# {
-# "title": "Title C"
-# }
-# ]
-# },
-# {
-# "watched": [
-# {
-# "title": "Title A"
-# },
-# {
-# "title": "Title D"
-# },
-# {
-# "title": "Title F"
-# }
-# ]
-# }
-# ]
-# }
-
-
-# amandas_unique_movies = get_unique_watched(amandas_data)
-
-# print(amandas_unique_movies)
-
-
-
-
-# janes_data = {
-#     "watched": [
-#         {
-#             "title": "Title A",
-#             "genre": "Fantasy"
-#         },
-#         {
-#             "title": "Title B",
-#             "genre": "Intrigue"
-#         },
-#         {
-#             "title": "Title C",
-#             "genre": "Intrigue"
-#         },
-#         {
-#             "title": "Title D",
-#             "genre": "Fantasy"
-#         },
-#         {
-#             "title": "Title E",
-#             "genre": "Intrigue"
-#         },
-#     ]
-# }
-
-# # Act
-# popular_genre = get_most_watched_genre(janes_data)
-# print(popular_genre)
-
-
-#     # Watched Adding
-# movie1 = create_movie("Title 1","Horror",3.5)
-# movie2 = create_movie("Title 2","Horror",3.5)
-# user_data = add_to_watched(user_data, movie1)
-# user_data = add_to_watched(user_data, movie2)
-# #Watchlist adding
-# movie3 = create_movie("Title B","Horror",3.5)
-# movie4 = create_movie("Title C","Comedy",6.0)
-# user_data = add_to_watchlist(user_data, movie3)
-# user_data = add_to_watchlist(user_data, movie4)
-# #removing from watchlist and adding to Watched
-# #expect Title b to be removed watchlist and added to watched
-# user_data = watch_movie(user_data, "Title B")
-# user_data = watch_movie(user_data, "Title Z")
-# print()
-# # movie = create_movie(movie_title, genre, rating)
-# user_data = {"watchlist": [{"title": "Babe",
-# "genre": "comedy", "rating": 1},{"title": "Startrek","genre":"scifi","rating": 1},{"title":"Cheers","genre": "drama","rating": 1} ], "watched": [{"title": "Starwars", "genre": "scifi","rating": 5}, {"title":"Matrix","genre": "scifi","rating": 3},{"title" : "Billboard","genre":"drama","rating": 1}]}
-# user_data = {"watchlist": [{"title": "Babe",
-# "genre": "comedy", "rating": 1},{"title": "Startrek","genre":"scifi","rating": 1},{"title":"Cheers","genre": "drama","rating": 1} ], "watched": [{"title": "Starwars", "genre": "scifi","rating": 5}, {"title":"Matrix","genre": "scifi","rating": 3},{"title" : "Billboard","genre":"drama","rating": 1}], "friends": [
-#             {
-#                 "watched": [
-#                     {
-#                         "title": "argosy"
-#                     },
-#                     {
-#                         "title": "startrek"
-#                     }
-#                 ]
-#             },
-#             {
-#                 "watched": [
-#                     {
-#                         "title": "Babe"
-#                     },
-#                     {
-#                         "title": "Cheers"
-#                     },
-#                     {
-#                         "title": "starwars"
-#                     }
-#                 ]
-#             }
-#         ]}
