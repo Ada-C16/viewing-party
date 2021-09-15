@@ -61,3 +61,17 @@ def get_unique_watched(amandas_data):
             unique_watched.append(movie)
 
     return unique_watched
+
+def get_friends_unique_watched(amandas_data):
+    friends_watched = []
+    for friends in amandas_data["friends"]:
+        for movie in friends["watched"]:
+            if movie not in friends_watched:
+                friends_watched.append(movie)
+
+    friends_unique_watched = []
+    for movie in friends_watched:
+        if movie not in amandas_data["watched"]:
+            friends_unique_watched.append(movie)
+    
+    return friends_unique_watched
