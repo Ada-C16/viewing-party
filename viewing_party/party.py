@@ -113,37 +113,26 @@ def get_available_recs(user_data):
             available_recs.append(movie)
     return available_recs
 
-get_available_recs({
-        "subscriptions": ["Service A", "Service B"],
-        "watched": [{ "title": "Title A" }],
-        "friends": [
-            {
-                "watched": [
-                    {
-                        "title": "Title A",
-                        "host": "Service A"
-                    },
-                    {
-                        "title": "Title C",
-                        "host": "Service C"
-                    }
-                ]
-            },
-            {
-                "watched": [
-                    {
-                        "title": "Title A",
-                        "host": "Service A"
-                    },
-                    {
-                        "title": "Title B",
-                        "host": "Service B"
-                    },
-                    {
-                        "title": "Title D",
-                        "host": "Service D"
-                    }
-                ]
-            }
-        ]
-    })
+# wave 05
+
+def get_new_rec_by_genre(user_data):
+    most_watched_genre = get_most_watched_genre(user_data)
+    possible_recs = get_friends_unique_watched(user_data)
+    recs_by_genre = []
+    for movie in possible_recs:
+        if movie["genre"] == most_watched_genre:
+            recs_by_genre.append(movie)
+    return recs_by_genre
+
+def get_rec_from_favorites(user_data):
+    recs_from_favorites = []
+    all_friends_watched = []
+    # makes a list of the movie dicts the friends have watched, removing duplicates
+    for i in range(len(user_data["friends"])):
+        for j in range(len(user_data["friends"][i]["watched"])):
+            if user_data["friends"][i]["watched"][j] not in all_friends_watched:
+                all_friends_watched.append(user_data["friends"][i]["watched"][j])
+    for i in range(len(user_data["favorites"])):
+        if user_data["favorites"][i] not in all_friends_watched:
+            recs_from_favorites.append(user_data["favorites"][i])
+    return recs_from_favorites
