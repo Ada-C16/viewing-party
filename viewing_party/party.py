@@ -8,7 +8,7 @@ def create_movie(movie_title, genre, rating):
     #initialize variables
     movie_dict = {}
 
-    #check if movie title, genre and rating are string variables
+    #check if movie title, genre and rating are string/float variables
     #returns movie_dict or None
     if type(movie_title) == str and type(genre) == str and type(rating) == float:
         movie_dict['title'] = movie_title
@@ -64,7 +64,7 @@ def get_watched_avg_rating(user_data):
 
 #returns the most watched genre
 def get_most_watched_genre(user_data):
-    #call make_genre_frequency_dict and store return variable in genre_frequency
+    #call make_genre_frequency_dict and store frequency dict in genre_frequency
     genre_frequency = make_genre_frequency_dict(user_data)
     if len(genre_frequency) > 0:
         popular_genre = max(genre_frequency, key = genre_frequency.get)
@@ -127,7 +127,8 @@ def make_friend_movie_set(user_data):
     friend_movie_set = set()
     friend_list = user_data['friends']
 
-    #iterating thru each friend's movie dictionary list, set friend_movie_list to hold the dictionary of of movies watched from friends
+    #iterating thru each friend's movie dictionary list
+    #set friend_movie_list to hold the dictionary of of movies watched from friends
     for friend_num in range(len(friend_list)):
         friend_movie_list = friend_list[friend_num]['watched']
         #for each movie in friend_movie_list, add movie title to friend_movie_set
@@ -157,7 +158,8 @@ def get_friends_unique_watched(user_data):
                 # Wave 4 #
 ######################################################
 
-#takes user_data and returns a list of reccomended movies referencing friend's movie watched list and user subscription
+#takes user_data and returns a list of reccomended movies referencing
+#friend's movie watched list and user subscription
 def get_available_recs(user_data):
     #intialize variables
     rec_list = []
