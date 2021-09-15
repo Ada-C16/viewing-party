@@ -189,5 +189,8 @@ def get_rec_from_favorites(user_data):
     rec_from_favorites = []
     # append to rec_from_favorites
     # if movie in user_favorites
+    # none of user's friends have watched
+    # if in_friends_watchlist(movie, watched_by_friends) is False
+    return rec_from_favorites
 
 
