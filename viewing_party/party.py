@@ -141,8 +141,8 @@ def get_friends_unique_watched(user_data):
 
         unique_movie_dict1 = {"title": unique_movies[0]}
         unique_movie_dict2 = {"title": unique_movies[1]}
-        unique_movie_dict2 = {"title": unique_movies[2]}
-        friends_unique_movies = [unique_movie_dict1, unique_movie_dict2]
+        unique_movie_dict3 = {"title": unique_movies[2]}
+        friends_unique_movies = [unique_movie_dict1, unique_movie_dict2, unique_movie_dict3]
         return friends_unique_movies
     else:
         return friends_titles_list
