@@ -88,26 +88,27 @@ def get_most_watched_genre (user_data):
 
 #WAVE 03
 def get_unique_watched(user_data):
-    user_watched_list = user_data["watched"]
-    user_titles_list = []
-    for movie in user_watched_list:
-        user_movie_title = movie["title"]
-        user_titles_list.append(user_movie_title)
+    if user_data["watched"] != []:
+        user_watched_list = user_data["watched"]
+        user_titles_list = []
+        for movie in user_watched_list:
+            user_movie_title = movie["title"]
+            user_titles_list.append(user_movie_title)
 
-    friends_watched_list = user_data["friends"]
-    friends_titles_list = []
-    for friend in friends_watched_list:
-        friend_list = friend["watched"]
-        for movie in friend_list:
-            watched_movie = movie["title"]
-            friends_titles_list.append(watched_movie)
+        friends_watched_list = user_data["friends"]
+        friends_titles_list = []
+        for friend in friends_watched_list:
+            friend_list = friend["watched"]
+            for movie in friend_list:
+                watched_movie = movie["title"]
+                friends_titles_list.append(watched_movie)
 
-    user_titles_set = set(user_titles_list)
-    friends_titles_set = set(friends_titles_list)
-    unique_movies = list(user_titles_set - friends_titles_set)
+        user_titles_set = set(user_titles_list)
+        friends_titles_set = set(friends_titles_list)
+        unique_movies = list(user_titles_set - friends_titles_set)
     
 
-    unique_movie_dict1 = {"title": unique_movie[0]}
-    unique_movie_dict2 = {"title": unique_movie[1]}
-    amandas_unique_movies = [unique_movie_dict1, unique_movie_dict2]
-    return amandas_unique_movies
+        unique_movie_dict1 = {"title": unique_movies[0]}
+        unique_movie_dict2 = {"title": unique_movies[1]}
+        amandas_unique_movies = [unique_movie_dict1, unique_movie_dict2]
+        return amandas_unique_movies
