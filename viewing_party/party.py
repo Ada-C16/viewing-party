@@ -93,3 +93,43 @@ def get_friends_unique_watched(user_data):
     # print(f"{friend_unique_movies}=")
     return friend_unique_movies
     
+def get_available_recs(user_data): # need to test
+    pass
+    # user_host_info = {} #  dictionaries "title": title
+    user_watched_info = []
+    index = 0
+    for item in user_data["watched"]:
+        item["host"] = user_data["subscriptions"][index]
+        index +=1
+        user_watched_info.append(item) # list of dict, added host key and value
+    
+    movies_with_sub = []
+    for item in user_data["subscriptions"]:
+        for friend in user_data["friends"]:
+            # print(f"{item}=")
+            for subs in friend["watched"]:
+                # print(f"{subs}=")
+                if item == subs["host"]:
+                    movies_with_sub.append(subs) # list of dict of movies user can witch with their host
+
+    all_friend_movies = [] 
+    for friends in user_data["friends"]: 
+        for item in friends["watched"]:
+            if item not in all_friend_movies:
+                all_friend_movies.append(item) # list of all movies friends watched
+
+    same_movies = []
+    for movie in movies_with_sub: 
+        for friends in all_friend_movies: 
+            if movie["host"] == friends["host"]:
+                if friends not in same_movies:
+                    same_movies.append(friends) # list of possible suggestions based on user host
+
+    suggested_movies = []
+    for movie in same_movies:
+        if movie not in user_watched_info:
+            suggested_movies.append(movie) # final suggestions from friends
+    
+    print(suggested_movies)
+    return suggested_movies
+
