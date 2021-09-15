@@ -106,8 +106,7 @@ def get_unique_watched(user_data):
     friends_titles_set = set(friends_titles_list)
     return user_titles_set - friends_titles_set
 
-    unique_movie_dict = {}
-    return_unique_movie_list = []
-    for movie in unique_movie:
-        unique_movie_dict["title"] = movie
-        return unique_movie_dict
+    unique_movie_dict1 = {"title": unique_movie[0]}
+    unique_movie_dict2 = {"title": unique_movie[1]}
+    user_unique_list = [unique_movie_dict1, unique_movie_dict2]
+    return user_unique_list
