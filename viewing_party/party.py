@@ -104,7 +104,8 @@ def get_unique_watched(user_data):
 
     user_titles_set = set(user_titles_list)
     friends_titles_set = set(friends_titles_list)
-    return user_titles_set - friends_titles_set
+    unique_movies = list(user_titles_set - friends_titles_set)
+    
 
     unique_movie_dict1 = {"title": unique_movie[0]}
     unique_movie_dict2 = {"title": unique_movie[1]}
