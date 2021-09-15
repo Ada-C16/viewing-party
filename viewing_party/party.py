@@ -55,36 +55,7 @@ def get_most_watched_genre(janes_data):
       counter = val
       genree = key 
   return genree
-    # list_genre = []
-    # dict_genre = {}
     
-    # if janes_data["watched"]:
-    #     for each in janes_data["watched"]:
-    #          list_genre.append(each["genre"])
-    #     set_genre = set(list_genre)
-    #     for seti in set_genre:
-    #         dict_genre[seti]=0
-
-
-    #     for each_dict in dict_genre:
-
-    #         for i in list_genre:
-    #             if i == each_dict:
-    #                 dict_genre[each_dict]+=1
-    #     print(dict_genre)
-    #     max_dict = {}
-    #     max = 0
-    #     for d in dict_genre:
-    #         if dict_genre[d] > max:
-    #             max_dict.clear()
-    #             max_dict[d] = dict_genre[d]
-    #             max = dict_genre[d]
-
-    #     return list(max_dict.keys())[0]
-
-    # return None
-
-
 def get_unique_watched(amandas_data):
 
     set_watched = set()
