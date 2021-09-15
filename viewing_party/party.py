@@ -1,5 +1,8 @@
 from collections import Counter
 
+'''
+    wave 1 
+'''
 def create_movie(movie_title, genre, rating):
     if  genre== None  or  movie_title == None or  rating ==None:
         return None
@@ -9,12 +12,6 @@ def create_movie(movie_title, genre, rating):
         "genre": genre,
         "rating": rating}
         return new_movie
-
-
-def search_value(user_data,movie,search_for):
-    if movie not in user_data[search_for]:
-        user_data[search_for] += [movie]
-    return user_data
 
 
 def add_to_watched(user_data, movie):
@@ -36,45 +33,40 @@ def watch_movie(user_data, title):
             user_data["watched"] +=[watchlist[item]]
     return user_data         
 
+'''
+    wave 2
+'''
+
 
 def get_watched_avg_rating(user_data):
-    length = len(user_data["watched"])
-    list_watched = [value for value in user_data['watched']]
-    list_ratings = []
     average = 0
-    for item in range(length):
-        list_ratings += [list_watched[item]['rating']]
-    if len(list_ratings) !=0:
+    outer_key = "watched"
+    inner_key = "rating"
+    list_ratings =  get_dict_value(user_data, outer_key, inner_key)
+    if len(list_ratings):
         average =  sum(list_ratings)/ len(list_ratings)
     return average
-
-
-def most_frequent(list_value):
-    count = Counter(list_value)
-    return count.most_common(1)[0][0]
 
 
 def get_most_watched_genre(user_data):
     if not user_data["watched"]:
         return None 
-    else:
-        length = len(user_data["watched"])
-        lista_watched= [value for value in user_data['watched']]
-        list_genre = []
-        for item in range(length):
-            list_genre += [lista_watched[item]['genre']]   
+    else: 
+        outer_key = "watched"
+        inner_key = "genre"
+        list_genre = get_dict_value(user_data, outer_key, inner_key)
         popular_genre = most_frequent(list_genre)
         return popular_genre
 
+'''
+    wave 3
+'''
 
 def get_unique_watched(user_data):
     user_watched_list = []
     friends_watched_list =[]
-    for item  in user_data['watched']:
-        user_watched_list += [item['title']]
-    for item in user_data["friends"]:
-        for  value  in item['watched']:
-            friends_watched_list += [value['title']]
+    create_user_watched_list(user_data, user_watched_list)
+    create_friends_watched_list(user_data,friends_watched_list)  
     unique_in_user = set(user_watched_list).difference(set(friends_watched_list))
     result =  [{"title":item} for item in unique_in_user]
     return result
@@ -83,26 +75,21 @@ def get_unique_watched(user_data):
 def get_friends_unique_watched(user_data):
     user_watched_list = []
     friends_watched_list =[]
-    # create a helper function
-    for item  in user_data['watched']:
-        user_watched_list += [item['title']]
-    # helper function
-    for item in user_data["friends"]:
-        for  value  in item['watched']:
-            friends_watched_list += [value['title']]
+    create_user_watched_list(user_data, user_watched_list)
+    create_friends_watched_list(user_data,friends_watched_list)  
     unique_in_friends = set(friends_watched_list).difference(set(user_watched_list))
     result =  [{"title":item} for item in unique_in_friends]
     return result
 
+'''
+    wave 4
+'''
 
 def get_available_recs(user_data):
     friends_list = []
     recommendations = []
     user_list = [item['title'] for item in user_data['watched']]
     host_list = user_data['subscriptions']
-    # for item in user_data["friends"]:
-    #     for  value  in item['watched']:
-    #         friends_list.append(value) 
     create_friends_list(user_data,friends_list) 
     for i in friends_list:  
         if (i['title'] not in user_list and i['host'] in host_list) and (i not in recommendations):  
@@ -111,27 +98,16 @@ def get_available_recs(user_data):
             recommendations.append(i)
     return recommendations
 
-def create_friends_list(user_data,friends_list):
-    for item in user_data["friends"]:
-        for  value  in item['watched']:
-            friends_list.append(value) 
-    return friends_list
-
-def create_friends_list_title(user_data,friends_list):
-    for item in user_data["friends"]:
-        for  value  in item['watched']:
-            friends_list.append(value['title']) 
-    return friends_list
+'''
+    wave 5
+'''
 
 
 def get_new_rec_by_genre(user_data):
     friends_list = []
     genre_recom = []
     user_list_genre= [item['genre'] for item in user_data['watched']] #list of dictionaries
-    user_list_title = [item['title'] for item in user_data['watched']] #list of dictionaries
-    # for item in user_data["friends"]:
-    #     for  value  in item['watched']:
-    #         friends_list.append(value)  
+    user_list_title = [item['title'] for item in user_data['watched']] #list of dictionaries  
     create_friends_list(user_data,friends_list)
     for i in friends_list:  
         if i['title'] not in user_list_title and i['genre'] in user_list_genre: 
@@ -142,13 +118,49 @@ def get_new_rec_by_genre(user_data):
 
 def get_rec_from_favorites(user_data):
     favorites = [item['title'] for item in user_data["favorites"]]
-    friends_list = []
-    for item in user_data["friends"]:
-        for  value  in item['watched']:
-            friends_list.append(value['title']) 
-    # create_friends_list(user_data,friends_list)   
-    
-    print(friends_list)    
+    friends_list = [] 
+    create_friends_watched_list(user_data,friends_list)     
     not_watched = set(favorites).difference(set(friends_list))
     result= [{"title":item} for item in not_watched]
     return result
+
+''' 
+    helper functions
+'''
+def search_value(user_data,movie,search_for):
+    if movie not in user_data[search_for]:
+        user_data[search_for] += [movie]
+    return user_data
+
+
+def most_frequent(list_value):
+    count = Counter(list_value)
+    return count.most_common(1)[0][0]
+
+
+def create_friends_list(user_data,friends_list):
+    for item in user_data["friends"]:
+        for  value  in item['watched']:
+            friends_list.append(value) 
+    return friends_list
+
+
+def create_user_watched_list(user_data, user_watched_list):
+    for item  in user_data['watched']:
+        user_watched_list += [item['title']]
+    return user_watched_list
+
+
+def create_friends_watched_list(user_data,friends_list):
+    for item in user_data["friends"]:
+        for  value  in item['watched']:
+            friends_list.append(value['title']) 
+    return friends_list
+
+def get_dict_value(user_data, user_data_key, inner_key):
+    length = len(user_data[user_data_key])
+    list_watched = [value for value in user_data[user_data_key]]
+    list_values = []
+    for item in range(length):
+        list_values += [list_watched[item][inner_key]]
+    return list_values
