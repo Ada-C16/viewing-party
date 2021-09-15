@@ -104,15 +104,11 @@ def get_available_recs(user_data):
                 movie_host_list.append(user_data["friends"][friend]["watched"][movie]["host"])
         
     recommendations = set(possible_recommendations) - set(user_movie_list)
-    # for item in recommendations:
-    #     number = possible_recommendations.index(recommendations)
-    #     recommendation_dict[]
-    # recommendation_dict = {}
-    # for friend in range(len(user_data["friends"])):
-    #     for movie in range(len(user_data["friends"][friend]["watched"])):
-    #         if user_data["friends"][friend]["watched"][movie]["title"] in recommendations:
-    #             recommendation_dict[user_data["friends"][friend]["watched"][movie]["title"]]: user_data["friends"][friend]["watched"][movie]["genre"]
+    if recommendations == False:
+        return None
     for item in recommendations:
-        final_list.append(item)
+        i = possible_recommendations.index(item)
+        final_list.append({"title": possible_recommendations[i], "host": movie_host_list[i]})
     return final_list
     # need to return it as a dictionary with title and host
+    # list.append({key: value}) ??
