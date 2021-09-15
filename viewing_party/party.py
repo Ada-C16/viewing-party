@@ -5,7 +5,7 @@ def create_movie(title,genre,rating):
     if title and genre and rating:
         movie_dictionary = {}
 
-        # assign key names to the corresponding data
+        # assign keys to the corresponding data
         movie_dictionary["title"] = title
         movie_dictionary["genre"] = genre
         movie_dictionary["rating"] = rating
