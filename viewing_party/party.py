@@ -1,4 +1,6 @@
 
+
+
 #makes movie dictionary and returns it
 def create_movie(movie_title, genre, rating):
     #initialize variables
@@ -110,9 +112,8 @@ def get_unique_watched(user_data):
 def make_my_movie_set(user_data):
     #intialize variable
     user_movie_set = set()
-    #for each movie in watched list..
+    #for each movie in watched list, add only movie title to user_set set
     for my_movies in user_data['watched']:
-        #add only movie title to user_set set
         user_movie_set.add(my_movies['title'])
     
     return user_movie_set
@@ -123,13 +124,12 @@ def make_friend_movie_set(user_data):
     friend_movie_set = set()
     #set friend_list to list of friend's movie dictionary list
     friend_list = user_data['friends']
-    #iterating thru each friend's movie dictionary list, 
+
+    #iterating thru each friend's movie dictionary list, set friend_movie_list to hold the dictionary of of movies watched from friends
     for friend_num in range(len(friend_list)):
-        #set friend_movie_list to hold the dictionary of of movies watched from friends
         friend_movie_list = friend_list[friend_num]['watched']
-        #for each movie in friend_movie_list..
+        #for each movie in friend_movie_list, add movie title to friend_movie_set
         for movie in friend_movie_list:
-            #add movie title to friend_movie_set
             friend_movie_set.add(movie['title'])
 
     return friend_movie_set
@@ -145,62 +145,35 @@ def get_friends_unique_watched(user_data):
     #convert difference set to tuple to iterate and make new dictionary
     movie_titles_unqiue = tuple(friend_movie_set - my_movie_set)
     
-    #iterating thru tuple list..
+    #add title to unique_movie_watched list
     for title in movie_titles_unqiue:
-        #add title dictionary to unique_movie_watched list
         friend_unqiue_movie_watched.append({'title': title})
 
     return friend_unqiue_movie_watched
 
 
-amandas_data = {
-    "subscriptions": ["Service A", "Service B"],
-    "watched": [{ "title": "Title A" }],
-    "friends": [
-        {
-            "watched": [
-                {
-                    "title": "Title A",
-                    "host": "Service A"
-                },
-                {
-                    "title": "Title C",
-                    "host": "Service C"
-                }
-            ]
-        },
-        {
-            "watched": [
-                {
-                    "title": "Title A",
-                    "host": "Service A"
-                },
-                {
-                    "title": "Title B",
-                    "host": "Service B"
-                },
-                {
-                    "title": "Title D",
-                    "host": "Service D"
-                }
-            ]
-        }
-    ]
-}
-
-#takes user_data and returns a list of reccomended movies
+#takes user_data and returns a list of reccomended movies referencing friend's movie watched list and user subscription
 def get_available_recs(user_data):
     #intialize variables
-    recommended_movies_list = []
-    friend_movie_list = user_data['friends']
-    user_watched = user_data['watched']
+    rec_list = []
+    movie_title_user = []
 
-    print(user_watched)
+    #add 
+    for movie_user in user_data['watched']:
+        movie_title_user.append(movie_user['title'])
 
-    # for friend_num in range(len(friend_movie_list)):
-    #     movie_list = friend_movie_list[friend_num]['watched']
-    #     for movie_num in range(len(movie_list)):
-    #         if movie_list[movie_num]['title'] != 
+    #access friend key in dict for friend list
+    for friend in user_data['friends']:
+        friend_movies_watched_list = friend['watched']
 
-        
-print(get_available_recs(amandas_data))
+        #make boolean list from friend watched list
+        for movie_item in friend_movies_watched_list:
+            user_has_seen_movie = movie_item['title'] in movie_title_user
+            user_has_subscription = movie_item['host'] in user_data['subscriptions']
+
+            if not user_has_seen_movie and user_has_subscription and movie_item not in rec_list:
+                rec_list.append(movie_item)
+
+    return rec_list
+
+
