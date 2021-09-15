@@ -55,6 +55,7 @@ def get_most_watched_genre(user_data):
                 most_frequent = key
         return most_frequent
 
+# wave 3
 def get_unique_watched(user_data):
     #use sets
     friend_movie_list = []
@@ -83,3 +84,35 @@ def get_friends_unique_watched(user_data):
     for movie in unique_watched:
         unique_list.append({"title": movie})
     return unique_list
+
+# wave 4
+def get_available_recs(user_data):
+    possible_recommendations = []
+    host_list = []
+    user_movie_list = []
+    final_list = []
+    movie_host_list = []
+    recommendation_dict = {}
+    for i in range(len(user_data["watched"])):
+        user_movie_list.append(user_data["watched"][i]["title"])
+    for i in range(len(user_data["subscriptions"])):
+        host_list.append(user_data["subscriptions"][i])
+    for friend in range(len(user_data["friends"])):
+        for movie in range(len(user_data["friends"][friend]["watched"])):
+            if user_data["friends"][friend]["watched"][movie]["host"] in host_list:
+                possible_recommendations.append(user_data["friends"][friend]["watched"][movie]["title"])
+                movie_host_list.append(user_data["friends"][friend]["watched"][movie]["host"])
+        
+    recommendations = set(possible_recommendations) - set(user_movie_list)
+    # for item in recommendations:
+    #     number = possible_recommendations.index(recommendations)
+    #     recommendation_dict[]
+    # recommendation_dict = {}
+    # for friend in range(len(user_data["friends"])):
+    #     for movie in range(len(user_data["friends"][friend]["watched"])):
+    #         if user_data["friends"][friend]["watched"][movie]["title"] in recommendations:
+    #             recommendation_dict[user_data["friends"][friend]["watched"][movie]["title"]]: user_data["friends"][friend]["watched"][movie]["genre"]
+    for item in recommendations:
+        final_list.append(item)
+    return final_list
+    # need to return it as a dictionary with title and host
