@@ -75,3 +75,26 @@ def get_friends_unique_watched(amandas_data):
             friends_unique_watched.append(movie)
     
     return friends_unique_watched
+
+def get_available_recs(amandas_data):
+    friends_watched_mov = []
+    for friends in amandas_data["friends"]:
+        for movie in friends["watched"]:
+            if movie not in friends_watched_mov:
+                friends_watched_mov.append(movie)
+    
+    friends_watched_serv = []
+    for friends in amandas_data["friends"]:
+        for movie in friends["watched"]:
+            if movie["host"] not in friends_watched_serv:
+                friends_watched_serv.append(movie["host"])
+    
+    available_recs = []
+    for service in friends_watched_serv:
+        if service in amandas_data["subscriptions"]:
+            for item in friends_watched_mov:
+                if service == item["host"]:
+                    available_recs.append(item)
+
+    return available_recs                
+    
