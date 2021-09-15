@@ -118,7 +118,7 @@ def get_unique_watched(user_data):
         return user_titles_list
 
 
-def get_unique_watched(user_data):
+def get_friends_unique_watched(user_data):
     user_watched_list = user_data["watched"]
     user_titles_list = []
     friends_watched_list = user_data["friends"]
