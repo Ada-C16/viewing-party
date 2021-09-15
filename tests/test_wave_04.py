@@ -48,7 +48,7 @@ def test_get_available_recs_returns_appropriate_recommendations_for_valid_input(
     assert {"title": "Title B", "host": "Service B"} in recommendations
 
 
-# def test_get_available_recs_doesnt_recommend_watched_movie():
+def test_get_available_recs_doesnt_recommend_watched_movie():
     # Arrange
     amandas_data = {
         "subscriptions": ["Service A", "Service B"],
