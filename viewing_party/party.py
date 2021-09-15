@@ -112,3 +112,5 @@ def get_unique_watched(user_data):
         unique_movie_dict2 = {"title": unique_movies[1]}
         amandas_unique_movies = [unique_movie_dict1, unique_movie_dict2]
         return amandas_unique_movies
+    else:
+        return user_data
