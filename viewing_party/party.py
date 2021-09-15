@@ -179,14 +179,12 @@ def get_available_recs(user_data):
     friends_watched_list = get_friends_unique_watched(user_data)
     friends_watched_list_titles = []
     
-    print(friends_watched_list)
 
 
     for item in friends_watched_list:
         friends_watched_list_titles.append(item["title"])
 
 
-    print(friends_watched_list_titles)
 
 
     rec_list = []
@@ -197,47 +195,72 @@ def get_available_recs(user_data):
                 and (watched_dict not in rec_list) \
                 and watched_dict["title"] in friends_watched_list_titles:
                     rec_list.append(watched_dict)
-    print(rec_list)
-
-
+    
     return rec_list
 
 
 
 
 
+#wave 5!!
+
+
+def get_new_rec_by_genre(user_data):
+    #what is users most frequently watched genre
+    recs_by_genre_list = []
+    fav_genre = get_most_watched_genre(user_data)
+    #friend_movie_list = []
+
+    
+    #if len(user_data["watched"]) == 0:
+        #return recs_by_genre_list
+    #not in user_data["watched"]
+    #match genre fav_genre
+    #one of friends has watched
+
+    #make list of movies the friends have watched
+
+    #make list of movies friends have seen
+    for items in user_data["friends"]:
+        for movie_dict in items["watched"]:
+            if ((movie_dict["title"] not in user_data["watched"]) \
+            and (movie_dict["genre"] == fav_genre) \
+            and (movie_dict not in recs_by_genre_list)):
+                recs_by_genre_list.append(movie_dict)
+
+                
+                #can stop loop here with this line to just make a list
+                #friend_movie_list.append(movie_dict)
+    #print(recs_by_genre_list)
+
+    #if len(recs_by_genre_list) == 0:
+    return recs_by_genre_list
 
 
 
-
+def get_rec_from_favorites(user_data):
+    #if in user_data["favorites"] AND NOT in 
+    #user_data["friends"]
+    #return list of recommended movies
+    movie_recs = []
+    friends_watched_set = set()
     """
-    for friends_watched_dicts in user_data["friends"]:
-        for one_list in friends_watched_dicts.values():
-            for one_dict in one_list:
-                complete_friends_watched_list.append(one_dict)
-    #print(complete_friends_watched_list)
-    #need list of movies NOT on user list, but on friends list
-    
-    
-    for indiv_friends_dict in complete_friends_watched_list:
-        #print(indiv_friends_dict["title"])
-        for indiv_user_dict in user_data["watched"]:
-            #print(indiv_user_dict["title"])
-            if indiv_friends_dict["title"] not in indiv_user_dict.values():
-                if indiv_friends_dict not in just_friends_watched:
-                    
-                    just_friends_watched.append(indiv_friends_dict)
-
-    print(just_friends_watched)
+    for movie in user_data["favorites"]:
+        for friend in user_data["friends"]:
+            for friend_movie in friend["watched"]:
+                if 
     """
 
-
+    for friends_watched_lists in user_data["friends"]:
+        for movies_friends_watched_list in friends_watched_lists.values():
+            for indiv_dict in movies_friends_watched_list:
+                friends_watched_set.add(indiv_dict["title"])
     
-
-
-
-    #for user_movie_dict in user_movie_dict_list:
-        #i will want to use this to compare: user_movie_dict["title"]
+    for movie in user_data["favorites"]:
+        if movie["title"] not in friends_watched_set:
+            movie_recs.append(movie)
+    
+    return movie_recs
 
 
 
