@@ -106,5 +106,26 @@ def get_watched_avg_rating(user_data):
     else: 
         return 0.0
 
+def get_most_watched_genre(user_data):
+    frequency_dict = {}
+    watched_list = user_data["watched"]
+    for item in watched_list:
+        genre_name = item["genre"]
+        # item["genre"] = name of genre
+        if genre_name not in frequency_dict:
+            frequency_dict[genre_name] = 1
+        else:
+            frequency_dict[genre_name] += 1
+
+    # check to see which value(s) in frequency dict are highest and return the genre(s) with the highest number
+
+    # the way I am approaching it does not account for two genres with a tie
+
+    try: 
+        most_frequent = str(max(frequency_dict, key=frequency_dict.get))
+    except ValueError:
+        return None
+    return most_frequent
+
             
    
