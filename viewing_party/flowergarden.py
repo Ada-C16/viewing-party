@@ -55,16 +55,37 @@ def get_most_watched_genre(user_data):
 
 #Wave Three
 def get_unique_watched(user_data):
-    #tyring out list/dictionary comprehension structure
+    # user_watched_list = {}
+    # unique_data = []
+  
+    # x = 1
+    # for friends_watched in user_data['friends']:
+    #     for y in friends_watched['watched']:
+    #         user_watched_list[y['title']] = y['title']
     user_watched_list = {y['title']: y['title'] for friends_watched in user_data['friends'] for y in friends_watched['watched']}
+    
+    # for r in user_data['watched']:
+    #     for k, v in r.items():
+    #         if v not in user_watched_list.keys():
+    #             unique_data.append(r)
     unique_data = [r for r in user_data['watched'] for k, v in r.items() if v not in user_watched_list.keys()]
-
     return unique_data  
 
+
 def get_friends_unique_watched(user_data):
+    user_watched_list = {}
+    unique_data = []
+  
     x = 1
-    user_watched_list = {watched['title']: watched['title'] for watched in user_data['watched']}
-    unique_data = [y for x in user_data['friends'] for y in x['watched'] if y.values() in user_watched_list.keys()]
+    for watched in user_data['watched']:
+        user_watched_list[watched['title']] = watched['title']
+
+    for x in user_data['friends']:
+        for y in x['watched']:
+            if y.values() in user_watched_list.keys():
+               unique_data.append(y)   
+
+
     return unique_data 
 
 def get_friends_unique_watched(user_data):
