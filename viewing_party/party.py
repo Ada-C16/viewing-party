@@ -137,7 +137,6 @@ def get_friends_unique_watched(user_data):
         user_titles_set = set(user_titles_list)
         friends_titles_set = set(friends_titles_list)
         unique_movies = list(friends_titles_set - user_titles_set)
-        print(unique_movies)
 
         #NEED TO CONINTUE TO WORK ON THIS!!!
         unique_movie_dict1 = {"title": unique_movies[0]}
@@ -148,6 +147,7 @@ def get_friends_unique_watched(user_data):
     else:
         return friends_titles_list
 
+#WAVE 04
 def get_available_recs(user_data):
     user_watched_list = user_data["watched"]
     user_titles_list = []
@@ -186,3 +186,5 @@ def get_available_recs(user_data):
                 rec_movies.append(movie)  
 
     return rec_movies
+
+#WAVE05
