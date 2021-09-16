@@ -136,35 +136,39 @@ def get_friends_unique_watched(user_data):
 
 # get_friends_unique_watched(amandas_data)
 
-service_data = {
-        "subscriptions": ["Service A", "Service B"],
-        "watched": [],
+rec_data = {
+        "watched": [
+            {
+                "title": "Title A",
+                "genre": "Intrigue"
+            },
+            {
+                "title": "Title B",
+                "genre": "Intrigue"
+            },
+            {
+                "title": "Title C",
+                "genre": "Fantasy"
+            }
+        ],
         "friends": [
             {
                 "watched": [
                     {
-                        "title": "Title A",
-                        "host": "Service A"
-                    },
-                    {
-                        "title": "Title C",
-                        "host": "Service C"
+                        "title": "Title D",
+                        "genre": "Intrigue"
                     }
                 ]
             },
             {
                 "watched": [
                     {
-                        "title": "Title A",
-                        "host": "Service A"
+                        "title": "Title C",
+                        "genre": "Fantasy"
                     },
                     {
-                        "title": "Title B",
-                        "host": "Service B"
-                    },
-                    {
-                        "title": "Title D",
-                        "host": "Service D"
+                        "title": "Title E",
+                        "genre": "Intrigue"
                     }
                 ]
             }
@@ -175,17 +179,62 @@ service_data = {
 def get_available_recs(user_data):
     recommendations = []
     friends_watched = []
+    user_watched = []
     for friend in user_data["friends"]:
         for item in friend["watched"]:
             friends_watched.append(item)
-    # print("friends watched", friends_watched)
+
+    for item in user_data["watched"]:
+        user_watched.append(item["title"])
     user_subscriptions = user_data["subscriptions"]
-    # print("sub", user_subscriptions)
+   
     for movie in friends_watched:
-        # print("movie", movie["host"])
-        if movie["host"] in user_subscriptions and movie["title"] not in user_data["watched"] and movie["title"] not in recommendations:
-            recommendations.append(item)
-            # print("recommendations", recommendations)
+        if movie["host"] in user_subscriptions and \
+        movie["title"] not in user_watched \
+        and movie not in recommendations:
+            recommendations.append(movie)
     return recommendations
 
-get_available_recs(service_data)
+
+def get_new_rec_by_genre(user_data):
+    user_genre_watched = []
+    recommendations = []
+
+    if len(user_data["watched"]) > 0:
+        for movie in user_data["watched"]:
+            user_genre_watched.append(movie["genre"])
+    else:
+        return recommendations
+
+    friends_watched = []
+
+    for friend in user_data["friends"]:
+        for item in friend["watched"]:
+            friends_watched.append(item)
+
+    for movie in friends_watched:
+        if movie["genre"] in user_genre_watched \
+        and movie not in recommendations:
+            recommendations.append(movie)
+    return recommendations
+
+def get_rec_from_favorites(user_data):
+    user_favorites = []
+    recommendations = []
+
+    if len(user_data["favorites"]) > 0:
+        for movie in user_data["favorites"]:
+            user_favorites.append(movie)
+    else:
+        return recommendations
+    
+    friends_watched = []
+
+    for friend in user_data["friends"]:
+        for item in friend["watched"]:
+            friends_watched.append(item)
+    
+    for movie in user_favorites:
+        if movie not in friends_watched:
+            recommendations.append(movie)
+    return recommendations
