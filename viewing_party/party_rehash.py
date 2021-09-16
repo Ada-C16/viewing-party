@@ -4,9 +4,15 @@ def create_movie(title, genre, rating):
     Returns movie dict if information is complete.
     Returns None if any empty fields.
     '''
+    # Create dictonary for movie profile
+    movie = {}
+    
     # Add movie profile to dict if all data available
     if title and genre and rating:
-        movie = {"title": title, "genre": genre, "rating": rating}
+        movie['title'] = title
+        movie['genre'] = genre
+        movie['rating'] = rating
+    
         # Return movie
         return movie
     else:
@@ -45,6 +51,9 @@ def watch_movie(user_data, movie_title):
     movie_watched = list(filter(lambda movie: movie['title'] == movie_title, 
         user_data['watchlist']))
 
+    for movie in user_data['watchlist']:
+        
+
     # movie_watched is formated as follows:
         # [{'title': 'Title B', 'genre': 'Action', 'rating': 2.0}]
     
@@ -55,6 +64,7 @@ def watch_movie(user_data, movie_title):
 
         # Remove watched movie from 'watchlist' by filtering
             # for titles that do not match 'movie_title'
+        # QUESTION: Is there a better way to do this?
         movies_unwatched = list(filter(lambda movie: movie['title'] != movie_title, 
             user_data['watchlist']))
 
@@ -164,7 +174,9 @@ def get_friends_unique_watched(user_data):
     # Create a set to store movie titles friends have watched, add titles
     friends_movies = set()
     for friend_data in user_data['friends']:
+        print(friend_data)
         for watched_movie in friend_data['watched']:
+            print(watched_movie)
             friends_movies.add(watched_movie['title'])
     
     # Compare watched titles of user and friends, isolating titles unique
@@ -191,14 +203,23 @@ def get_available_recs(user_data):
     # Create variable to refer to list of user's subscriptions
     user_subscriptions = user_data['subscriptions']
     
+    # Utilize get_friends_unique_watched function to filter for 
+    #  friend-recommended movie titles
+    friend_recommendations = get_friends_unique_watched(user_data)
+
+    # Isolate friend-recommended movie titles from friend_recommendations
+    #  in a list
+    friends_movies = []
+    for movie in friend_recommendations:
+        friends_movies.append(movie['title'])
+    
     # Identify friend-recommended movies that user has subscription to view
     for friend_data in user_data['friends']:
         for watched_movie_data in friend_data['watched']:
             # Check that user is subscribed to 'host' and
             #  'title' is recommended
             if watched_movie_data['host'] in user_subscriptions \
-                and watched_movie_data['title'] not in user_data['watched']:
-
+                and watched_movie_data['title'] in friends_movies:
                 # If movie is not already recommended, addpend to recs
                 if watched_movie_data not in recommendations:
                     recommendations.append(watched_movie_data)
@@ -256,3 +277,13 @@ def get_rec_from_favorites(user_data):
 
     # Return unique friends. 
     return recommendations
+
+
+
+
+
+
+
+
+
+    # TODO get_unique(key='watched', dataset=user_data)
