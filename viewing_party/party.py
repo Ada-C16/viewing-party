@@ -1,5 +1,4 @@
 #  WAVE 1 #
-
 def create_movie(title, genre, rating):
     if title and genre and rating:
         movie_dict = {}
@@ -76,7 +75,6 @@ def get_most_watched_genre(user_data):
             frequency_dict[genre_name] += 1
 
     # check to see which value(s) in frequency dict are highest and return the genre(s) with the highest number
-
     # the way I am approaching it does not account for two genres with a tie
 
     try: 
@@ -116,9 +114,16 @@ def get_friends_unique_watched(user_data):
     # create an empty list to hold the movie dictionaries
     unique_friend_list = []
     friend_watched_list = []
+    user_title_list = []
+
 
     # get list of user's watched movies
     user_watched_list = user_data["watched"]
+
+    # make a list of titles that the user has watched
+    for dict in user_watched_list:
+        user_title_list.append(dict["title"])
+
     # get friends' watched dictionaries
     friends_watched_dict = user_data["friends"]
     
@@ -127,18 +132,16 @@ def get_friends_unique_watched(user_data):
         for item in friend_dict["watched"]:
             friend_watched_list.append(item)
 
-    # compare lists
-    # need to add dicts that are in friend_watched but not user_watched to unique_friend_list
-    # cannot have duplicates
-    for item in friend_watched_list:
-        if item not in user_watched_list:
-            if item not in unique_friend_list:
-                unique_friend_list.append(item)
-
-
+    
+    for friend_dict in friend_watched_list:
+        if friend_dict["title"] in user_title_list:
+            continue 
+        elif friend_dict not in unique_friend_list:
+                unique_friend_list.append(friend_dict)
+            
     return unique_friend_list
 
-# WAVE 4 #pytest
+# WAVE 4 # 
                
 # does not account for dicts that are not a perfect match eg. {"title": "Title A"} and {"title": Title A, "host": "Service A"}
 def get_available_recs(user_data):
@@ -152,7 +155,7 @@ def get_available_recs(user_data):
 
     return rec_list
 
-    # WAVE 5 #
+# WAVE 5 #
 
 def get_new_rec_by_genre(user_data):
     # if fav_genre is = to the genre in unique friend list, append the movie dict to a list and return it
@@ -175,7 +178,7 @@ def get_new_rec_by_genre(user_data):
 
 def get_rec_from_favorites(user_data):
     unique_user_list = get_unique_watched(user_data)
-    # if users_unique_list dict is in favorites, append to recs_from_favs_list
+    # if dicts in users_unique_list are in favorites, append to recs_from_favs_list
     rec_from_fav_list = []
 
     for dict in unique_user_list:
