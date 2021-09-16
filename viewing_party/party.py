@@ -100,8 +100,26 @@ def get_friends_unique_watched(user_data):
     return friends_unique_movies
 
 # Wave 4
-
-
+# This function consolidates friends' watched and host values into one list.
+def get_friends_movie_info(user_data):
+    all_friends_movie_info = []
+    friends = user_data["friends"]
+    for friend in friends:
+        for i in range(len(friends)):
+            friend_movie_info = friend["watched"].pop()
+            all_friends_movie_info.append(friend_movie_info)
+    # print(all_friends_movie_info)
+    return all_friends_movie_info
 
 def get_available_recs(user_data):
-    pass
+    recs = []
+    subscriptions = user_data["subscriptions"]
+    watched = user_data["watched"]
+    friends_movie_info = get_friends_movie_info(user_data)
+    for friend_movie_info in friends_movie_info:
+        for movie in watched:
+            print(movie["title"], friend_movie_info["title"])
+            if friend_movie_info["title"] not in movie["title"] and friend_movie_info["host"] in subscriptions:
+                recs.append(friend_movie_info)
+    print(recs)
+    return recs
