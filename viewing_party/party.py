@@ -103,16 +103,12 @@ def get_friends_unique_watched(user_data):
 #WAVE 4
     
 def get_available_recs(user_data):
-    #LIST OF MOVIES USER WATCHED (LIST OF DICTIONARIES)
     list_of_user_watched_movies = user_data["watched"]
     
-    #LIST OF SUBSCRIPTIONS BY USER (LIST OF STRINGS)
     list_of_user_subscriptions = user_data["subscriptions"]
    
-    #CREATE AN EMPTY LIST (RECS)
     list_of_rec_movies = []
 
-    #CONDITIONAL IF RECOMMENDATION LIST EQUALS TO ZERO
     friends_movie_list = []
     user_not_watched_list = []
     friends_no_dup_unique_movie_list = []
@@ -139,13 +135,44 @@ def get_available_recs(user_data):
     if len(list_of_rec_movies) == 0:
         return []
 
-    #RETURN LIST OF RECOMMENDATIONS
     return list_of_rec_movies
 
 
 #WAVE 5
 def get_new_rec_by_genre(user_data):
+    list_of_user_watched_movies = user_data["watched"]
     list_of_rec_movies_by_genre = []
-    pass
-    
-    
+
+    #User Has NOT WATCHED BUT FRIENDS HAVE
+    list_of_movies_user_not_watched = get_friends_unique_watched(user_data)
+
+    #FREQUENT GENRE
+    most_frequent_genre = get_most_watched_genre(user_data)
+
+    for movie in list_of_movies_user_not_watched:
+        if movie["genre"] == most_frequent_genre:
+            list_of_rec_movies_by_genre.append(movie)
+    if len(list_of_rec_movies_by_genre) == 0:
+        return []
+
+    #Return recommendations
+    return list_of_rec_movies_by_genre
+
+
+def get_rec_from_favorites(user_data):
+    list_of_movies_unique_user_watched = get_unique_watched(user_data)
+
+    list_of_user_fav_movies = user_data["favorites"]
+
+    list_of_rec_movies_from_favs = []
+
+    for movie in list_of_user_fav_movies:
+        for not_watched in list_of_movies_unique_user_watched:
+            if movie == not_watched:
+                list_of_rec_movies_from_favs.append(movie)
+    #CONDITIONAL
+    if len(list_of_rec_movies_from_favs) == 0:
+        return []
+
+    #RETURN RECOMMENDATION
+    return list_of_rec_movies_from_favs
