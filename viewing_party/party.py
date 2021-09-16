@@ -75,6 +75,7 @@ def get_unique_watched(user_data):
     return unique_watched
 
 def get_friends_unique_watched(user_data):
+    # Makes a list of what the user's friends have watched that the user has not watched
     friends_unique_watched = []
 
     for friend in user_data["friends"]:
@@ -92,7 +93,7 @@ def get_friends_unique_watched(user_data):
     return true_unique
 
 def get_available_recs(user_data):
-    #return a list of dictionaries that has "title" key and the movie title as value
+    # Return a list of dictionaries that has "title" key and the "movie title" as value
     user_watched_titles = [] 
     rec_movies = []
 
@@ -109,6 +110,7 @@ def get_available_recs(user_data):
     return rec_movies
 
 def user_watched_titles(user_data):
+    # Helper Function for user's watched titles
     user_watched_titles = []
     
     for user_movie_data in user_data["watched"]:
@@ -117,6 +119,8 @@ def user_watched_titles(user_data):
     return user_watched_titles
 
 def get_new_rec_by_genre(user_data):
+    # Makes a list where at least one of the user's friends have watched it and
+    # The genre is the same as the user's most frequent genre
     most_watched_genre = get_most_watched_genre(user_data)
     user_movies = user_watched_titles(user_data)
     if not user_movies:
@@ -134,6 +138,7 @@ def get_new_rec_by_genre(user_data):
     return rec_movies
 
 def get_rec_from_favorites(user_data):
+    # Makes a list of recommendations if the movie is a user's favorite and if none of their friends have watched it
     favorite_movies = []
     friends_watched = []
 
