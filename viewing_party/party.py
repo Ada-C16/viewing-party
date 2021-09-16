@@ -222,3 +222,35 @@ def get_available_recs(user_data):
 
 
 # ********* wave 5 begins ***********
+
+def get_new_rec_by_genre(user_data):
+    unique_watched_between_friends = get_friends_unique_watched(user_data)
+    user_most_watched_genre = get_most_watched_genre(user_data)
+    recs_list = []
+    
+    if unique_watched_between_friends and user_most_watched_genre:
+        for i in unique_watched_between_friends:
+            if i["genre"] == user_most_watched_genre:
+                recs_list.append(i)
+    return recs_list
+
+
+
+def get_rec_from_favorites(user_data):
+
+    watched_titles = []
+    for friends_watched in user_data["friends"]:
+        for movie in friends_watched["watched"]:
+            if movie["title"] not in watched_titles:
+                    watched_titles.append(movie)
+
+    user_favs = []
+    for favs in user_data["favorites"]:
+        user_favs.append(favs)
+
+    favs_by_rec = []
+    for movie in user_favs:
+        if movie not in watched_titles:
+            favs_by_rec.append(movie)
+
+    return favs_by_rec
