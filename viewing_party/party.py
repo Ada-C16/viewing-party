@@ -100,8 +100,7 @@ def get_friends_unique_watched(user_data):
     return final_friends_unique_list
 
 
-#WAVE 4
-    
+#WAVE 4 
 def get_available_recs(user_data):
     list_of_user_watched_movies = user_data["watched"]
     
@@ -140,13 +139,10 @@ def get_available_recs(user_data):
 
 #WAVE 5
 def get_new_rec_by_genre(user_data):
-    list_of_user_watched_movies = user_data["watched"]
     list_of_rec_movies_by_genre = []
 
-    #User Has NOT WATCHED BUT FRIENDS HAVE
     list_of_movies_user_not_watched = get_friends_unique_watched(user_data)
 
-    #FREQUENT GENRE
     most_frequent_genre = get_most_watched_genre(user_data)
 
     for movie in list_of_movies_user_not_watched:
@@ -155,7 +151,6 @@ def get_new_rec_by_genre(user_data):
     if len(list_of_rec_movies_by_genre) == 0:
         return []
 
-    #Return recommendations
     return list_of_rec_movies_by_genre
 
 
