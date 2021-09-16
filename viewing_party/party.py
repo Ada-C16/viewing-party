@@ -197,23 +197,14 @@ def get_available_recs(user_data):
     # Create variable to refer to list of user's subscriptions
     user_subscriptions = user_data['subscriptions']
     
-    # Utilize get_friends_unique_watched function to filter for 
-    #  friend-recommended movie titles
-    friend_recommendations = get_friends_unique_watched(user_data)
-
-    # Isolate friend-recommended movie titles from friend_recommendations
-    #  in a list
-    friends_movies = []
-    for movie in friend_recommendations:
-        friends_movies.append(movie['title'])
-    
     # Identify friend-recommended movies that user has subscription to view
     for friend_data in user_data['friends']:
         for watched_movie_data in friend_data['watched']:
             # Check that user is subscribed to 'host' and
             #  'title' is recommended
             if watched_movie_data['host'] in user_subscriptions \
-                and watched_movie_data['title'] in friends_movies:
+                and watched_movie_data['title'] not in user_data['watched']:
+
                 # If movie is not already recommended, addpend to recs
                 if watched_movie_data not in recommendations:
                     recommendations.append(watched_movie_data)
