@@ -1,6 +1,6 @@
 def create_movie(movie_title, genre, rating):
     """
-    input: details about a movie
+    input: 3 strings which provide details about a movie
     output: a dictionary which stores details about the movie
     """
 
@@ -23,6 +23,10 @@ def create_movie(movie_title, genre, rating):
         return None
 
 def add_to_watched(user_data, movie):
+    """
+    input: A dictionary of user_data and a particular movie
+    output: Returns the dictionary of user_data, with the movie added to the "watched" key
+    """
     # Given a movie dictionary, 
     # Return statement for this function should equal the dictionary of user_data
     # user_data is a parameter of data type dictionary
@@ -32,11 +36,19 @@ def add_to_watched(user_data, movie):
     return user_data
 
 def add_to_watchlist(user_data, movie):
+    """
+    input: A dictionary of user_data and a particular movie
+    output: Returns the user_data dictionary with the movie added to the "watchlist" key of user_data
+    """
     user_data["watchlist"].append(movie)
     return user_data
 
 def watch_movie(user_data, title):
-    
+    """
+    input: A dictionary of user_data and a movie title
+    output: The user_data dictionary with the movie dictionary removed from "watchlist"
+    and added to the "watched" list
+    """
     # Check whether movie_title was in watchlist
     # user_data[watchlist]
     # If it was, remove it from the watchlist
@@ -55,6 +67,11 @@ def watch_movie(user_data, title):
     return user_data
 
 def get_watched_avg_rating(user_data):
+    """
+    input: A dictionary of user_data
+    output: The average rating of each movie in the user's watched list
+    """
+
     # Access the watched key in user_data
     # That points to a list
     # Inside this list are dictionary elements
@@ -83,6 +100,11 @@ def get_watched_avg_rating(user_data):
         return avg
 
 def get_most_watched_genre(user_data):
+    """
+    input: A dictionary of user_data
+    output: A string which represents which genre a user has watched the most
+    """
+    
     # Given a dictionary user_data
     # Access the watched key, which is a list
     # Loop through that watched list
@@ -125,24 +147,30 @@ def get_most_watched_genre(user_data):
         return most_watched
 
 def get_unique_watched(user_data):
-    # Return a list of movie titles stored as {title = title}
+    """
+    input: A dictionary of user_data
+    output: A list of movies as dictionaries, which were watched by the user but not their friends
+    """
 
     user_set = set()
     friend_set = set()
-    # unique_watched = []
 
     # Collect all of the movie titles watched by original user_data
     # Access with user_data[0] <= loop through this list of dictionaries
     # Grab the values at each title key and put into a set_1
     for movie in user_data["watched"]:
         user_set.add(movie["title"])
-    # Then access the second element in user_data[1]
-    for friend_data in user_data["friends"]:
-        for movie in friend_data["watched"]:
-            friend_set.add(movie["title"])
+
     # this is a list - loop through this list of dictionaries
     # in the dictionaries, access ["watched"], which is another list of dictionaries
     # loop through the watched list to grab the ["title"] key and put that into a second set
+    for friend_data in user_data["friends"]:
+        for movie in friend_data["watched"]:
+            friend_set.add(movie["title"])
+    
+    # Compare both sets, getting the difference between set_1 and set_2
+    # Turn the resulting set into a list
+    # Return that list back to the function
     unique_watched = list(user_set - friend_set)
 
     new_list = []
@@ -152,13 +180,16 @@ def get_unique_watched(user_data):
         new_list.append({"title": movie})
 
     unique_watched = new_list
-    # Compare both sets, getting the difference between set_1 and set_2
-    # Turn the resulting set into a list
-    # Return that list back to the function
+    
 
     return unique_watched
 
 def get_friends_unique_watched(user_data):
+    """
+    input: A dictionary of user_data
+    output: A list of movies that a user's friends have watched, but the user has not
+    """
+
     user_set = set()
     friend_set = set()
 
@@ -190,6 +221,12 @@ def get_friends_unique_watched(user_data):
     return friends_unique_watched
 
 def get_available_recs(user_data):
+    """
+    input: A dictionary of user_data
+    output: A list of movies that the user has not watched and that match the subscription platforms
+    the user uses
+    """
+    
     recommended_movies = []
     user_subscriptions = user_data["subscriptions"]
 
@@ -203,6 +240,11 @@ def get_available_recs(user_data):
     return recommended_movies
 
 def get_new_rec_by_genre(user_data):
+    """
+    input: A dictionary of user_data
+    output: A list of movies that match the user's most-watched genre
+    """
+
     most_watched_genre = get_most_watched_genre(user_data)
 
     recommended_by_genre = []
@@ -216,6 +258,11 @@ def get_new_rec_by_genre(user_data):
     return recommended_by_genre
 
 def get_rec_from_favorites(user_data):
+    """
+    input: A dictionary of user_data
+    output: A list of movies that the user recommends to their friends who have not already watched those movies
+    """
+
     # Create a list of recommendations to return at the end of the function
     # Look through the list of user_data["favorites"] to collect a list of favorites
     # Store that information into a separate list called user_favorites
@@ -237,5 +284,4 @@ def get_rec_from_favorites(user_data):
         if favorite not in friends_watched:
             recommendations.append(favorite)
 
-    print(recommendations)
     return recommendations
