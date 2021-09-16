@@ -130,21 +130,18 @@ def get_friends_unique_watched(user_data):
         for movie in user_watched_list:
             user_movie_title = movie["title"]
             user_titles_list.append(user_movie_title)
-        print(f"User Movies: {user_titles_list}")
 
         for friend in friends_watched_list:
             friend_list = friend["watched"]
             for movie in friend_list:
                 watched_movie = movie["title"]
                 friends_titles_list.append(watched_movie)
-        print(f"Friends Movies: {friends_titles_list}")
-        print("")
+
 
         user_titles_set = set(user_titles_list)
         friends_titles_set = set(friends_titles_list)
         unique_movies = list(friends_titles_set - user_titles_set)
-        print(f"Friends Unique Movies: {unique_movies}")
-        print("")
+
 
         if unique_movies != []:
             for movie in unique_movies:
@@ -152,6 +149,7 @@ def get_friends_unique_watched(user_data):
                 friends_unique_movies.append(movie)
         
             return friends_unique_movies
+        
         else:
             return unique_movies
     else:
