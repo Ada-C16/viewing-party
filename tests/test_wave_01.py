@@ -163,9 +163,9 @@ def test_add_to_nonempty_watchlist_adds_movie_to_user_watchlist():
     assert id(updated_data["watchlist"][1]) == id(movie)
 
 
-def test_watch_movie_moves_movie_from_watchlist_to_empty_watched():
-    # Arrange
-    janes_data = {
+def test_watch_movie_moves_movie_from_watchlist_to_empty_watched():   # this function moves the movie from the "watchlist" or "to-be-watched"
+    # Arrange                                                         # to the "watched" list. IE, after Jane watched Title A this function will move her
+    janes_data = {                                                    # movie to the watched list 
         "watchlist": [{
             "title": "Title A",
             "genre": "Fantasy",
@@ -175,14 +175,14 @@ def test_watch_movie_moves_movie_from_watchlist_to_empty_watched():
     }
 
     # Act
-    updated_data = watch_movie(janes_data, "Title A")
+    updated_data = watch_movie(janes_data, "Title A")         # returns user_data and stores in updated_data
 
-    # Assert
-    assert len(updated_data["watchlist"]) == 0
-    assert len(updated_data["watched"]) == 1
-    assert updated_data["watched"][0]["title"] == "Title A"
-    assert updated_data["watched"][0]["genre"] == "Fantasy"
-    assert updated_data["watched"][0]["rating"] == 4.8
+    # Assert                                                  # when the function is called....
+    assert len(updated_data["watchlist"]) == 0                # length of the list at key "watchlist" == 0
+    assert len(updated_data["watched"]) == 1                  # length of the list at key "watched" will be 1
+    assert updated_data["watched"][0]["title"] == "Title A"   # moves Jane's data at title to the watched list (making a new dict)
+    assert updated_data["watched"][0]["genre"] == "Fantasy"   # moved the genre to the dict
+    assert updated_data["watched"][0]["rating"] == 4.8        # moves the rating to the dict 
 
 
 def test_watch_movie_moves_movie_from_watchlist_to_watched():
