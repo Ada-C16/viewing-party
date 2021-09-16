@@ -215,4 +215,4 @@ def get_new_rec_by_genre(user_data):
             if user_freq_genre == movie["genre"]:
                 if movie not in new_rec_list:
                     new_rec_list.append(movie)
-    print(new_rec_list)
+    return new_rec_list
