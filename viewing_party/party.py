@@ -170,9 +170,7 @@ def get_rec_from_favorites(user_data):
         for not_watched in list_of_movies_unique_user_watched:
             if movie == not_watched:
                 list_of_rec_movies_from_favs.append(movie)
-    #CONDITIONAL
     if len(list_of_rec_movies_from_favs) == 0:
         return []
 
-    #RETURN RECOMMENDATION
     return list_of_rec_movies_from_favs
