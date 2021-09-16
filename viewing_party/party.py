@@ -115,11 +115,16 @@ def get_available_recs(user_data):
     recs = []
     subscriptions = user_data["subscriptions"]
     watched = user_data["watched"]
+    print(watched)
     friends_movie_info = get_friends_movie_info(user_data)
     for friend_movie_info in friends_movie_info:
-        for movie in watched:
-            print(movie["title"], friend_movie_info["title"])
-            if friend_movie_info["title"] not in movie["title"] and friend_movie_info["host"] in subscriptions:
+        if len(watched) > 0:
+            for movie in watched:
+                print(movie["title"], friend_movie_info["title"])
+                if friend_movie_info["title"] not in movie["title"] and friend_movie_info["host"] in subscriptions:
+                    recs.append(friend_movie_info)
+        else:
+            if friend_movie_info["host"] in subscriptions:
                 recs.append(friend_movie_info)
     print(recs)
     return recs
