@@ -204,16 +204,24 @@ def get_available_recs(user_data):
 #WAVE05
 def get_new_rec_by_genre(user_data):
     user_freq_genre = get_most_watched_genre(user_data)
-    unwatched = get_friends_unique_watched(user_data)
+    friends_unique_watched = get_friends_unique_watched(user_data)
     friends_watched_list = user_data["friends"]
-    new_rec_list = []
-    
+    new_rec_list = []    
+
+    friend_rec = []
+    for watched in friends_unique_watched:
+        friend_watched = watched["title"]
+        friend_rec.append(friend_watched)
+
+        
     for friend_list in friends_watched_list:
         movies = friend_list["watched"]
         for movie in  movies:
-            if user_freq_genre == movie["genre"]:
-                if movie not in new_rec_list:
-                    new_rec_list.append(movie)
+            for title in friend_rec:
+                if title == movie["title"]:
+                    if user_freq_genre == movie["genre"]:
+                        if movie not in new_rec_list:
+                            new_rec_list.append(movie)
     return new_rec_list
 
 
@@ -222,7 +230,6 @@ def get_rec_from_favorites(user_data):
     user_unique_watched = get_unique_watched(user_data)
     friends_watched_list = user_data["friends"]     
 
-    #see if unique movie in user favorites
     user_unique_fav = []
     for favorite in user_favorites:
         favorite_title = favorite["title"]
@@ -231,7 +238,6 @@ def get_rec_from_favorites(user_data):
             if favorite_title == unique_title:
                 user_unique_fav.append(favorite)
 
-    #see if unique + favorite is NOT in friends list
     if user_unique_fav != []:
         for friends_list in friends_watched_list:
             friend_watched = friends_list["watched"]
