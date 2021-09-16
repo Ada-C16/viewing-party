@@ -157,7 +157,6 @@ def get_available_recs(user_data):
     title_host_list = []
     rec_host= []
     rec_movies = []
-    #determins which movies are in the friend's list but NOT in the user's list
     
     for movie in user_watched_list:
         user_movie_title = movie["title"]
@@ -169,7 +168,6 @@ def get_available_recs(user_data):
             title_list = movie["title"] 
             friends_titles_list.append(title_list)
 
-    #check that the movies the user has not watched are hosted by the streaming services in thier subscript_list
     user_titles_set = set(user_titles_list)
     friends_titles_set = set(friends_titles_list)
     user_unwatched = list(friends_titles_set - user_titles_set)
@@ -181,9 +179,10 @@ def get_available_recs(user_data):
         for sub in user_sub_list:
             if sub == host:
                     rec_host.append(host)
-    #return the titles of the movies the user has NOT seen but has access to
-        #for movie in friend_list:
+
     for movie in friend_list:
         for host in rec_host:
-            if host in movie["host"]:
-                    rec_movies.append(movie)
+            if host in movie.values():
+                rec_movies.append(movie)  
+
+    return rec_movies
