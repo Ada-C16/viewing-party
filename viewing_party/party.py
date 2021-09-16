@@ -137,7 +137,7 @@ def get_friends_unique_watched(user_data):
         if friend_dict["title"] in user_title_list:
             continue 
         elif friend_dict not in unique_friend_list:
-                unique_friend_list.append(friend_dict)
+            unique_friend_list.append(friend_dict)
             
     return unique_friend_list
 
