@@ -180,18 +180,18 @@ def get_friends_unique_watched(user_data):
     returns list of movies in friends watched but not in "watched"
     does not return duplicates
     """
-    empty_list2 = []
+    friends_watched = []
     for i in range(len(user_data["friends"])):
-        empty_list2 += user_data["friends"][i]["watched"]
+        friends_watched  += user_data["friends"][i]["watched"]
 
-    empty_list4 = []
-    for i in empty_list2:
+    friends_unique_watched = []
+    for i in friends_watched:
         if i not in user_data["watched"]:
-            if i in empty_list4:
+            if i in friends_unique_watched:
                 continue
-            empty_list4.append(i)
+            friends_unique_watched.append(i)
     
-    return empty_list4
+    return friends_unique_watched
 
 
 # ********* wave 4 begins ***********
@@ -219,3 +219,6 @@ def get_available_recs(user_data):
             recs.append(i)
 
     return recs
+
+
+# ********* wave 5 begins ***********
