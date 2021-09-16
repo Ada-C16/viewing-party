@@ -1,6 +1,6 @@
 def create_movie(movie_title, genre, rating):
     '''
-    functions builds a dictionary with three key value 
+    function builds a dictionary with three key value 
     pairs where each value is the relevant parameter for each movie
     '''
     if movie_title == None or genre == None or rating == None:
