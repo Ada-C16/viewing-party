@@ -216,7 +216,11 @@ def get_new_rec_by_genre(user_data):
                     new_rec_list.append(movie)
     return new_rec_list
 
-    
+
+def get_rec_from_favorites(user_data):
+    user_favorites = user_data["favorites"]
+    user_unique_watched = get_unique_watched(user_data)
+    friends_watched_list = user_data["friends"]     
 
     #see if unique movie in user favorites
     user_unique_fav = []
