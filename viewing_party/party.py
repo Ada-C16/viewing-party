@@ -92,6 +92,8 @@ def get_unique_watched(user_data):
     user_titles_list = []
     friends_watched_list = user_data["friends"]
     friends_titles_list = []
+    unique_movies_list = []
+
     if user_watched_list != []:       
         for movie in user_watched_list:
             user_movie_title = movie["title"]
@@ -107,13 +109,12 @@ def get_unique_watched(user_data):
         friends_titles_set = set(friends_titles_list)
         unique_movie = list(user_titles_set - friends_titles_set)
 
+        for movie in unique_movies:
+            unique_movie= {"title:": movie}
+            unique_movies_list.append(unique_movie)
+        
+        return unique_movies_list
 
-        #NEED TO CONINTUE TO WORK ON THIS!!!
-        unique_movie_dict1 = {"title": unique_movie[0]}
-        unique_movie_dict2 = {"title": unique_movie[1]}
-        amandas_unique_movies = [unique_movie_dict1, unique_movie_dict2]
-        amandas_unique_movies
-        return amandas_unique_movies
     else:
         return user_titles_list
 
@@ -123,6 +124,8 @@ def get_friends_unique_watched(user_data):
     user_titles_list = []
     friends_watched_list = user_data["friends"]
     friends_titles_list = []
+    unique_movies_list = []
+
     if friends_watched_list != []:       
         for movie in user_watched_list:
             user_movie_title = movie["title"]
@@ -138,12 +141,12 @@ def get_friends_unique_watched(user_data):
         friends_titles_set = set(friends_titles_list)
         unique_movies = list(friends_titles_set - user_titles_set)
 
-        #NEED TO CONINTUE TO WORK ON THIS!!!
-        unique_movie_dict1 = {"title": unique_movies[0]}
-        unique_movie_dict2 = {"title": unique_movies[1]}
-        unique_movie_dict3 = {"title": unique_movies[2]}
-        friends_unique_movies = [unique_movie_dict1, unique_movie_dict2, unique_movie_dict3]
-        return friends_unique_movies
+        for movie in unique_movies:
+            unique_movie= {"title:": movie}
+            unique_movies_list.append(unique_movie)
+        
+        return unique_movies_list
+
     else:
         return friends_titles_list
 
