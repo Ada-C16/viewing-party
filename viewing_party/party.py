@@ -1,9 +1,5 @@
 #  WAVE 1 #
 
-# ********************
-    # PART ONE #
-# ********************
-
 def create_movie(title, genre, rating):
     if title and genre and rating:
         movie_dict = {}
@@ -14,11 +10,6 @@ def create_movie(title, genre, rating):
     else: 
         return None
 
-
-# ********************
-    # PART TWO #
-# ********************
-
 def add_to_watched(user_data, movie):
     if "watched" in user_data.keys():
         user_data["watched"].append(movie)
@@ -27,18 +18,10 @@ def add_to_watched(user_data, movie):
 
     return user_data
 
-# ********************
-    # PART THREE #
-# ********************
-
 def add_to_watchlist(user_data, movie):
     user_data["watchlist"].append(movie)
     
     return user_data
-
-# ********************
-    # PART FOUR #
-# ********************
 
 def watch_movie(user_data, title):
 
@@ -106,35 +89,28 @@ def get_most_watched_genre(user_data):
 
 def get_unique_watched(user_data):
     # create an empty list to hold the movie dictionaries
-    user_unique_list = []
-    user_movie_set = set()
-    friend_movie_set = set()
+    unique_user_list = []
+    friend_watched_list = []
 
-    # access movie dictionaries
+    # get list of user's watched movies
     user_watched_list = user_data["watched"]
-    friends_watched = user_data["friends"]
-
-
-    # loop through user's movies and add them to a set
-    for movie_dict in user_watched_list:
-        users_movie_titles = movie_dict["title"]
-        user_movie_set.add(users_movie_titles)
-
-    # loop through friends' movies and add to set
-    for friend_dict in friends_watched:
+    # get friends' watched dictionaries
+    friends_watched_dict = user_data["friends"]
+    
+    # iterate through friend dictionaries and append each movie dict to friends_watched_list
+    for friend_dict in friends_watched_dict:
         for item in friend_dict["watched"]:
-            friend_movie_titles = item["title"]
-            friend_movie_set.add(friend_movie_titles)
-    # difference of two sets is a new set composed of all of the elements of the first set except for any elements that overlap with the second set
-    unique_user_set = user_movie_set - friend_movie_set
-    
-    # iterate through unique user set and add values with the key "title" to dictionary, then append dict to list
-    for title in unique_user_set:
-        unique_movie = {}
-        unique_movie["title"] = title
-        user_unique_list.append(unique_movie)
-    
-    return user_unique_list
+            friend_watched_list.append(item)
+
+    # compare lists
+    # add dicts that are in user_watched but not friend_watched_list to unique_friend_list
+    # cannot have duplicates 
+    for item in user_watched_list:
+        if item not in friend_watched_list:
+            if item not in unique_user_list:
+                unique_user_list.append(item)
+
+    return unique_user_list
 
 def get_friends_unique_watched(user_data):
     # create an empty list to hold the movie dictionaries
@@ -150,10 +126,6 @@ def get_friends_unique_watched(user_data):
     for friend_dict in friends_watched_dict:
         for item in friend_dict["watched"]:
             friend_watched_list.append(item)
-    
-    print(user_watched_list)
-    print(":::::::::::::")
-    print(friend_watched_list)
 
     # compare lists
     # need to add dicts that are in friend_watched but not user_watched to unique_friend_list
@@ -164,9 +136,50 @@ def get_friends_unique_watched(user_data):
                 unique_friend_list.append(item)
 
 
-    print(":::::::::")
-    print(unique_friend_list)
-
     return unique_friend_list
-               
 
+# WAVE 4 #pytest
+               
+# does not account for dicts that are not a perfect match eg. {"title": "Title A"} and {"title": Title A, "host": "Service A"}
+def get_available_recs(user_data):
+    unique_friend_list = get_friends_unique_watched(user_data)
+    rec_list = []
+    # for friend_dict in unique_friend_list:
+    #  if friend_dict["host"] == user_data["subscriptions"]:
+    for dict in unique_friend_list:
+        if dict["host"] in user_data["subscriptions"]:
+            rec_list.append(dict)
+
+    return rec_list
+
+    # WAVE 5 #
+
+def get_new_rec_by_genre(user_data):
+    # if fav_genre is = to the genre in unique friend list, append the movie dict to a list and return it
+    fav_genre = get_most_watched_genre(user_data)
+    # returns fav genre, which is a string
+    unique_friends_watched = get_friends_unique_watched(user_data)
+    # returns list of dictionaries
+
+    # initialize a list to hold recs 
+    new_rec = []
+
+    # iterate through unique watched and see if the genre is equal to fav genre
+    # if it is, add movie dict to new_rec
+
+    for movie_dict in unique_friends_watched:
+        if movie_dict["genre"] == fav_genre:
+            new_rec.append(movie_dict)
+    
+    return new_rec
+
+def get_rec_from_favorites(user_data):
+    unique_user_list = get_unique_watched(user_data)
+    # if users_unique_list dict is in favorites, append to recs_from_favs_list
+    rec_from_fav_list = []
+
+    for dict in unique_user_list:
+        if dict in user_data["favorites"]:
+            rec_from_fav_list.append(dict)
+
+    return rec_from_fav_list
