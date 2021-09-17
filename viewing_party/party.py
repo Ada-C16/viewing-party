@@ -170,40 +170,40 @@ def get_available_recs(user_data):
     friends_unique_movies = get_friends_unique_watched(user_data) 
     users_friends = user_data["friends"]
     users_friends_watched_movie = user_data["friends"]
+    print (user_data)
+    # friends_movie_list = []
+    # for watched_movies in users_friends:
+    #     for movies in watched_movies["watched"]:
 
-    friends_movie_list = []
-    for watched_movies in users_friends:
-        for movies in watched_movies["watched"]:
-
-#     friends_movie_list = []  
-#     matching_subs = []  
-#     for subs in users_subscription:
-#         for movie in friends_unique_movies: 
-#             if subs in movie:
-#                 friends_movie_list.append(movie["title"])
-#         for movie in users_friends:
-#             for movie in movie["watched"]:
-#                 if (movie["host"] in users_subscription and movie not in matching_subs and (movie["title"] in friends_movie_list)):
-#                     matching_subs.append(movie)
-#     return matching_subs
+    friends_movie_list = []  
+    matching_subs = []  
+    for subs in users_subscription:
+        for movie in friends_unique_movies: 
+            if subs in movie:
+                friends_movie_list.append(movie["title"])
+        for movie in users_friends:
+            for movie in movie["watched"]:
+                if (movie["host"] in users_subscription and movie not in matching_subs and (movie["title"] in friends_movie_list)):
+                    matching_subs.append(movie)
+    return matching_subs
 
     
 
 
-# def get_new_rec_by_genre(user_data):
+def get_new_rec_by_genre(user_data):
 
 
-#     recommend_by_genre_list = []
-#     favorite_genre = get_most_watched_genre(user_data)
-#     friends= user_data["friends"]
-#     for movie_watched in friends:
-#         for movie_dictionary in movie_watched["watched"]:
-#             if ((movie_dictionary["title"] not in user_data["watched"]) \
-#             and (movie_dictionary["genre"] == favorite_genre) \
-#             and (movie_dictionary not in recommend_by_genre_list)):
-#                 recommend_by_genre_list.append(movie_dictionary)
+    recommend_by_genre_list = []
+    favorite_genre = get_most_watched_genre(user_data)
+    friends= user_data["friends"]
+    for movie_watched in friends:
+        for movie_dictionary in movie_watched["watched"]:
+            if ((movie_dictionary["title"] not in user_data["watched"]) \
+            and (movie_dictionary["genre"] == favorite_genre) \
+            and (movie_dictionary not in recommend_by_genre_list)):
+                recommend_by_genre_list.append(movie_dictionary)
 
-    # return recommend_by_genre_list
+    return recommend_by_genre_lis
 
 
 #wave 5 Part 2
