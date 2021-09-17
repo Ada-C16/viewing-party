@@ -205,7 +205,7 @@ In `party.py`, there should be a function named `add_to_watchlist`. This functio
     - An empty list represents that the user has no movies in their watchlist
   - the value of `movie` will be a dictionary in this format:
     - ```python
-      {
+      {****
         "title": "Title A",
         "genre": "Horror",
         "rating": 3.5
