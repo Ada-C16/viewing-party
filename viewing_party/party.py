@@ -92,20 +92,20 @@ def get_friends_unique_watched(user_data):
 #Wave 4
 
 
-def get_friends_movies(user_data):
-    titles = set()
-    friends = user_data['friends']
-    movies = []
-    for friend in friends:
-        for movie in friend['watched']:
-            if movie['title'] not in titles:
-                movies.append(movie)
-                titles.add(movie['title'])
-    return movies 
+# def get_friends_movies(user_data):
+#     titles = set()
+#     friends = user_data['friends']
+#     movies = []
+#     for friend in friends:
+#         for movie in friend['watched']:
+#             if movie['title'] not in titles:
+#                 movies.append(movie)
+#                 titles.add(movie['title'])
+#     return movies 
 
 def get_available_recs(user_data):
     pass
-    friends_watch_list = get_friends_movies(user_data)
+    friends_watch_list = get_friends_unique_watched(user_data)
     recommended_movies = []
 
     if len(friends_watch_list) == 0:
@@ -120,7 +120,9 @@ def get_available_recs(user_data):
             if movie['host'] in user_data['subscriptions']:
                 recommended_movies.append(movie) 
     return recommended_movies
+
 # Wave 5
+
 def get_genres(user_data):
   genres = []
   for movie in user_data['watched']:
