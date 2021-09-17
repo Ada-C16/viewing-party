@@ -25,7 +25,6 @@ def add_to_watchlist(user_data, movie):
 def watch_movie(user_data, title):
 
     count = 0
-    movie_watched = False
     
     for item in user_data["watchlist"]:
         count += 1
@@ -33,13 +32,10 @@ def watch_movie(user_data, title):
             watched_movie = user_data["watchlist"][count-1]
             user_data["watchlist"].remove(watched_movie)
             user_data["watched"].append(watched_movie)
-            movie_watched = True
-            return user_data
         else: 
             pass
 
-    if movie_watched == False:
-        return user_data
+    return user_data
 
 # WAVE 2 #
 def get_watched_avg_rating(user_data):
