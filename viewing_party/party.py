@@ -107,4 +107,44 @@ def get_available_recs(amandas_data):
 
     return available_recs
 
+def get_new_rec_by_genre(sonyas_data):
+    # consider making this a helper function - it's used 3 times accross difference functions
+    friends_watched = []
+    for friend in sonyas_data["friends"]:
+        for movie in friend["watched"]:
+            if movie not in friends_watched:
+                friends_watched.append(movie)
     
+    sonyas_genres = []
+    for movie in sonyas_data["watched"]:
+        if movie["genre"] not in sonyas_genres:
+            sonyas_genres.append(movie["genre"])
+    
+    recommendations = []
+    for movie in friends_watched:
+        if movie["genre"] in sonyas_genres and movie not in sonyas_data["watched"]:
+            recommendations.append(movie)
+    
+    return recommendations
+
+def get_rec_from_favorites(sonyas_data):
+    favorites = []
+    for movie in sonyas_data["favorites"]:
+        if movie not in favorites:
+            favorites.append(movie)
+
+    friends_watched = []
+    for friend in sonyas_data["friends"]:
+        for movie in friend["watched"]:
+            if movie not in friends_watched:
+                friends_watched.append(movie)
+    
+    # remove movie from favorites if a friend has already seen it
+    for movie in friends_watched:
+        if movie in favorites:
+            favorites.remove(movie)
+    
+    return favorites
+
+
+
