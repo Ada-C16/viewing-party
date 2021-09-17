@@ -171,7 +171,6 @@ def test_get_new_rec_by_genre_returns_empty_list_when_friends_watched_lists_are_
     assert len(recommendations) == 0
 
 
-
 def test_get_rec_from_favorites_returns_empty_list_when_sonya_has_no_favorites():
     # Arrange
     sonyas_data = {
