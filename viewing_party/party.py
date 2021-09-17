@@ -14,9 +14,6 @@ def create_movie (title, genre, rating):
 def add_to_watched(user_data, movie): 
     user_data["watched"].append(movie)
     return user_data
-# add_to_watched ({"watched":[{},{},{}]}, { "title": "Title A",
-#   "genre": "Horror",
-#   "rating": 3.5})
 
 
 #Wave_One part 3 
@@ -26,11 +23,6 @@ def add_to_watchlist(user_data, movie):
     user_data["watchlist"].append(movie)
     return user_data
 
-#  add_to_watchlist({"watchlist":[{},{},{}]} ,{{
-#   "title": "Title A",
-#   "genre": "Horror",
-#   "rating": 3.5
-# }})
 
 #Wave_One part 4 
 
@@ -42,12 +34,7 @@ def watch_movie (user_data, title):
             user_data["watched"].append(movie)
             user_data["watchlist"].remove(movie)
     return user_data
-#  add_to_watchlist({"watchlist":[  {},  {},  {} ], {"watched":[{},{},{}] }} ,{{
-#   "title": "Title A",
-#   "genre": "Horror",
-#   "rating": 3.5
 
-# }})
 
 #Wave_TWO Part 1 
 
@@ -126,7 +113,7 @@ def get_unique_watched(user_data):
 
 
 
-    print(potential_friends_watched_set)
+    
     
 
 #Wave 3 Part 2 
@@ -170,24 +157,40 @@ def get_available_recs(user_data):
     friends_unique_movies = get_friends_unique_watched(user_data) 
     users_friends = user_data["friends"]
     users_friends_watched_movie = user_data["friends"]
-    print (user_data)
-    # friends_movie_list = []
-    # for watched_movies in users_friends:
-    #     for movies in watched_movies["watched"]:
-
-    friends_movie_list = []  
-    matching_subs = []  
-    for subs in users_subscription:
-        for movie in friends_unique_movies: 
-            if subs in movie:
-                friends_movie_list.append(movie["title"])
-        for movie in users_friends:
-            for movie in movie["watched"]:
-                if (movie["host"] in users_subscription and movie not in matching_subs and (movie["title"] in friends_movie_list)):
-                    matching_subs.append(movie)
-    return matching_subs
-
     
+    
+    friends_movie_list = []
+    for watched_movies in users_friends:
+    
+        
+        for movies in watched_movies["watched"]:
+            friends_movie_list.append(movies)
+
+    movie_subscription = []
+    for movies_watched in friends_movie_list:
+        if movies_watched["host"] in users_subscription and movies_watched not in movie_subscription:
+            movie_subscription.append(movies_watched)
+    print(movie_subscription)
+    
+
+    user_title =[]
+    for watched_movie in user_data["watched"]:
+        user_title.append(watched_movie["title"])
+
+
+    recommendations =[]
+
+    if not user_data["watched"]:
+        return movie_subscription
+    for movie in movie_subscription:
+        if movie["title"] not in user_title:
+            recommendations.append(movie)
+    return recommendations
+
+
+
+
+#Wave 5 Part 1
 
 
 def get_new_rec_by_genre(user_data):
@@ -203,7 +206,7 @@ def get_new_rec_by_genre(user_data):
             and (movie_dictionary not in recommend_by_genre_list)):
                 recommend_by_genre_list.append(movie_dictionary)
 
-    return recommend_by_genre_lis
+    return recommend_by_genre_list
 
 
 #wave 5 Part 2
