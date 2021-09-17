@@ -30,7 +30,7 @@ def test_get_watched_avg_rating_calculates_watched_average_rating():
     # Assert
     assert average == pytest.approx(3.56666666664)
 
-
+@pytest.mark.skip()
 def test_get_watched_avg_rating_returns_zero_for_empty_list():
     # Arrange
     janes_data = {
