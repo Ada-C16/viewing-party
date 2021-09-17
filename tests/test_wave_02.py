@@ -45,6 +45,7 @@ def test_get_watched_avg_rating_returns_zero_for_empty_list():
     assert average == pytest.approx(0.0)
 
 
+#@pytest.mark.skip()
 def test_get_most_watched_genre_returns_most_frequent_genre_from_list():
     # Arrange
     janes_data = {
@@ -78,6 +79,7 @@ def test_get_most_watched_genre_returns_most_frequent_genre_from_list():
     # Assert
     assert popular_genre == "Intrigue"
 
+#@pytest.mark.skip()
 def test_get_most_watched_genre_returns_most_frequent_genre_from_list_even_when_alphabetically_smaller():
     # Arrange
     janes_data = {
@@ -111,6 +113,7 @@ def test_get_most_watched_genre_returns_most_frequent_genre_from_list_even_when_
     # Assert
     assert popular_genre == "Action"
 
+#@pytest.mark.skip()
 def test_get_most_watched_genre_returns_None_if_empty_watched():
     # Arrange
     janes_data = {
