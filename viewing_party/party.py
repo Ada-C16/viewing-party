@@ -117,18 +117,17 @@ def get_friends_unique_watched(user_data):
 # Wave 4 Tests 1 2 3 4 
 def get_available_recs(user_data):
 
-    unique_watched = get_friends_unique_watched(user_data)
+    recommendations = get_friends_unique_watched(user_data)
 
-    for movie in range(len(unique_watched)):
-        for movie in unique_watched:
+    for movie in range(len(recommendations)):
+        for movie in recommendations:
             print(movie["host"])
             if movie["host"] not in user_data["subscriptions"]:
-                unique_watched.remove(movie)
+                recommendations.remove(movie)
 
-    return unique_watched
+    return recommendations
             
 #Wave 5 Tests 1 2 3 4 
-
 def get_new_rec_by_genre(user_data):
     
     unique_watched = get_friends_unique_watched(user_data)
