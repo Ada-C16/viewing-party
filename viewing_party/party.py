@@ -70,7 +70,7 @@ def get_unique_watched(user_data):
     friend_movie_list = []
     user_movie_list = []
     unique_list = []
-   
+
     for friend in user_data["friends"]:
         for movie in friend["watched"]:
             friend_movie_list.append(movie["title"])
@@ -96,7 +96,7 @@ def get_friends_unique_watched(user_data):
     
     for movie in user_data["watched"]:
         user_movie_list.append(movie["title"])
-   
+
     unique_watched = set(friend_movie_list) - set(user_movie_list)
     
     for movie in unique_watched:
@@ -149,11 +149,6 @@ def get_new_rec_by_genre(user_data):
     for movie in user_data["watched"]:
         user_movie_list.append(movie["title"])
     
-    # for friend in range(len(user_data["friends"])):
-    #     for movie in range(len(user_data["friends"][friend]["watched"])):
-    #         if user_data["friends"][friend]["watched"][movie]["genre"] == most_watched_genre:
-    #             possible_recommendations.append(user_data["friends"][friend]["watched"][movie]["title"])
-
     for friend in user_data["friends"]:
         for movie in friend["watched"]:
             if movie["genre"] == most_watched_genre:
