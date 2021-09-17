@@ -5,12 +5,12 @@ def create_movie(title, genre, rating):
     movie's title, genre and rating when all 3 parameters are truthy. 
     Otherwise, the function returns None.
     """
-    movie_dict = {}
+    new_movie = {}
     if title and genre and rating:
-        movie_dict["title"] = "Title A"
-        movie_dict["genre"] = "Horror"
-        movie_dict["rating"] = 3.5
-        return movie_dict
+        new_movie["title"] = "Title A"
+        new_movie["genre"] = "Horror"
+        new_movie["rating"] = 3.5
+        return new_movie
     else:
         return None
 
@@ -18,22 +18,18 @@ def add_to_watched(user_data, movie):
     """  
     The function returns a dictionary that gives information about the 
     movies that the user has watched. This function adds another 
-    dictionary, movie, to the list of dictionaries in the user_data
-    dictionary (the value paired with the key, "watched)
+    dictionary, movie, to the list of dictionaries in user_data. 
     """
-    list_of_watched_dict = user_data["watched"]
-    list_of_watched_dict.append(movie)
+    user_data["watched"].append(movie)
     return user_data
 
 def add_to_watchlist(user_data, movie):
     """
     The function returns a dictionary that gives information about a 
     user's watchlist. This function adds another dictionary, movie, 
-    to the list of dictionaries in the user_data dictionary (the value paired 
-    with the key, "watchlist")
+    to the list of dictionaries in user_data.
     """
-    list_of_watchlsit_dict = user_data["watchlist"]
-    list_of_watchlsit_dict .append(movie)
+    user_data["watchlist"].append(movie)
     return user_data
 
 def watch_movie(user_data, title): 
@@ -41,195 +37,157 @@ def watch_movie(user_data, title):
     The function returns a dictionary that gives information about 
     movies that the user has watched and movies that are on the 
     user's watchlist. If the title is in the user's watchlist, 
-    the function will remove the movie from the watchlist and add it to 
-    the list of movies that the user has already watched. Otherwise, 
-    the function will simply return user_data. 
+    the function will remove the movie from the watchlist and add 
+    it to the list of movies that the user has already watched. 
+    Otherwise, the function will simply return user_data. 
     """
-    list_of_watchlist_dict = user_data["watchlist"]
-    list_of_watched_dict = user_data["watched"]
-
-    for watchlist_dict in list_of_watchlist_dict:
-        if watchlist_dict["title"] == title:
-            list_of_watchlist_dict.remove(watchlist_dict)
-            list_of_watched_dict.append(watchlist_dict)
+    for movie in user_data["watchlist"]:
+        if movie["title"] == title:
+            user_data["watchlist"].remove(movie)
+            user_data["watched"].append(movie)
             return user_data
     return user_data
 
 # Wave 2
 def get_watched_avg_rating(user_data):
     """
-    The function calculates and returns a float as the average rating 
-    from a list of movie dictionaries that the user has watched. The 
-    function returns 0.0 if the user's watched list is empty.
+    The function calculates and returns the average rating from 
+    a list of movies that the user has watched. The function 
+    returns 0 if the user's watched list is empty.
     """
-    # Intialize empty list to later append ratings to for calculations
-    ratings_list = [] 
-
-    list_of_watched_dict = user_data["watched"]
-    if len(list_of_watched_dict) > 0:
-        for watched_dict in list_of_watched_dict:
-            ratings_list.append(watched_dict["rating"])
-        avg_rating = sum(ratings_list)/len(ratings_list)
+    watched_movies = user_data["watched"]
+    sum = 0
+    if len(watched_movies) > 0:
+        for movie in watched_movies:
+            sum += movie["rating"]
+        avg_rating = sum/len(watched_movies)
         return avg_rating
     return 0
 
 def get_most_watched_genre(user_data):
     """
-    The function returns a string as the genre that is most frequently 
-    watched from a list of movie dictionaries that the user has watched. 
-    The function returns None if the user's watched list is empty. 
+    The function returns the genre that is most frequently watched 
+    by the user from a list of movies that the user has watched. 
+    The function returns None if the list of movies that the user 
+    has watched is empty. 
     """
-    # Initialize empty dictionary to later track genre and frequencty
-    genre_dict = {}
-
-    # Assign key as genre and its respective value as frequency
-    list_of_watched_dict = user_data["watched"]
-    if len(list_of_watched_dict) > 0:
-        for watched_dict in list_of_watched_dict:
-            genre_key = watched_dict["genre"]
-            if genre_key not in genre_dict:
-                genre_dict[genre_key] = 1
-            else:
-                genre_dict[genre_key] += 1
-    else:
+    genre_frequency = {}
+    if len(user_data["watched"]) == 0:
         return None
+    for movie in user_data["watched"]:
+        genre = movie["genre"]
+        if genre not in genre_frequency:
+            genre_frequency[genre] = 1
+        else:
+            genre_frequency[genre] += 1
 
-    max_genre_frequency = max(genre_dict.values())
-    for genre, genre_frequency in genre_dict.items():
-        if genre_frequency  == max_genre_frequency:
+    for genre, frequency in genre_frequency.items():
+        if frequency  == max(genre_frequency.values()):
             return genre
 
-# Wave 3
+# # Wave 3
+# Helper function that will be used for waves 3-5
+def get_friends_watched(user_data):
+    """
+    Depending on the parameter, the function returns
+    different types of information about the movies that the
+    user's friends have watched. 
+    """
+    friends_watched = []
+    for watched_movies in user_data["friends"]:
+        for title in watched_movies["watched"]:
+            friends_watched.append(title)
+    return friends_watched
+
 def get_unique_watched(user_data):
     """
-    This function returns a list of dictionaries that represents a list 
-    of movies that the user has watched, but none of their friends
-    have watched. 
+    This function returns a list of dictionaries that represents a 
+    list of movies that the user has watched, but none of their 
+    friends have watched. 
     """
-    watched_titles = set()
+    friends_watched = get_friends_watched(user_data)
+
+    unique_watched = []
     for title in user_data["watched"]:
-        watched_titles.add((title["title"]))
-    friends_titles = set()
-    for watched in user_data["friends"]:
-        for title in watched["watched"]:
-            friends_titles.add(title["title"])
-
-    unique_watched = watched_titles - friends_titles
-
-    unique_titles = list(unique_watched)
-    title = ["title" for i in range(len(unique_titles))]
-
-    # Creates a list of dictionaries w/ "title" as key and movie title as value
-    unique_watched = [{key:value} for key, value in zip(title,unique_titles)]
+        if title not in friends_watched:
+            if title not in unique_watched:
+                unique_watched.append(title)
     return unique_watched
 
 def get_friends_unique_watched(user_data):
     """
-    This function returns a list of dictionaries that represent a list of
-    movies that the user's friends have watched, but the user has not
-    watched. 
+    This function returns a list of dictionaries that represents 
+    a list of movies that the user's friends have watched, but the 
+    user has not watched. 
     """
-    watched_titles = set()
-    for title in user_data["watched"]:
-        watched_titles.add((title["title"]))
+    friends_watched = get_friends_watched(user_data)
 
-    friends_titles = set()
-    for watched in user_data["friends"]:
-        for title in watched["watched"]:
-            friends_titles.add(title["title"])
-
-    friends_unique_watched = friends_titles - watched_titles
-
-    unique_titles = list(friends_unique_watched)
-    title = ["title" for i in range(len(unique_titles))]
-
-    # Creates a list of dictionaries w/ "title" as key and movie title as value
-    friends_unique = [{key:value} for key, value in zip(title,unique_titles)]
-    return friends_unique
+    friends_unique_watched = []
+    for title in friends_watched:
+        if title not in user_data["watched"]:
+            if title not in friends_unique_watched:
+                friends_unique_watched.append(title)
+    return friends_unique_watched
 
 # Wave 4
 def get_available_recs(user_data):
     """
-    This function returns a list of recommendations movies that the user has 
-    not watched but one of the user's friends has watched. This list of 
-    movies is hosted by a service that is in the user's subscriptions.
+    This function returns a list of recommended movies that 
+    the user has not watched but one of the user's friends has 
+    watched. This list of recommended movies is only hosted by 
+    a service that is in the user's subscriptions.
     """
-    # Accessing the titles and hosts from movies that user's friends have watched
-    friends_watched = []
-    for watched_movies in user_data["friends"]:
-        for title_host in watched_movies["watched"]:
-            friends_watched.append(title_host)
+    friends_watched = get_friends_watched(user_data)
     
-    # Get list of unique titles and hosts that user has subscriptions for
     subscriptions_match = []
-    for subscription in user_data["subscriptions"]:
-        for title_host in friends_watched:
-            if title_host["host"] == subscription and title_host not in subscriptions_match:
+    for title_host in friends_watched:
+        if title_host["host"] in user_data["subscriptions"]:
+            if title_host not in subscriptions_match: 
                 subscriptions_match.append(title_host)
-
-    # Get titles that user has not watched yet from matching subscriptions
-    watched_titles_only = []
-    for title in user_data["watched"]:
-        watched_titles_only.append(title["title"])
+    
+    watched_titles_only = [movie["title"] for movie in user_data["watched"]]
 
     recommendations = []
-    if not user_data["watched"]:
+    if not user_data["watched"]: 
         return subscriptions_match
-    else:
-        for title_host in subscriptions_match:
-            if title_host["title"] in watched_titles_only:
-                pass
-            else:
-                recommendations.append(title_host)
-        return recommendations
+    for title_host in subscriptions_match:
+        if title_host["title"] not in watched_titles_only:
+            recommendations.append(title_host)
+    return recommendations
 
 # Wave 5
 def get_new_rec_by_genre(user_data):
+    """
+    This function returns a list of recommended movies that at
+    least one of the user's friends has watched, but the user 
+    has not watched. The list of movies also has the same genre
+    as the user's most frequent genre.
+    """
     recommendations = []
-    users_genres = {}
-    if not user_data["watched"]: # If user's watched list is empty
+    if not user_data["watched"]: 
         return recommendations
-    else:
-        for title_genre in user_data["watched"]:
-            genre = title_genre["genre"]
-            if genre not in users_genres:
-                users_genres[genre] = 1
-            else:
-                users_genres[genre] += 1
-        
-    # Get user's most frequently watched genre
-    for genre, frequency in users_genres.items():
-        if frequency == max(users_genres.values()):
-            frequently_watched_genre = genre
+    
+    friends_unique_watched = get_friends_unique_watched(user_data)
+    most_watched_genre = get_most_watched_genre(user_data) 
 
-    # Loop through friend's watched list to get genres
-    matching_genres = []
-    for watched in user_data["friends"]:
-        for title_genre in watched["watched"]:
-            if title_genre["genre"] == frequently_watched_genre:
-                matching_genres.append(title_genre)
-
-    watched_titles = []
-    for title_genre in user_data["watched"]:
-        watched_titles.append(title_genre["title"])
-
-    for watched in user_data["friends"]:
-        for title_genre in watched["watched"]:
-            if (title_genre["title"] not in watched_titles) and (title_genre not in recommendations):
-                recommendations.append(title_genre)
+    for movie in friends_unique_watched:
+        if movie["genre"] == most_watched_genre:
+            if movie not in recommendations:
+                recommendations.append(movie)
     return recommendations
 
 def get_rec_from_favorites(user_data):
+    """
+    This function returns a list of recommended movies that 
+    is in the user's favorites list. This list of movies only
+    include movies that none of the user's friends have watched.
+    """
+    friends_watched = get_friends_watched(user_data)
+
     recommendations = []
-    watched_list = []
     if not user_data["favorites"]:
         return recommendations
-    else:
-        for watched in user_data["friends"]:
-            for title_dict in watched["watched"]:
-                watched_list.append(title_dict)
-
-        for favorite in user_data["favorites"]:
-            if favorite not in watched_list:
-                recommendations.append(favorite)
-        return recommendations
+    for title in user_data["favorites"]:
+        if title not in friends_watched:
+            recommendations.append(title)
+    return recommendations
