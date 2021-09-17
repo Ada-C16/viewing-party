@@ -184,7 +184,7 @@ def test_watch_movie_moves_movie_from_watchlist_to_empty_watched():
     assert updated_data["watched"][0]["genre"] == "Fantasy"
     assert updated_data["watched"][0]["rating"] == 4.8
 
-
+@pytest.mark.skip()
 def test_watch_movie_moves_movie_from_watchlist_to_watched():
     # Arrange
     movie_to_watch = {
@@ -219,7 +219,7 @@ def test_watch_movie_moves_movie_from_watchlist_to_watched():
     assert movie_to_watch in updated_data["watched"]
     assert movie_to_watch not in updated_data["watchlist"]
 
-
+@pytest.mark.skip()
 def test_watch_movie_does_nothing_if_movie_not_in_watchlist():
     # Arrange
     movie_to_watch = {
