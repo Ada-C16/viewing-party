@@ -57,77 +57,63 @@ def get_most_watched_genre(user_data):
 # Wave 03
 
 def get_unique_watched(user_data):
-    user_watched_set = make_user_watched_set(user_data)
-    friend_watched_set = make_friends_watch_set(user_data)
-    unique_watched_set = user_watched_set - friend_watched_set
-    unique_watched_list = make_list_of_dict_from_set(unique_watched_set)
-    return unique_watched_list
-
-def get_friends_unique_watched(user_data):
-    user_watched_set = make_user_watched_set(user_data)
-    friend_watched_set = make_friends_watch_set(user_data)
-    friends_unique_watched_set = friend_watched_set - user_watched_set
-    friends_unique_watched_list = make_list_of_dict_from_set(friends_unique_watched_set)
-    return friends_unique_watched_list
-
-def make_user_watched_set(user_data):
-    user_watched_set = set()
+    unique_watched = []
+    friend_watched = get_friends_watched(user_data)
     for movie in user_data["watched"]:
-        user_watched_set.add(movie["title"])
-    return user_watched_set
+        if movie not in friend_watched:
+            unique_watched.append(movie)
+    return unique_watched
 
-def make_friends_watch_set(user_data):
-    friends_watch_set = set()
+def get_friends_watched(user_data):
+    friends_watched = []
     for friend in user_data["friends"]:
         for movie in friend["watched"]:
-            friends_watch_set.add(movie["title"])
-    return friends_watch_set
+            if movie not in friends_watched:
+                friends_watched.append(movie)
+    return friends_watched
 
-def make_list_of_dict_from_set(unique_set):
-    unique_list = []
-    for movie in unique_set:
-        unique_list.append({"title": movie})
-    return unique_list
+def get_friends_unique_watched(user_data):
+    friends_unique_watched = []
+    for friend in user_data["friends"]:
+        for movie in friend["watched"]:
+            if movie not in user_data["watched"] and movie not in friends_unique_watched:
+                friends_unique_watched.append(movie)
+    return friends_unique_watched
 
 # Wave 04
 
 def get_available_recs(user_data):
     recommendations = []
-    friends_watched_set = make_friends_watch_set(user_data)
-    watched_set = make_user_watched_set(user_data)
-    friends_unique_watched = friends_watched_set - watched_set
-    friends_unique_watched_host = get_friends_unique_watched_host(user_data, friends_unique_watched)
-    for movie in friends_unique_watched:
-        host = friends_unique_watched_host[movie]   
-        if host in user_data["subscriptions"]:
-            recommendations.append({"title": movie, "host": host})
+    friends_watched = get_friends_watched(user_data)
+    user_watched_titles = get_user_watched_titles(user_data)
+    for movie in friends_watched:
+        if movie["host"] in user_data["subscriptions"] and movie["title"] \
+        not in user_watched_titles:
+            recommendations.append(movie)
     return recommendations
 
-def get_friends_unique_watched_host(user_data, friends_unique_watched):
-    friends_watched_with_host = {}
-    for friend in user_data["friends"]:
-        for movie in friend["watched"]:
-            friends_watched_with_host[movie["title"]] = movie["host"]
-    return friends_watched_with_host
+def get_user_watched_titles(user_data):
+    user_watched_titles = []
+    for movie in user_data["watched"]:
+        user_watched_titles.append(movie["title"])
+    return user_watched_titles
 
 # Wave 05
 
-# ***********************************
 def get_new_rec_by_genre(user_data):
     recs_by_genre = []
-    user_watched = make_user_watched_set(user_data)
     most_watched_genre = get_most_watched_genre(user_data)
     for friend in user_data["friends"]:
         for movie in friend["watched"]:
             if movie not in recs_by_genre and movie["genre"] == most_watched_genre\
-                and movie["title"] not in user_watched:
+                and movie["title"] not in user_data["watched"]:
                 recs_by_genre.append(movie)
     return recs_by_genre
 
 def get_rec_from_favorites(user_data):
     recs_from_favorites = []
-    friends_unique_watched = make_friends_watch_set(user_data)
+    friends_watched = get_friends_watched(user_data)
     for movie in user_data["favorites"]:
-        if movie["title"] not in friends_unique_watched:
+        if movie not in friends_watched:
             recs_from_favorites.append(movie)
     return recs_from_favorites
