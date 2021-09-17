@@ -6,9 +6,10 @@ def get_watched_avg_rating(user_data):
     return avg_rating
 
 def get_most_watched_genre(user_data):
+    most_watched_genre = None
     watched = user_data['watched']
     if watched:
         genre_count = collections.Counter(movie['genre'] for movie in watched)
         most_watched = genre_count.most_common(1)
-        return most_watched[0][0]
-    return None
+        most_watched_genre = most_watched[0][0]
+    return most_watched_genre
