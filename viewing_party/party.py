@@ -77,22 +77,18 @@ def get_friends_unique_watched(user_data):
     user_list = []
     friends_list = []
     final_list = []
-    if len(user_data['watched']) > 0:
-        for movies in user_data['friends']:
-            for movie in movies['watched']:
-                friends_list.append(movie)
-        for movie in user_data['watched']:
-            user_list.append(movie)
-        if movies not in user_list:
-            final_list.append(movies)
-        return final_list[0]['watched']
     
-    else:
-        for movies in user_data['friends']:
-            for friend_movie in movies['watched']:
-                if friend_movie not in friends_list:
-                    friends_list.append(friend_movie)
-        return friends_list
+    for movies in user_data['friends']:
+        for movie in movies['watched']:
+            friends_list.append(movie)
+    for movie in user_data['watched']:
+        user_list.append(movie)
+    for movie in friends_list:
+        if movie not in user_list and movie not in final_list:
+            final_list.append(movie)
+    return final_list
+    
+
 #Wave 4
 def in_users_subcriptions(host, subscriptions):
     if host in subscriptions:
