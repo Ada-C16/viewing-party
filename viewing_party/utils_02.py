@@ -13,3 +13,5 @@ def get_most_watched_genre(user_data):
         most_watched = genre_count.most_common(1)
         most_watched_genre = most_watched[0][0]
     return most_watched_genre
+#also can use max
+#also can use statistic.mode
