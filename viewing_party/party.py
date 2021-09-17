@@ -44,9 +44,10 @@ def watch_movie(user_data, title):
 # WAVE 2 #
 
 def get_watched_avg_rating(user_data):
-    # calculate the avg ratings of all movies in watchlist
-    # if watchlist is empty, the average rating is 0.0
-    # the data structure is a dictionary where the keys include "watched", etc, and the values are a list of dictionaries
+    """
+    calculates the avg ratings of all movies in watchlist
+    if watchlist is empty, the average rating is 0.0
+    """
     sum = 0.0
     num_of_ratings = 0
     for watched in user_data["watched"]:
@@ -64,6 +65,10 @@ def get_watched_avg_rating(user_data):
         return 0.0
 
 def get_most_watched_genre(user_data):
+    """
+    check to see which value in frequency dict are highest and return the genre with the highest number
+    does not account for two genres with a tie
+    """
     frequency_dict = {}
     watched_list = user_data["watched"]
     for item in watched_list:
@@ -73,11 +78,9 @@ def get_most_watched_genre(user_data):
             frequency_dict[genre_name] = 1
         else:
             frequency_dict[genre_name] += 1
-
-    # check to see which value(s) in frequency dict are highest and return the genre(s) with the highest number
-    # the way I am approaching it does not account for two genres with a tie
-
     try: 
+        # use 'max' function to return highest value
+        # .get() is used to get the value
         most_frequent = str(max(frequency_dict, key=frequency_dict.get))
     except ValueError:
         return None
@@ -132,7 +135,7 @@ def get_friends_unique_watched(user_data):
         for item in friend_dict["watched"]:
             friend_watched_list.append(item)
 
-    
+    # check to see if title in friend dict is in the user title list or alreay in the unique list
     for friend_dict in friend_watched_list:
         if friend_dict["title"] in user_title_list:
             continue 
@@ -147,8 +150,8 @@ def get_friends_unique_watched(user_data):
 def get_available_recs(user_data):
     unique_friend_list = get_friends_unique_watched(user_data)
     rec_list = []
-    # for friend_dict in unique_friend_list:
-    #  if friend_dict["host"] == user_data["subscriptions"]:
+    # iterate through unique_friend_list and see the host company is one of subscriptions in user_data
+    # if it is, append to rec_list
     for dict in unique_friend_list:
         if dict["host"] in user_data["subscriptions"]:
             rec_list.append(dict)
@@ -169,7 +172,6 @@ def get_new_rec_by_genre(user_data):
 
     # iterate through unique watched and see if the genre is equal to fav genre
     # if it is, add movie dict to new_rec
-
     for movie_dict in unique_friends_watched:
         if movie_dict["genre"] == fav_genre:
             new_rec.append(movie_dict)
