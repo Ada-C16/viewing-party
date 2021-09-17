@@ -88,16 +88,13 @@ def get_unique_watched(user_data):
         for movie in friend["watched"]:
             friends_watched.add(movie["title"])
     unique_watched=user_watched.difference(friends_watched)
-
-    result_list=[]
-
+    result_list = []
     for movie in unique_watched:
-        for user_watched_movie in user_data["watched"]:
-            if movie in user_watched_movie["title"]:
-                result_list.append(user_watched_movie)
-
+        result_dict = {"title" : movie}
+        result_list.append(result_dict)
     return result_list
 
+    #loop through all dictionaries / if title in set / add dictionary to result list of dictionaries
 
 def get_friends_unique_watched(user_data):
     user_watched=set()
@@ -108,22 +105,11 @@ def get_friends_unique_watched(user_data):
         for movie in friend["watched"]:
             friends_watched.add(movie["title"])
     unique_watched=friends_watched.difference(user_watched)
-
-    temp_list=[]
-    result_list=[]
-
+    result_list = []
     for movie in unique_watched:
-        for friend in user_data["friends"]:
-            for friend_watched_movie in friend["watched"]:
-                if movie in friend_watched_movie["title"]:
-                    temp_list.append(friend_watched_movie)
-    
-    for i in range(0, len(temp_list)):
-        if temp_list[i] not in temp_list[i+1:]:
-            result_list.append(temp_list[i])
-            
+        result_dict = {"title" : movie}
+        result_list.append(result_dict)
     return result_list
-
 
 ##Wave 4
 
@@ -137,13 +123,31 @@ def get_friends_unique_watched(user_data):
 
 def get_available_recs(user_data):
     unique_watched=get_friends_unique_watched(user_data)
-    movie_rec=[]
+    host_set=set()
+    movie_directory={}
 
-    for unique_movie in unique_watched:
-        if unique_movie["host"] in user_data["subscriptions"]:
-            movie_rec.append(unique_movie)
-    return movie_rec
-
+    for friend in user_data["friends"]:
+        for movie in friend["watched"]:
+            for unique_movie in unique_watched:
+                if unique_movie["title"] == movie["title"]:
+                    movie_directory[movie.get("host")] = movie.get("title")
+                    host_set.add(movie.get("host"))
+    
+    host_list=[]
+    for host in host_set:
+        if host in user_data["subscriptions"]:
+            host_list.append(host)
+    movie_recs=[]
+    for host in host_list:
+        if host in movie_directory:
+            movie_recs.append(movie_directory.get(host))
+    
+    movie_rec_final=[]
+    for i in range(0,len(movie_recs)):
+        movie_dict = {"title" : movie_recs[i]}
+        movie_dict["host"] = host_list[i]
+        movie_rec_final.append(movie_dict)
+    return movie_rec_final
 
 ##counts the user's most watched genre
 ##recommends movies friends have seen that are in the genre that the user hasn't seen
@@ -154,9 +158,13 @@ def get_new_rec_by_genre(user_data):
     unique_watched=get_friends_unique_watched(user_data)
     rec_list=[]
 
-    for unique_movie in unique_watched:
-        if unique_movie["genre"] == genre:
-            rec_list.append(unique_movie)    
+    for friend in user_data["friends"]:
+        for movie in friend["watched"]:
+            for unique_movie in unique_watched:
+                if unique_movie["title"] == movie["title"]:
+                    if movie["genre"] == genre:
+                        if movie not in rec_list:
+                            rec_list.append(movie)    
     return rec_list
 
 
