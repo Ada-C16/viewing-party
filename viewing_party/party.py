@@ -28,29 +28,40 @@ def add_to_watchlist(user_data, movie):
 
 #function 4 
 def watch_movie(user_data, title):
-    for i in user_data:
-        if i in user_data["watchlist"]:
-            user_data["watchlist"].pop(i)
-            user_data["watched"].append(i)
-            return user_data
-        else: 
-            return user_data
-
-
-   
-
+    for movie in user_data["watchlist"]:
+        if title == movie["title"]:     #Rebeca review this when you have time 
+            user_data["watchlist"].remove(movie)
+            user_data["watched"].append(movie)
+    return user_data
+        
 #WAVE 2 
 #AVERAGE =  sum of a set of numbers divided by the number of figures in the data set
 #HERE WE ARE ITERATING OVER THE DATA SET 
-# def get_watched_avg_rating(user_data):
-#     sum = 0
-#     user_data_dict = {watched: [{movies}]}
-#         for movies in user_data_dict:
-#             sum += movie / 
-#  for i in title:
-#         if i in user_data["watchlist"]:
-#             user_data.pop("value")
-#             user_data["watched"][value] = user_data("value") 
-#             return user_data
-#     else: 
-#         return user_data
+#fuction 1 
+def get_watched_avg_rating(user_data):
+    total_watched = len(user_data["watched"])
+    sum = 0
+    if total_watched:
+        for movie in user_data["watched"]:
+            sum += movie["rating"]  #this calculates the sum of the ratings
+            average_rating = sum / total_watched
+        return average_rating
+    else:
+        return 0.0
+    
+#function 2 - Function that finds the mode of the genre category.
+def get_most_watched_genre(user_data):
+    genre_list = []
+    freq = {}
+    if user_data["watched"]:
+        for movie in user_data["watched"]:
+            genre_list.append(movie["genre"])
+        for elem in genre_list:
+           freq[elem] = genre_list.count(elem)
+        most_watched_genre = max(freq, key=freq.get)
+        return most_watched_genre
+    else:
+        return None
+
+
+
