@@ -90,11 +90,7 @@ def get_friends_unique_watched(user_data):
     
 
 #Wave 4
-def in_users_subcriptions(host, subscriptions):
-    if host in subscriptions:
-        return True
-    else:
-        return False
+
 
 def get_friends_movies(user_data):
     titles = set()
