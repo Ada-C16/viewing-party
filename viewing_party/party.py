@@ -40,7 +40,7 @@ def get_watched_avg_rating(user_data):
         return 0 
     else: 
         for movie in range(len(user_data['watched'])):
-            rating_sum += user_data['watched'][i]['rating']
+            rating_sum += user_data['watched'][]['rating']
     rating_sum/len(user_data['watched'])
 
     return avg_rating 
