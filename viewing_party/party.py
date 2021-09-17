@@ -103,7 +103,6 @@ def get_available_recs(user_data):
     subscriptions = user_data["subscriptions"]
 
     movie_reccs = []
-
     friends_unique_watched = get_friends_unique_watched(user_data)
 
     for movie in friends_unique_watched:
@@ -115,17 +114,10 @@ def get_available_recs(user_data):
 #wave 5
 
 def get_new_rec_by_genre(user_data):
-    user_watched = user_data["watched"]
-    user_movie_genres = [movie["genre"] for movie in user_watched]
-
-    if user_movie_genres:
-        most_watched_genre = mode(user_movie_genres)
-    else:
-        most_watched_genre = []
-
+    most_watched_genre = get_most_watched_genre(user_data)
     friends_unique_watched = get_friends_unique_watched(user_data)
-    recs_by_genre = []
 
+    recs_by_genre = []
     for movie in friends_unique_watched:
         if movie["genre"] == most_watched_genre:
             recs_by_genre.append(movie)
