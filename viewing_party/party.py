@@ -30,33 +30,30 @@ def watch_movie(user_data, title):
 # Wave 02
 
 def get_watched_avg_rating(user_data):
-    ratings = make_avg_rating_list(user_data)
-    num_ratings = len(ratings)
-    if num_ratings > 0:
-        avg_rating = sum(ratings)/num_ratings
+    sum_ratings = 0
+    ratings_count = 0
+    for movie in user_data["watched"]:
+        sum_ratings += movie["rating"]
+        ratings_count += 1
+    if ratings_count > 0:
+        avg_rating = sum_ratings/ratings_count
         return avg_rating
     else:
         return 0.0
-
-def make_avg_rating_list(user_data):
-    ratings = []
-    for movie in user_data["watched"]:
-        ratings.append(movie["rating"])
-    return ratings
 
 def get_most_watched_genre(user_data):
     if not user_data["watched"]:
         return None
     else:
-        watched_genres = make_watched_genre_list(user_data)
-        most_watched_genre = max(watched_genres, key = watched_genres.count)
+        genre_dict = {}
+        for movie in user_data["watched"]:
+            if movie["genre"] not in genre_dict:
+                genre_dict[movie["genre"]] = 1
+            else:
+                genre_dict[movie["genre"]] += 1
+        most_watched_genre = max(genre_dict, key=genre_dict.get)
         return most_watched_genre
 
-def make_watched_genre_list(user_data):
-    watched_genres = []
-    for movie in user_data["watched"]:
-        watched_genres.append(movie["genre"])
-    return watched_genres
 
 # Wave 03
 
@@ -116,6 +113,7 @@ def get_friends_unique_watched_host(user_data, friends_unique_watched):
 
 # Wave 05
 
+# ***********************************
 def get_new_rec_by_genre(user_data):
     recs_by_genre = []
     user_watched = make_user_watched_set(user_data)
