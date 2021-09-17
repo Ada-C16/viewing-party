@@ -110,8 +110,7 @@ def get_available_recs(user_data):
     host_list = []
     user_movie_list = []
     final_list = []
-    movie_host_list = []
-    recommendation_dict = {}
+    friend_host_list = []
 
     for movie in user_data["watched"]:
         user_movie_list.append(movie["title"])
@@ -123,7 +122,7 @@ def get_available_recs(user_data):
         for movie in friend["watched"]:
             if movie["host"] in host_list:
                 possible_recommendations.append(movie["title"])
-                movie_host_list.append(movie["host"])
+                friend_host_list.append(movie["host"])
 
     recommendations = set(possible_recommendations) - set(user_movie_list)
 
@@ -132,7 +131,7 @@ def get_available_recs(user_data):
 
     for item in recommendations:
         i = possible_recommendations.index(item)
-        final_list.append({"title": possible_recommendations[i], "host": movie_host_list[i]})
+        final_list.append({"title": possible_recommendations[i], "host": friend_host_list[i]})
     
     return final_list
 
