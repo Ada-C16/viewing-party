@@ -147,6 +147,7 @@ def get_user_fave_genre(user_data):
     most_watched_genre = get_most_watched_genre(user_data)
     return most_watched_genre
 
+# This function consolidates friends' watched list values into one list.
 def get_friends_movies(user_data):
     friends_movies = []
     friends_nested_list = user_data["friends"]
@@ -168,4 +169,18 @@ def get_new_rec_by_genre(user_data):
     print(new_recs)
     return new_recs
     
-
+def get_rec_from_favorites(user_data):
+    recs = []
+    friends_movie_info = get_friends_movies(user_data)
+    # users_fave_movies = get_user_movie_titles(user_data)
+    users_fave_movies = user_data["watched"]
+    # print(friends_movie_info)
+    # print(users_fave_movies)
+    # print(user_data["watched"])
+    if len(users_fave_movies) > 0:
+        for fave_movie in users_fave_movies:
+            print(fave_movie)
+            if fave_movie not in friends_movie_info:
+                recs.append(fave_movie)
+    # print(recs)
+    return recs
