@@ -42,7 +42,6 @@ def watch_movie(user_data, title):
         return user_data
 
 # WAVE 2 #
-
 def get_watched_avg_rating(user_data):
     """
     calculates the avg ratings of all movies in watchlist
@@ -87,7 +86,6 @@ def get_most_watched_genre(user_data):
     return most_frequent
 
 # WAVE 3 #
-
 def get_unique_watched(user_data):
     # create an empty list to hold the movie dictionaries
     unique_user_list = []
@@ -145,8 +143,6 @@ def get_friends_unique_watched(user_data):
     return unique_friend_list
 
 # WAVE 4 # 
-               
-# does not account for dicts that are not a perfect match eg. {"title": "Title A"} and {"title": Title A, "host": "Service A"}
 def get_available_recs(user_data):
     unique_friend_list = get_friends_unique_watched(user_data)
     rec_list = []
@@ -159,7 +155,6 @@ def get_available_recs(user_data):
     return rec_list
 
 # WAVE 5 #
-
 def get_new_rec_by_genre(user_data):
     # if fav_genre is = to the genre in unique friend list, append the movie dict to a list and return it
     fav_genre = get_most_watched_genre(user_data)
