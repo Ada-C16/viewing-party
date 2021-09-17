@@ -1,21 +1,22 @@
-#wave 1
+################ WAVE 1 ##############
+
+#wave 1, part 1
 
 def create_movie(title, genre, rating):
-    #is there a more efficient/cleaner way to do what's below?
-    if bool(title) is True: 
-        if bool(genre) is True:
-            if bool(rating) is True:
-                movie_dict = {
-                    "title" : title,
-                    "genre" : genre,
-                    "rating" : rating
-                }
-                return movie_dict
+    if ((bool(title) is True) and \
+        (bool(genre) is True) and \
+        (bool(rating) is True)):
+            movie_dict = {
+                "title" : title,
+                "genre" : genre,
+                "rating" : rating
+            }
+            return movie_dict
     else:
         return None
 
-
-#part 2
+  
+#wave 1, part 2
 
 def add_to_watched(user_data, movie):
     
@@ -23,19 +24,18 @@ def add_to_watched(user_data, movie):
     return user_data
 
 
-#part 3
+#wave 1, part 3
+
 def add_to_watchlist(user_data, movie):
     user_data["watchlist"].append(movie)
     return user_data
 
 
-#part 4
+#wave 1, part 4
 def watch_movie(user_data, title):
     for movie_list in user_data["watchlist"]:
-    #gets me to the list in user_data
             if title in movie_list["title"]:
                 user_data["watched"].append(movie_list)
-                #movie_list.remove(movie)
                 user_data["watchlist"].remove(movie_list)
 
     return user_data
@@ -44,12 +44,10 @@ def watch_movie(user_data, title):
 
 
 
-#############################
-#wave 2
+################ WAVE 2 ##############
 
-#part 1
 
-#return the avg rating : )
+#wave 2, part 1
 def get_watched_avg_rating(user_data):
     rating_sum = 0.0
     rating_avg = 0.0
@@ -64,12 +62,8 @@ def get_watched_avg_rating(user_data):
     return rating_avg
 
 
-#part 2
-
+#wave 2, part 2
 def get_most_watched_genre(user_data):
-    #put genres in a list
-    #count amount occurence of each genre in the list
-    #return the one that occurs most frequently
     genre_list = []
     fantasy_count = 0
     action_count = 0
@@ -100,14 +94,11 @@ def get_most_watched_genre(user_data):
 
 
 
-##########################
-#wave 3!!
-def get_unique_watched(user_data):
-    #which movies has the user watched, the friends have watched
-    #which ones as the user watched but the friends have NOT watched?
-    #return a list of dictionaries of the movies only the user has watched
+################ WAVE 3 ##############
 
-    #want to iterate through both lists and compare the innermost lists 
+#wave 3, part 1
+def get_unique_watched(user_data):
+    
     only_user_watched = []
     user_watched_set = set()
     friends_watched_set = set()
@@ -130,8 +121,7 @@ def get_unique_watched(user_data):
                     
     
 
-#oart 2 of wave 3!
-
+#wave 3, part 2
 def get_friends_unique_watched(user_data):
     user_watched_set = set()
     friends_watched_set = set()
@@ -158,34 +148,15 @@ def get_friends_unique_watched(user_data):
 
 
 
-#wave 4!!!
-
-#i want to return a list of movies that:
-#the user hasn't watched - get_unique_watched()
-#rememeber that that^ get's me the ones they have watched
-
-#at least one of the friends has watched - get_friends_unique_watched()
-#user has not watched AND one of friends watched
-#AND the "host" is in "subscriptions"
-
+################ WAVE 4 ##############
 
 def get_available_recs(user_data):
-
-    #use my get_friends_unique_watched to get list of movies friends watched
-    #compare to hosts
-    #compare to subscription list
-    # return a list of dictionaries (with title and host as keys for each dict)
 
     friends_watched_list = get_friends_unique_watched(user_data)
     friends_watched_list_titles = []
     
-
-
     for item in friends_watched_list:
         friends_watched_list_titles.append(item["title"])
-
-
-
 
     rec_list = []
 
@@ -202,25 +173,13 @@ def get_available_recs(user_data):
 
 
 
-#wave 5!!
+################ WAVE 5 ##############
 
-
+#wave 5, part 1
 def get_new_rec_by_genre(user_data):
-    #what is users most frequently watched genre
     recs_by_genre_list = []
     fav_genre = get_most_watched_genre(user_data)
-    #friend_movie_list = []
-
-    
-    #if len(user_data["watched"]) == 0:
-        #return recs_by_genre_list
-    #not in user_data["watched"]
-    #match genre fav_genre
-    #one of friends has watched
-
-    #make list of movies the friends have watched
-
-    #make list of movies friends have seen
+   
     for items in user_data["friends"]:
         for movie_dict in items["watched"]:
             if ((movie_dict["title"] not in user_data["watched"]) \
@@ -228,29 +187,15 @@ def get_new_rec_by_genre(user_data):
             and (movie_dict not in recs_by_genre_list)):
                 recs_by_genre_list.append(movie_dict)
 
-                
-                #can stop loop here with this line to just make a list
-                #friend_movie_list.append(movie_dict)
-    #print(recs_by_genre_list)
-
-    #if len(recs_by_genre_list) == 0:
     return recs_by_genre_list
 
 
-
+#wave 5, part 2
 def get_rec_from_favorites(user_data):
-    #if in user_data["favorites"] AND NOT in 
-    #user_data["friends"]
-    #return list of recommended movies
+  
     movie_recs = []
     friends_watched_set = set()
-    """
-    for movie in user_data["favorites"]:
-        for friend in user_data["friends"]:
-            for friend_movie in friend["watched"]:
-                if 
-    """
-
+  
     for friends_watched_lists in user_data["friends"]:
         for movies_friends_watched_list in friends_watched_lists.values():
             for indiv_dict in movies_friends_watched_list:
