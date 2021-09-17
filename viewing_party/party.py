@@ -157,7 +157,15 @@ def get_friends_movies(user_data):
     return friends_movies
 
 def get_new_rec_by_genre(user_data):
+    new_recs = []
     user_fave_genre = get_user_fave_genre(user_data)
     user_movie_titles = get_user_movie_titles(user_data)
-
+    friends_movie_info = get_friends_movies(user_data)
+    for friend_movie_info in friends_movie_info:
+        # print(friend_movie_info)
+        if friend_movie_info['title'] not in user_movie_titles and friend_movie_info["genre"] == user_fave_genre:
+            new_recs.append(friend_movie_info)
+    print(new_recs)
+    return new_recs
+    
 
