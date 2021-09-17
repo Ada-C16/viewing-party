@@ -122,7 +122,7 @@ def get_user_movie_titles(user_data):
             user_movie_titles.append(watched[i]["title"])
     print(user_movie_titles)
     return user_movie_titles
-# get_user_movie_titles(amandas_data)
+
 
 def get_available_recs(user_data):
     recs = []
@@ -140,3 +140,24 @@ def get_available_recs(user_data):
                 recs.append(friend_movie_info)
     print(recs)
     return recs
+
+# Wave 5
+# This function returns a string that represents the user's most watched genre.
+def get_user_fave_genre(user_data):
+    most_watched_genre = get_most_watched_genre(user_data)
+    return most_watched_genre
+
+def get_friends_movies(user_data):
+    friends_movies = []
+    friends_nested_list = user_data["friends"]
+    if len(user_data["friends"]) > 0:
+        for friend in friends_nested_list:
+            for i in range(len(friend["watched"])):
+                friends_movies.append(friend["watched"][i])
+    return friends_movies
+
+def get_new_rec_by_genre(user_data):
+    user_fave_genre = get_user_fave_genre(user_data)
+    user_movie_titles = get_user_movie_titles(user_data)
+
+
