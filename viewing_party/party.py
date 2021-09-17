@@ -106,30 +106,37 @@ def get_friends_movie_info(user_data):
     friends = user_data["friends"]
     for friend in friends:
         for i in range(len(friends)):
-            friend_movie_info = friend["watched"].pop()
-            all_friends_movie_info.append(friend_movie_info)
-    # print(all_friends_movie_info)
+            if len(friend["watched"]) > 0:
+                friend_movie_info = friend["watched"].pop()
+                all_friends_movie_info.append(friend_movie_info)
+            else:
+                continue
     return all_friends_movie_info
+
+# This function creates a list of movie titles from the user's watched list.
+def get_user_movie_titles(user_data):
+    user_movie_titles = []
+    watched = user_data["watched"]
+    if len(watched) > 0:
+        for i in range(len(watched)):
+            user_movie_titles.append(watched[i]["title"])
+    print(user_movie_titles)
+    return user_movie_titles
+# get_user_movie_titles(amandas_data)
 
 def get_available_recs(user_data):
     recs = []
     subscriptions = user_data["subscriptions"]
-    watched = user_data["watched"]
-    print(watched)
+    user_movie_titles = get_user_movie_titles(user_data)
     print(subscriptions)
     friends_movie_info = get_friends_movie_info(user_data)
+    print(friends_movie_info)
     for friend_movie_info in friends_movie_info:
-        print(friend_movie_info)
-        if len(watched) > 0:
-            for movie in watched:
-                print(movie)
-                if friend_movie_info["title"] != movie["title"] and friend_movie_info["host"] in subscriptions:
-                    print(friend_movie_info["title"])
-                    print(movie)
-                    print(friend_movie_info["host"])
-                    print(subscriptions)
-                    recs.append(friend_movie_info)
+        if len(user_movie_titles) > 0:
+            if friend_movie_info["title"] not in user_movie_titles and friend_movie_info["host"] in subscriptions:
+                recs.append(friend_movie_info)
         else:
             if friend_movie_info["host"] in subscriptions:
                 recs.append(friend_movie_info)
+    print(recs)
     return recs
