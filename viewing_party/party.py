@@ -80,3 +80,20 @@ def get_friends_unique_watched(user_data):
         if movie not in friends_unique_movies:
             friends_unique_movies.append(movie)
     return friends_unique_movies
+
+## WAVE 04 ##
+def get_available_recs(user_data):
+    user_subscriptions = user_data["subscriptions"]
+    user_watched_titles = [movie["title"] for movie in user_data["watched"]]
+    friends_watched = []
+    recommended_movies = []
+
+    for friend in user_data["friends"]:
+        for movie in friend["watched"]:
+            if movie not in friends_watched:
+                friends_watched.append(movie)
+    for movie in friends_watched:
+        if movie["host"] in user_subscriptions \
+            and movie["title"] not in user_watched_titles:
+            recommended_movies.append(movie)
+    return recommended_movies
