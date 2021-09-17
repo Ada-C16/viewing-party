@@ -1,3 +1,4 @@
+##WAVE 01##
 def create_movie(title,genre,rating):
     new_movie = {}
     empty = None
@@ -9,13 +10,10 @@ def create_movie(title,genre,rating):
     else:
         return empty
 
-
-
 def add_to_watched(user_data,movie):
     user_list = user_data["watched"]
     user_list.append(movie)
     return user_data
-
 
 def add_to_watchlist(user_data,movie):
     user_data["watchlist"].append(movie)
@@ -29,3 +27,26 @@ def watch_movie(user_data,title):
             watched_movie = watch_list.pop()
             user_data["watched"].append(watched_movie)
     return user_data
+
+
+##WAVE 02##
+def get_watched_avg_rating(user_data):
+    ratings_list =[]
+    avg_rating = 0
+    for movie in user_data["watched"]:
+        ratings_list.append(movie["rating"])
+    if len(ratings_list) > 0:
+        avg_rating = sum(ratings_list) / len(ratings_list)
+    return float(avg_rating)
+
+def get_most_watched_genre(user_data):
+    genre_freq = {}
+    for movie in user_data["watched"]:
+        genre_key = movie["genre"]
+        if genre_key in genre_freq:
+            genre_freq[genre_key] += 1
+        else:
+            genre_freq[genre_key] = 1
+    if len(genre_freq) > 0:
+        most_watched = max(genre_freq, key=genre_freq.get)
+        return most_watched
