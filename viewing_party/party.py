@@ -1,7 +1,7 @@
 from collections import Counter
 
 '''
-    wave 1 
+    wave 1 - question: Did I over use helper function?
 '''
 def create_movie(movie_title, genre, rating):
     if  genre== None  or  movie_title == None or  rating ==None:
