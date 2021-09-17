@@ -49,14 +49,13 @@ def get_watched_avg_rating(user_data):
 
 
 def get_most_watched_genre(user_data):
-    if not user_data["watched"]:
-        return None 
-    else: 
+    popular_genre = None
+    if user_data["watched"]: 
         outer_key = "watched"
         inner_key = "genre"
         list_genre = get_dict_value(user_data, outer_key, inner_key)
         popular_genre = most_frequent(list_genre)
-        return popular_genre
+    return popular_genre
 
 '''
     wave 3
