@@ -50,3 +50,33 @@ def get_most_watched_genre(user_data):
     if len(genre_freq) > 0:
         most_watched = max(genre_freq, key=genre_freq.get)
         return most_watched
+
+## WAVE 03 ##
+def get_unique_watched(user_data):
+    user_unique_movies =[]
+    friends_watched = []
+    user_watched = user_data["watched"]
+
+    for friend in user_data["friends"]:
+        for movie in friend["watched"]:
+            friends_watched.append(movie)
+    for movie in user_watched:
+        if movie in friends_watched:
+            continue
+        user_unique_movies.append(movie)
+    return user_unique_movies
+
+def get_friends_unique_watched(user_data):
+    friends_unique_movies =[]
+    friends_watched = []
+    user_watched = user_data["watched"]
+
+    for friend in user_data["friends"]:
+        for movie in friend["watched"]:
+            friends_watched.append(movie)
+    for movie in friends_watched:
+        if movie in user_watched:
+            continue
+        if movie not in friends_unique_movies:
+            friends_unique_movies.append(movie)
+    return friends_unique_movies
