@@ -1,4 +1,6 @@
 
+#Thank you for the patience and understanding!
+
 movies = []
 watchlist =[]
 watched = []
@@ -36,8 +38,7 @@ def add_to_watchlist(user_data, movie):
     return user_data
 
 
-def watch_movie(user_data, title): 
-    
+def watch_movie(user_data, title):    
     #adds_movie_to_user_watched
     #moves_movie_from_watchlist_to_empty_watched
     #moves_movie_from_watchlist_to_watched
@@ -98,10 +99,6 @@ def get_most_watched_genre(user_data):
  
     return popular_genre
 
-    #eturns_most_frequent_genre_from_list   
-    #returns_most_frequent_genre_from_list_even_when_alphabetically_smaller
-    #returns_None_if_empty_watched
-
 #WAVE 3
 
 def get_unique_watched(user_data):
@@ -127,6 +124,9 @@ def get_unique_watched(user_data):
 
 
 def get_friends_unique_watched(user_data):
+    #returns_list_of_movies_amanda_has_not_watched_and_friends_have_but_does_not_include_two_of_the_same_movie
+    #returns_list_of_movies_amanda_has_not_watched_and_friends_have_with_only_one_friend
+    #returns_empty_list_when_amanda_has_seen_all_movies_their_friend_has_seenpyt
 
     amandas_unique_movies = []
     friends_unique_movies = []
@@ -155,31 +155,86 @@ def get_available_recs(user_data):
     #returns_empty_list_for_valid_input_with_no_intersection_in_subscriptions
 
     recommendations = []
+
     amandas_subs = []
+    amandas_watched = []
+
     friends_watched = []
+    friends_watched_on_amandas_subs = []
 
 
     for subscription in user_data["subscriptions"]:
         amandas_subs.append(subscription)
+
+    for movie in user_data["watched"]:
+        amandas_watched.append(movie["title"])
     
     for friend in user_data["friends"]:
-        for movie in friend["watched"]:
-            if movie["host"] in amandas_subs and not movie in user_data["watched"] and not movie in recommendations:
-                    recommendations.append(movie)
-    
 
-    #print(recommendations)
+        for movie in friend["watched"]:
+            friends_watched.append(movie)
+
+            if movie not in recommendations:
+
+                if movie["host"] in user_data["subscriptions"]:
+                    friends_watched_on_amandas_subs.append(movie)
+
+                    if movie["title"] not in amandas_watched:
+
+                        if movie["title"] not in recommendations:
+                            recommendations.append(movie)
+
     return recommendations
     
     
 #WAVE 5
 
-#def test_get_new_rec_by_genre():
+def get_new_rec_by_genre(user_data):
+
     #returns_appropriate_recommendations_for_large_amount_of_valid_input
     #doesnt_return_duplicate_recommendations_if_watched_by_multiple_friends
     #returns_empty_list_when_sonyas_watched_list_is_empty
     #returns_empty_list_when_friends_watched_lists_are_empty
 
-#def get_rec_from_favorites():
+    recommendations = []
+    amandas_genre_watched = []
+    friends_genre_watched = []
+
+    genre = get_most_watched_genre(user_data)
+    
+    for movie in user_data["watched"]:
+        if movie["genre"] == genre:
+            amandas_genre_watched.append(movie)
+
+    for friend in user_data["friends"]:
+        for movie in friend["watched"]:
+            if movie["genre"] == genre:
+                friends_genre_watched.append(movie)
+    
+    for movie in friends_genre_watched:
+        if movie not in amandas_genre_watched:
+            if movie not in recommendations:
+                recommendations.append(movie)
+
+    print(recommendations)
+    return recommendations
+   
+def get_rec_from_favorites(user_data):
     #returns_empty_list_when_sonya_has_no_favorites
     #returns_expected_list_from_valid_input
+
+    recommendations = []
+
+    if user_data["favorites"] == []:
+        return []
+
+    for movie in user_data["watched"]:
+        recommendations.append(movie)
+
+    for friend in user_data["friends"]:
+        for movie in friend["watched"]:
+            if movie in recommendations:
+                recommendations.remove(movie)
+    
+    print(recommendations)
+    return recommendations
