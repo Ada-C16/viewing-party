@@ -1,4 +1,5 @@
 # Wave 1
+# -------------------
 
 # first 4 tests
 def create_movie(title, genre, rating):
