@@ -1,20 +1,26 @@
-def create_movie(title, genre, rating):
-    new_movie = {}
-    new_movie["title"] = title
-    new_movie["genre"] = genre
-    new_movie["rating"] = rating
-    if new_movie["title"] == None:
-        return None
-    elif new_movie["genre"] == None:
-        return None
-    elif new_movie["rating"] == None:
-        return None
-    return new_movie
+# Marjan's code:
+# def create_movie(title,genre,rating):
+#     movie_dict = {}
+#     movie_dict["title"] = title
+#     movie_dict["genre"] = genre
+#     movie_dict["rating"] = rating
+#     if (movie_dict["title"])== None\
+#         or (movie_dict["genre"]) ==  None\
+#         or (movie_dict["rating"]) == None:
+#         return None
+#     return movie_dict
+
+# Chris suggestion:
+def create_movie(title,genre,rating):
+    if title and genre and rating : 
+        return {
+            "title" : title,
+            "genre" : genre,
+            "rating":rating
+        }
 
 
 def add_to_watched(user_data,movie):
-    # user_data = {"watched":[]}
-    # movie = {"title": "Title A","genre":"Horror","rating":3.5}
     user_data["watched"].append(movie)
     return user_data
 
@@ -47,22 +53,48 @@ def get_watched_avg_rating(user_data):
     avg = sum/len(moviesList)
     return avg
 
-def get_most_watched_genre(user_data):
-    # user_data = {"watched":[{"genre":"something"},
-    # {"genre":"romantic"},{"genre":"something"}]
-    genre_count = {}
-    max_watched = None
-    
-    for item in user_data["watched"]:
-        if (item["genre"] in genre_count):
-            genre_count[item["genre"]] += 1
-        else:
-            genre_count[item["genre"]] = 1
-        for key,value in genre_count.items():
-            max_watched = max(genre_count, key =genre_count.get)
-            # genre_max_list.append(value)
+# other way to approach avg rating function
+# def get_watched_avg_rating(user_data):
+#     total = 0
+#     num = len(user_data["watched"])
+#     for item in user_data["watched"]:
+#         total += item["rating"]
+#     if num == 0 :
+#         return 0.0        
 
-    return max_watched
+#     return total/num
+
+# Second way to get the most watched genre
+
+# def get_most_watched_genre(user_data):
+#     # user_data = {"watched":[{"genre":"something"},
+#     # {"genre":"romantic"},{"genre":"something"}]
+#     genre_count = {}
+#     # genre_count = {"item["genre"]": number of repeated genre}
+#     max_watched = None
+    
+#     for item in user_data["watched"]:
+#         if (item["genre"] in genre_count):
+#             genre_count[item["genre"]] += 1
+#         else:
+#             genre_count[item["genre"]] = 1
+#         for key,value in genre_count.items():
+#             max_watched = max(genre_count, key =genre_count.get)
+#             # genre_max_list.append(value)
+
+#     return max_watched
+
+def get_most_watched_genre(user_data):
+    freg_watched_genre = []
+    if user_data["watched"] == []:
+        return None
+    for item in user_data["watched"]:
+        freg_watched_genre.append(item["genre"])
+        # print(freg_watched_genre)
+
+    freq_max = max(freg_watched_genre,key=freg_watched_genre.count)
+    return freq_max
+    # print(freg_watched_genre)
 
 
 def get_unique_watched(user_data):
@@ -110,6 +142,7 @@ def get_new_rec_by_genre(user_data):
             return favor_genre
         elif movie["genre"] in favorite_genre:
             favor_genre.append(movie)
+        
     return favor_genre
 
 
@@ -120,9 +153,7 @@ def get_rec_from_favorites(user_data):
     fav_unique = []
 
     for movie in unique_watched:
-        if not user_fav:
-            fav_unique
-        elif movie in user_fav:
+        if movie in user_fav:
             fav_unique.append(movie)
 
     return fav_unique
