@@ -133,7 +133,7 @@ def get_rec_from_favorites(user_data):
 
     for movie in unique_recs: 
         if not user_favorites:
-            recs_by_favorite_and_unique
+            return recs_by_favorite_and_unique
         if movie in user_favorites: 
             recs_by_favorite_and_unique.append(movie)
 
