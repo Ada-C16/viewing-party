@@ -20,7 +20,7 @@ def create_movie(movie_title, genre, rating):
     movie["title"] = movie_title
     movie["genre"] = genre
     movie["rating"] = rating
-    
+
     return movie
 
 def add_to_watched(user_data, movie):
@@ -82,23 +82,16 @@ def get_watched_avg_rating(user_data):
     # calculate the average of each
 
     sum = 0
-    avg_list = []
-
-    # store each rating int into a new list
 
     if not user_data["watched"]:
         return 0.0
 
-    else:
-        for movie in user_data["watched"]:
-            avg_list.append(movie["rating"])
-
-        for num in avg_list:
-            sum += num
-        
-        avg = sum / len(avg_list)
-        
-        return avg
+    for movie in user_data["watched"]:
+        sum += movie["rating"]
+    
+    avg = sum / len(user_data["watched"])
+    
+    return avg
 
 def get_most_watched_genre(user_data):
     """
