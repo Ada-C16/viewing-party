@@ -107,38 +107,28 @@ def get_most_watched_genre(user_data):
     # Set the count of each genre equal to the value of its corresponding key
     # Return the name of the most-watched genre
 
-    genre_list = []
-    genre_dict = {}
+    genre_count = {}
 
     if not user_data["watched"]:
         return None
 
-    else:
-        for movie in user_data["watched"]:
-            genre_list.append(movie["genre"])
+    for movie in user_data["watched"]:
+        if movie["genre"] not in genre_count:
+            genre_count[movie["genre"]] = 1
+        else:
+            genre_count[movie["genre"]] += 1
 
-        # Search through genre_list
-        # Count how many times each genre is listed
-        # Add it to a dictionary
+    # Search through genre_list
+    # Count how many times each genre is listed
+    # Add it to a dictionary
 
-        # Add each genre as a new key in the dictionary with an initalized value of 0
-        for item in genre_list:
-            genre_dict[item] = 0
-        # Go through each genre in genre_list, and count how many times it's in there
-        # Add this count to the corresponding dictionary key in genre_dict
-        for item in genre_list:
-            if item in genre_dict.keys():
-                genre_dict[item] += 1
+    # Go through each genre in genre_list, and count how many times it's in there
+    # Add this count to the corresponding dictionary key in genre_dict
+    # for item in genre_list:
 
-        # Store the most_watched genre in a variable
-        # Use the max function to pass two arguments
-        # The first argument is the iterable (dictionary) to check
-        # The second argument accesses the key in genre_dict that has the highest value
-        # The .get function reference accesses the value of a particular key
-        most_watched = max(genre_dict, key=genre_dict.get)
+    most_watched = max(genre_count, key=genre_count.get)
 
-        print(most_watched)
-        return most_watched
+    return most_watched
 
 def get_unique_watched(user_data):
     """
