@@ -13,14 +13,15 @@ def create_movie(movie_title, genre, rating):
     # then run the code below, otherwise:
     # run different code
 
-    if movie_title and genre and rating:
-        movie = {}
-        movie["title"] = movie_title
-        movie["genre"] = genre
-        movie["rating"] = rating
-        return movie
-    else:
+    if not movie_title or not genre or not rating:
         return None
+
+    movie = {}
+    movie["title"] = movie_title
+    movie["genre"] = genre
+    movie["rating"] = rating
+    
+    return movie
 
 def add_to_watched(user_data, movie):
     """
