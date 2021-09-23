@@ -188,13 +188,12 @@ def get_friends_unique_watched(user_data):
     # loop through the watched list to grab the ["title"] key and put that into a second set
     friends_unique_watched = list(friend_set - user_set)
 
-    new_list = []
     # Create a dictionary for each title
     # append that dictionary to unique watched with the key "title"
-    for movie in friends_unique_watched:
-        new_list.append({"title": movie})
 
-    friends_unique_watched = new_list
+    for i in range(len(friends_unique_watched)):
+        friends_unique_watched[i] = {"title": friends_unique_watched[i]}
+
     # Compare both sets, getting the difference between set_1 and set_2
     # Turn the resulting set into a list
     # Return that list back to the function
