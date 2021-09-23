@@ -165,24 +165,41 @@ def get_unique_watched(user_data):
 
     return unique_watched
 
+def create_set(user_data_watched):
+    user_set = set()
+    
+    for movie in user_data_watched:
+        user_set.add(movie["title"])
+
+    return user_set
+
 def get_friends_unique_watched(user_data):
     """
     input: A dictionary of user_data
     output: A list of movies that a user's friends have watched, but the user has not
     """
 
-    user_set = set()
-    friend_set = set()
+    # user_set = set()
+    # friend_set = set()
 
     # Collect all of the movie titles watched by original user_data
     # Access with user_data[0] <= loop through this list of dictionaries
     # Grab the values at each title key and put into a set_1
-    for movie in user_data["watched"]:
-        user_set.add(movie["title"])
+    # for movie in user_data["watched"]:
+    #     user_set.add(movie["title"])
     # Then access the second element in user_data[1]
-    for friend_data in user_data["friends"]:
-        for movie in friend_data["watched"]:
-            friend_set.add(movie["title"])
+    # for friend_data in user_data["friends"]:
+        # for movie in friend_data["watched"]:
+        # friend_set = create_set(friend_data)
+            # friend_set.add(movie["title"])
+
+    user_set = create_set(user_data["watched"])
+    friend_set = set()
+
+    for friend in user_data["friends"]:
+        friend_set = friend_set.union(create_set(friend["watched"]))
+        # Add the result of create_set to friend_set
+    
     # this is a list - loop through this list of dictionaries
     # in the dictionaries, access ["watched"], which is another list of dictionaries
     # loop through the watched list to grab the ["title"] key and put that into a second set
