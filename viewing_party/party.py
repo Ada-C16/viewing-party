@@ -157,14 +157,11 @@ def get_unique_watched(user_data):
     # Return that list back to the function
     unique_watched = list(user_set - friend_set)
 
-    new_list = []
     # Create a dictionary for each title
     # append that dictionary to unique watched with the key "title"
-    for movie in unique_watched:
-        new_list.append({"title": movie})
 
-    unique_watched = new_list
-    
+    for i in range(len(unique_watched)):
+        unique_watched[i] = {"title": unique_watched[i]}
 
     return unique_watched
 
