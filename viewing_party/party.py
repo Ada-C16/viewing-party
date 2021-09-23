@@ -130,27 +130,28 @@ def get_most_watched_genre(user_data):
 
     return most_watched
 
+def create_set(user_data_watched):
+    user_set = set()
+    
+    for movie in user_data_watched:
+        user_set.add(movie["title"])
+
+    return user_set
+
 def get_unique_watched(user_data):
     """
     input: A dictionary of user_data
     output: A list of movies as dictionaries, which were watched by the user but not their friends
     """
 
-    user_set = set()
-    friend_set = set()
-
     # Collect all of the movie titles watched by original user_data
     # Access with user_data[0] <= loop through this list of dictionaries
     # Grab the values at each title key and put into a set_1
-    for movie in user_data["watched"]:
-        user_set.add(movie["title"])
+    user_set = create_set(user_data["watched"])
+    friend_set = set()
 
-    # this is a list - loop through this list of dictionaries
-    # in the dictionaries, access ["watched"], which is another list of dictionaries
-    # loop through the watched list to grab the ["title"] key and put that into a second set
     for friend_data in user_data["friends"]:
-        for movie in friend_data["watched"]:
-            friend_set.add(movie["title"])
+        friend_set = friend_set.union(create_set(friend_data["watched"]))
     
     # Compare both sets, getting the difference between set_1 and set_2
     # Turn the resulting set into a list
@@ -164,14 +165,6 @@ def get_unique_watched(user_data):
         unique_watched[i] = {"title": unique_watched[i]}
 
     return unique_watched
-
-def create_set(user_data_watched):
-    user_set = set()
-    
-    for movie in user_data_watched:
-        user_set.add(movie["title"])
-
-    return user_set
 
 def get_friends_unique_watched(user_data):
     """
