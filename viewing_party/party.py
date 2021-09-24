@@ -1,11 +1,12 @@
 ## TEST WAVE 1 ##
 
 def create_movie(movie_title, genre, rating):
-    movie = {}
     if movie_title and genre and rating:
-        movie["title"] = movie_title
-        movie["genre"] = genre
-        movie["rating"] = rating
+        movie = {
+            "title": movie_title,
+            "genre": genre,
+            "rating": rating
+        }
         return movie
     return None
 
