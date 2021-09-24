@@ -22,9 +22,9 @@ def add_to_watchlist(user_data, movie):
 
 def watch_movie(user_data, movie_title):
     movie_transfer = {}
-    for list_index in user_data["watchlist"]:
-        if movie_title in list_index.values():
-            movie_transfer.update(list_index)
+    for movie in user_data["watchlist"]:
+        if movie_title == movie["title"]:
+            movie_transfer.update(movie)
             user_data["watchlist"].pop()
             user_data["watched"].append(movie_transfer)
     return user_data
