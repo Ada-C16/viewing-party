@@ -33,8 +33,8 @@ def watch_movie(user_data, movie_title):
 def get_watched_avg_rating(user_data):
     rating_list = []
     if len(user_data["watched"]) > 0:
-        for watched_key in user_data["watched"]:
-            rating_list.append(watched_key["rating"])
+        for movie in user_data["watched"]:
+            rating_list.append(movie["rating"])
         average = (sum(rating_list)) / len(rating_list)
         return average
     else:
