@@ -2,7 +2,7 @@ import pytest
 # NOTE: In production code, we developers should change import * to something more specific. Due to some constraints of this project, we will import * in our test files.
 from viewing_party.party import *
 
-
+#1
 def test_create_movie_all_params_valid_returns_movie():
     # Arrange
     movie_title = "Title A"
@@ -17,7 +17,7 @@ def test_create_movie_all_params_valid_returns_movie():
     assert new_movie["genre"] == "Horror"
     assert new_movie["rating"] == 3.5
 
-
+#2
 def test_create_movie_no_title_returns_none():
     # Arrange
     movie_title = None
@@ -30,7 +30,7 @@ def test_create_movie_no_title_returns_none():
     # Assert
     assert new_movie is None
 
-
+#3
 def test_create_movie_no_genre_returns_none():
     # Arrange
     movie_title = "Title A"
@@ -43,7 +43,7 @@ def test_create_movie_no_genre_returns_none():
     # Assert
     assert new_movie is None
 
-
+#4
 def test_create_movie_no_rating_returns_none():
     # Arrange
     movie_title = "Title A"
@@ -56,7 +56,7 @@ def test_create_movie_no_rating_returns_none():
     # Assert
     assert new_movie is None
 
-
+#5
 def test_add_to_watched_adds_movie_to_user_watched():
     # Arrange
     movie = {
@@ -79,7 +79,7 @@ def test_add_to_watched_adds_movie_to_user_watched():
     assert updated_data["watched"][0]["rating"] == 3.5
     assert id(updated_data["watched"][0]) == id(movie)
 
-
+#6
 def test_add_to_nonempty_watched_adds_movie_to_user_watched():
     # Arrange
     movie = {
@@ -109,7 +109,7 @@ def test_add_to_nonempty_watched_adds_movie_to_user_watched():
     assert updated_data["watched"][1]["rating"] == 2.0
     assert id(updated_data["watched"][1]) == id(movie)
 
-
+#7
 def test_add_to_watchlist_adds_movie_to_user_watchlist():
     # Arrange
     movie = {
@@ -132,7 +132,7 @@ def test_add_to_watchlist_adds_movie_to_user_watchlist():
     assert updated_data["watchlist"][0]["rating"] == 3.5
     assert id(updated_data["watchlist"][0]) == id(movie)
 
-
+#8
 def test_add_to_nonempty_watchlist_adds_movie_to_user_watchlist():
     # Arrange
     movie = {
@@ -162,7 +162,7 @@ def test_add_to_nonempty_watchlist_adds_movie_to_user_watchlist():
     assert updated_data["watchlist"][1]["rating"] == 2.0
     assert id(updated_data["watchlist"][1]) == id(movie)
 
-
+#9
 def test_watch_movie_moves_movie_from_watchlist_to_empty_watched():
     # Arrange
     janes_data = {
@@ -184,7 +184,7 @@ def test_watch_movie_moves_movie_from_watchlist_to_empty_watched():
     assert updated_data["watched"][0]["genre"] == "Fantasy"
     assert updated_data["watched"][0]["rating"] == 4.8
 
-
+#10
 def test_watch_movie_moves_movie_from_watchlist_to_watched():
     # Arrange
     movie_to_watch = {
@@ -219,7 +219,7 @@ def test_watch_movie_moves_movie_from_watchlist_to_watched():
     assert movie_to_watch in updated_data["watched"]
     assert movie_to_watch not in updated_data["watchlist"]
 
-
+#11
 def test_watch_movie_does_nothing_if_movie_not_in_watchlist():
     # Arrange
     movie_to_watch = {
