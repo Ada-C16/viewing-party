@@ -5,17 +5,17 @@
 def create_movie(title, genre, rating):
     """Takes 3 values, returns a dictionary."""
 
-    if ((bool(title) is True) and \
-        (bool(genre) is True) and \
-        (bool(rating) is True)):
-            movie_dict = {
-                "title" : title,
-                "genre" : genre,
-                "rating" : rating
-            }
-            return movie_dict
-    else:
+    if not title or not genre or not rating:
         return None
+                 
+    movie_dict = {
+        "title" : title,
+        "genre" : genre,
+        "rating" : rating
+        }
+    
+    return movie_dict
+    
 
   
 #wave 1, part 2
@@ -45,6 +45,7 @@ def watch_movie(user_data, title):
             if title in movie_list["title"]:
                 user_data["watched"].append(movie_list)
                 user_data["watchlist"].remove(movie_list)
+                break
 
     return user_data
 
