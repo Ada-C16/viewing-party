@@ -63,7 +63,7 @@ def get_watched_avg_rating(user_data):
     rating_sum = 0.0
     rating_avg = 0.0
     
-    if len(user_data["watched"]) == 0:
+    if not user_data["watched"]:
         return rating_avg
 
     for movie_dict in user_data["watched"]:
@@ -77,7 +77,33 @@ def get_watched_avg_rating(user_data):
 def get_most_watched_genre(user_data):
     """Decides most popular genre from watched list. Returns string."""
 
-    genre_list = []
+    if len(user_data["watched"]) == 0:
+        return None
+    
+    genre_dict = {}
+    for movie_dict in user_data["watched"]:
+        if movie_dict["genre"] not in genre_dict.keys():
+            genre_dict[movie_dict["genre"]] = 1
+        else:
+            genre_dict[movie_dict["genre"]] += 1
+
+    max_genre = max(genre_dict, key = genre_dict.get)
+
+    return max_genre
+
+
+
+
+        
+
+    
+        
+    
+
+
+    
+    
+    """
     fantasy_count = 0
     action_count = 0
     intrigue_count = 0
@@ -98,7 +124,7 @@ def get_most_watched_genre(user_data):
         return "Action"
     else: 
         return "Intrigue"
-
+    """
 
 
 
