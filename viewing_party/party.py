@@ -6,7 +6,7 @@ def create_movie(movie_title, genre, rating):
     else:
         movie["title"] = movie_title
         movie["genre"] = genre
-        movie["rating"] = rating    
+        movie["rating"] = rating
         return movie
 
 def add_to_watched(user_data, movie):
@@ -145,6 +145,3 @@ def get_rec_from_favorites(sonyas_data):
             favorites.remove(movie)
     
     return favorites
-
-
-
