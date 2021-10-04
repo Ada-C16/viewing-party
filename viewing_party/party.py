@@ -3,11 +3,10 @@ def create_movie(movie_title, genre, rating):
     movie = {}
     if movie_title is None or genre is None or rating is None:
         return None
-    else:
-        movie["title"] = movie_title
-        movie["genre"] = genre
-        movie["rating"] = rating
-        return movie
+    movie["title"] = movie_title
+    movie["genre"] = genre
+    movie["rating"] = rating
+    return movie
 
 def add_to_watched(user_data, movie):
     user_data["watched"].append(movie)
@@ -27,26 +26,24 @@ def watch_movie(janes_data, watched_movie):
 def get_watched_avg_rating(janes_data):
     watched_ratings = []
     if not janes_data["watched"]:
-        return 0
-    else: 
-        for movie in janes_data["watched"]: 
-            watched_ratings.append(movie["rating"])
-        sum_watched_ratings = sum(watched_ratings)
-        avg_watched_rating = sum_watched_ratings/len(watched_ratings)
-        return avg_watched_rating
+        return 0 
+    for movie in janes_data["watched"]: 
+        watched_ratings.append(movie["rating"])
+    sum_watched_ratings = sum(watched_ratings)
+    avg_watched_rating = sum_watched_ratings/len(watched_ratings)
+    return avg_watched_rating
 
 def get_most_watched_genre(janes_data):
     genres_dict = {}
     if not janes_data["watched"]:
         return None
-    else: 
-        for movie in janes_data["watched"]:
-            if movie["genre"] not in genres_dict:
-                genres_dict[movie["genre"]] = 1
-            elif movie["genre"] in genres_dict:
-                genres_dict[movie["genre"]] += 1
-        most_watched_genre = max(genres_dict, key=genres_dict.get)
-        return most_watched_genre
+    for movie in janes_data["watched"]:
+        if movie["genre"] not in genres_dict:
+            genres_dict[movie["genre"]] = 1
+        elif movie["genre"] in genres_dict:
+            genres_dict[movie["genre"]] += 1
+    most_watched_genre = max(genres_dict, key=genres_dict.get)
+    return most_watched_genre
 
 def get_unique_watched(amandas_data):
     friends_watched = []
@@ -115,10 +112,7 @@ def get_new_rec_by_genre(sonyas_data):
             if movie not in friends_watched:
                 friends_watched.append(movie)
     
-    sonyas_genres = []
-    for movie in sonyas_data["watched"]:
-        if movie["genre"] not in sonyas_genres:
-            sonyas_genres.append(movie["genre"])
+    sonyas_genres = [movie["genre"] for movie in sonyas_data["watched"]]
     
     recommendations = []
     for movie in friends_watched:
