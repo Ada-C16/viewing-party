@@ -45,12 +45,17 @@ def get_most_watched_genre(user_data):
     most_watched_genre = max(genres_dict, key=genres_dict.get)
     return most_watched_genre
 
-def get_unique_watched(user_data):
+# helper function
+def get_friends_watched(user_data):
     friends_watched = []
-    for friends in user_data["friends"]:
-        for movie in friends["watched"]:
+    for friend in user_data["friends"]:
+        for movie in friend["watched"]:
             if movie not in friends_watched:
                 friends_watched.append(movie)
+    return friends_watched
+
+def get_unique_watched(user_data):
+    friends_watched = get_friends_watched(user_data)
     
     unique_watched = []
     for movie in user_data["watched"]:
@@ -60,11 +65,7 @@ def get_unique_watched(user_data):
     return unique_watched
 
 def get_friends_unique_watched(user_data):
-    friends_watched = []
-    for friends in user_data["friends"]:
-        for movie in friends["watched"]:
-            if movie not in friends_watched:
-                friends_watched.append(movie)
+    friends_watched = get_friends_watched(user_data)
 
     friends_unique_watched = []
     for movie in friends_watched:
@@ -75,11 +76,7 @@ def get_friends_unique_watched(user_data):
 
 def get_available_recs(user_data):
     # creates a list of movies in user's friends watched lists
-    friends_watched_mov = []
-    for friends in user_data["friends"]:
-        for movie in friends["watched"]:
-            if movie not in friends_watched_mov:
-                friends_watched_mov.append(movie)
+    friends_watched_mov = get_friends_watched(user_data)
     
     # creates a list of the services user's friends have
     friends_watched_serv = []
@@ -105,13 +102,7 @@ def get_available_recs(user_data):
     return available_recs
 
 def get_new_rec_by_genre(user_data):
-    # consider making this a helper function - it's used 3 times accross difference functions
-    friends_watched = []
-    for friend in user_data["friends"]:
-        for movie in friend["watched"]:
-            if movie not in friends_watched:
-                friends_watched.append(movie)
-    
+    friends_watched = get_friends_watched(user_data)
     sonyas_genres = [movie["genre"] for movie in user_data["watched"]]
     
     recommendations = []
@@ -123,12 +114,7 @@ def get_new_rec_by_genre(user_data):
 
 def get_rec_from_favorites(user_data):
     favorites = [movie for movie in user_data["favorites"]]
-
-    friends_watched = []
-    for friend in user_data["friends"]:
-        for movie in friend["watched"]:
-            if movie not in friends_watched:
-                friends_watched.append(movie)
+    friends_watched = get_friends_watched(user_data)
     
     # remove movie from favorites if a friend has already seen it
     for movie in friends_watched:
