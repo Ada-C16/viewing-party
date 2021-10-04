@@ -128,10 +128,7 @@ def get_new_rec_by_genre(sonyas_data):
     return recommendations
 
 def get_rec_from_favorites(sonyas_data):
-    favorites = []
-    for movie in sonyas_data["favorites"]:
-        if movie not in favorites:
-            favorites.append(movie)
+    favorites = [movie for movie in sonyas_data["favorites"]]
 
     friends_watched = []
     for friend in sonyas_data["friends"]:
