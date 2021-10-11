@@ -1,4 +1,4 @@
-<!-- # Viewing Party
+# Viewing Party
 
 ## Skills Assessed
 
@@ -252,7 +252,7 @@ In `party.py`, there should be a function named `get_most_watched_genre`. This f
     - This represents that the user has a list of watched movies. Each watched movie has a genre.
     - The values of `"genre"` is a string.
 - Determine which genre is most frequently occurring in the watched list
-- return the genre that is the most frequently watched -->
+- return the genre that is the most frequently watched
 
 ### Wave 3
 
