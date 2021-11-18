@@ -87,7 +87,7 @@ Summary of one-time project setup:
 $ source venv/bin/activate
 ```
 
-2. Find the test file that contains the test you want to run. Ensure that the test(s) you want to run isn't skipped.
+<!-- 2. Find the test file that contains the test you want to run. Ensure that the test(s) you want to run isn't skipped.
 
    - Check the `tests` folder, and find the test file you want to run
    - In that test file, read through each test case
@@ -163,11 +163,11 @@ At submission time, no matter where you are, submit the project via Learn.
 
 This project is designed such that one could puzzle together how to implement this project without many directions. Being able to read tests to understand what is expected of our program is a skill that needs to be developed; programmers often take years to develop this skill competently.
 
-When our test failures leave us confused and stuck, let's use the detailed project requirements below.
+When our test failures leave us confused and stuck, let's use the detailed project requirements below. -->
 
 ### Wave 1
 
-1. The first four tests are about a `create_movie()` function.
+<!-- 1. The first four tests are about a `create_movie()` function.
 
 In `party.py`, there should be a function named `create_movie`. This function should...
 
@@ -176,9 +176,9 @@ In `party.py`, there should be a function named `create_movie`. This function sh
   - Have three key-value pairs, with specific keys
   - The three keys should be `"title"`, `"genre"`, and `"rating"`
   - The values of these key-value pairs should be appropriate values
-- If `title` is falsy, `genre` is falsy, or `rating` is falsy, this function should return `None`
+- If `title` is falsy, `genre` is falsy, or `rating` is falsy, this function should return `None` -->
 
-2. The next two tests are about an `add_to_watched()` function.
+<!-- 2. The next two tests are about an `add_to_watched()` function.
 
 In `party.py`, there should be a function named `add_to_watched`. This function should...
 
@@ -198,8 +198,8 @@ In `party.py`, there should be a function named `add_to_watched`. This function 
 
 3. The next two tests are about an `add_to_watchlist()` function.
 
-In `party.py`, there should be a function named `add_to_watchlist`. This function should...
-
+In `party.py`, there should be a function named `add_to_watchlist`. This function should... -->
+<!-- 
 - take two parameters: `user_data`, `movie`
   - the value of `user_data` will be a dictionary with a key `"watchlist"`, and a value which is a list of dictionaries representing the movies the user wants to watch
     - An empty list represents that the user has no movies in their watchlist
@@ -228,10 +228,10 @@ In `party.py`, there should be a function named `watch_movie`. This function sho
   - add that movie to watched
   - return the `user_data`
 - If the title is not a movie in the user's watchlist:
-  - return the `user_data`
+  - return the `user_data` --> -->
 
 ### Wave 2
-
+<!-- 
 1. The first two tests are about a `get_watched_avg_rating()` function.
 
 In `party.py`, there should be a function named `get_watched_avg_rating`. This function should...
@@ -241,14 +241,14 @@ In `party.py`, there should be a function named `get_watched_avg_rating`. This f
     - This represents that the user has a list of watched movies
 - Calculate the average rating of all movies in the watched list
   - The average rating of an empty watched list is `0.0`
-- return the average rating
+- return the average rating -->
 
-2. The next three tests are about a `get_most_watched_genre()` function.
+<!-- 2. The next three tests are about a `get_most_watched_genre()` function.
 
 In `party.py`, there should be a function named `get_most_watched_genre`. This function should...
 
-- take one parameter: `user_data`
-  - the value of `user_data` will be a dictionary with a `"watched"` list of movie dictionaries. Each movie dictionary has a key `"genre"`.
+- take one parameter: `user_data` -->
+  <!-- - the value of `user_data` will be a dictionary with a `"watched"` list of movie dictionaries. Each movie dictionary has a key `"genre"`.
     - This represents that the user has a list of watched movies. Each watched movie has a genre.
     - The values of `"genre"` is a string.
 - Determine which genre is most frequently occurring in the watched list

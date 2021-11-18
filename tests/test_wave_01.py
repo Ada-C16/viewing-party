@@ -3,7 +3,8 @@ import pytest
 from viewing_party.party import *
 
 
-def test_create_movie_all_params_valid_returns_movie():
+def test_create_movie_all_params_valid_returns_movie(): 
+    ## create function  that returns new  dict to contain ratings, etc
     # Arrange
     movie_title = "Title A"
     genre = "Horror"
